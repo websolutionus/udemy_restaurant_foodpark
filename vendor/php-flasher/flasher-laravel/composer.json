@@ -1,0 +1,64 @@
+{
+    "name": "php-flasher/flasher-laravel",
+    "description": "PHPFlasher - A powerful & easy-to-use package for adding flash messages to Laravel or Symfony projects. Provides feedback to users, improves engagement & enhances user experience. Intuitive design for beginners & experienced developers. A reliable, flexible solution.",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "php-flasher",
+        "flash-messages",
+        "notification-system",
+        "user-feedback",
+        "toastr",
+        "sweetalert",
+        "pnotify",
+        "noty",
+        "notyf",
+        "desktop-notifications",
+        "php",
+        "laravel",
+        "symfony",
+        "javascript",
+        "yoeunes",
+        "framework-agnostic",
+        "phpstorm-auto-complete",
+        "custom-adapter",
+        "user-experience",
+        "rtl",
+        "dark-mode"
+    ],
+    "authors": [
+        {
+            "name": "Younes KHOUBZA",
+            "email": "younes.khoubza@gmail.com",
+            "homepage": "https://www.linkedin.com/in/younes-khoubza",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://php-flasher.io",
+    "require": {
+        "php": ">=5.3",
+        "illuminate/support": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0",
+        "php-flasher/flasher": "^1.15.3"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Flasher\\Laravel\\": ""
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "aliases": {
+                "Flasher": "Flasher\\Laravel\\Facade\\Flasher"
+            },
+            "providers": [
+                "Flasher\\Laravel\\FlasherServiceProvider"
+            ]
+        }
+    }
+}

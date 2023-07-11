@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 /** Admin Auth Routes */
 Route::get('admin/login', [AdminAuthController::class, 'index'])->name('admin.login');
 
+Route::get('/dashboard', function(){
+    return view('dashboard');
+})->name('dashboard');
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 

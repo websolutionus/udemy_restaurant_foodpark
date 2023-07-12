@@ -17,14 +17,20 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
+                            <div id="image-preview" class="image-preview">
+                                <label for="image-upload" id="image-label">Choose File</label>
+                                <input type="file" name="image" id="image-upload" />
+                              </div>
+                        </div>
+                        <div class="form-group">
                             <label>Name</label>
                             <input type="text" class="form-control" name="name" value="{{ auth()->user()->name }}">
-                          </div>
-                          <div class="form-group">
+                        </div>
+                        <div class="form-group">
                             <label>Email</label>
                             <input type="text" class="form-control" name="email" value="{{ auth()->user()->email }}">
-                          </div>
-                          <button class="btn btn-primary" type="submit">Save</button>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Save</button>
                     </form>
                 </div>
             </div>

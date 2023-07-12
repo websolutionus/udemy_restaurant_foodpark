@@ -31,4 +31,8 @@ class ProfileController extends Controller
 
         return redirect()->back();
     }
+
+    function updateAvatar(Request $request) {
+        dd($request->all());
+    }
 }

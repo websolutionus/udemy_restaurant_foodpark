@@ -90,6 +90,8 @@
             success_callback: null // Default: null
         });
     </script>
+    
+    @stack('scripts')
 </body>
 
 </html>

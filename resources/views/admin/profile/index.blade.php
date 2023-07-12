@@ -35,20 +35,22 @@
 
                 </div>
                 <div class="card-body">
-                    <form action="">
+                    <form action="{{ route('admin.profile.password.update') }}" method="POST">
+                        @csrf
+                        @method('PUT')
                         <div class="form-group">
                             <label>Current Password</label>
-                            <input type="text" class="form-control" name="current_password">
+                            <input type="password" class="form-control" name="current_password">
                         </div>
 
                         <div class="form-group">
                             <label>New Password</label>
-                            <input type="text" class="form-control" name="password">
+                            <input type="password" class="form-control" name="password">
                         </div>
 
                         <div class="form-group">
                             <label>Confirm Password</label>
-                            <input type="text" class="form-control" name="password_confirmation">
+                            <input type="password" class="form-control" name="password_confirmation">
                         </div>
 
                         <button class="btn btn-primary" type="submit">Save</button>

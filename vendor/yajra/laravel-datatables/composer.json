@@ -1,0 +1,41 @@
+{
+  "name": "yajra/laravel-datatables",
+  "description": "Laravel DataTables Complete Package.",
+  "keywords": [
+    "laravel",
+    "datatables",
+    "jquery"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Arjay Angeles",
+      "email": "aqangeles@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^8.1",
+    "yajra/laravel-datatables-buttons": "^10",
+    "yajra/laravel-datatables-editor": "1.*",
+    "yajra/laravel-datatables-export": "^10",
+    "yajra/laravel-datatables-fractal": "^10",
+    "yajra/laravel-datatables-html": "^10",
+    "yajra/laravel-datatables-oracle": "^10"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "10.0-dev"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/yajra"
+    }
+  ]
+}

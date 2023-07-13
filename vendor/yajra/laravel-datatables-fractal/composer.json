@@ -1,0 +1,48 @@
+{
+  "name": "yajra/laravel-datatables-fractal",
+  "description": "Laravel DataTables Fractal Plugin.",
+  "keywords": [
+    "laravel",
+    "datatables",
+    "fractal",
+    "api"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Arjay Angeles",
+      "email": "aqangeles@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^8.1",
+    "yajra/laravel-datatables-oracle": "^10.0",
+    "league/fractal": "^0.20.1"
+  },
+  "require-dev": {
+    "nunomaduro/larastan": "^2.4",
+    "orchestra/testbench": "^7.21"
+  },
+  "autoload": {
+    "psr-4": {
+      "Yajra\\DataTables\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Yajra\\DataTables\\Fractal\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "10.0-dev"
+    },
+    "laravel": {
+      "providers": [
+        "Yajra\\DataTables\\FractalServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

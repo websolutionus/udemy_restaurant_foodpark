@@ -1234,7 +1234,24 @@
     <script>
         $(document).ready(function(){
             $('#upload').on('change', function(){
-                
+                let form = $('#avatar_form')[0];
+                let formData = new FormData(form);
+
+                $.ajax({
+                    method: 'POST',
+                    url: "{{ route('profile.avatar.update') }}",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response){
+                        if(response.status === 'success'){
+                            window.location.reload();
+                        }
+                    },
+                    error: function(error){
+                        console.error(response);
+                    }
+                })
             })
         })
     </script>

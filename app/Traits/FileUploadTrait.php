@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Http\Request;
 use File;
+use phpDocumentor\Reflection\Types\Void_;
 
 trait FileUploadTrait
 {
@@ -29,5 +30,14 @@ trait FileUploadTrait
         }
 
         return NULL;
+    }
+
+    /**
+     * Remove file
+     */
+    function removeImage(string $path) : void {
+        if (File::exists(public_path($path))) {
+            File::delete(public_path($path));
+        }
     }
 }

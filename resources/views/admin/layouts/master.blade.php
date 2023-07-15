@@ -64,11 +64,14 @@
 
     <script src="{{ asset('admin/assets/js/toastr.min.js') }}"></script>
     <script src="{{ asset('admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js') }}"></script>
+    <script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Template JS File -->
     <script src="{{ asset('admin/assets/js/scripts.js') }}"></script>
     <script src="{{ asset('admin/assets/js/custom.js') }}"></script>
-    <script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
+
 
     <!-- show dynamic validation message-->
     <script>
@@ -91,6 +94,31 @@
             no_label: false, // Default: false
             success_callback: null // Default: null
         });
+
+        $(document).ready(function() {
+
+            $('body').on('click', '.delete-item', function(e){
+                e.preventDefault()
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                    }
+                })
+            })
+
+        })
     </script>
 
     @stack('scripts')

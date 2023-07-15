@@ -26,7 +26,7 @@ class SliderController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create() : View
+    public function create(): View
     {
         return view('admin.slider.create');
     }
@@ -65,7 +65,7 @@ class SliderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id) : View
+    public function edit(string $id): View
     {
         $slider = Slider::findOrFail($id);
         return view('admin.slider.edit', compact('slider'));
@@ -74,7 +74,7 @@ class SliderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(SliderUpdateRequest $request, string $id) : RedirectResponse
+    public function update(SliderUpdateRequest $request, string $id): RedirectResponse
     {
         $slider = Slider::findOrFail($id);
 
@@ -100,6 +100,12 @@ class SliderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $slider = Slider::findOrFail($id);
+            $slider->delete();
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'message' => $e->getMessage()]);
+        }
     }
 }

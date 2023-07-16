@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\WhyChooseU;
+use App\Models\WhyChooseUs;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -22,14 +23,23 @@ class WhyChooseUsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'whychooseus.action')
+            ->addColumn('action', function ($query) {
+                $edit = "<a href='" . route('admin.why-choose-us.edit', $query->id) . "' class='btn btn-primary'><i class='fas fa-edit'></i></a>";
+                $delete = "<a href='" . route('admin.why-choose-us.destroy', $query->id) . "' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
+
+                return $edit . $delete;
+            })
+            ->addColumn('icon', function ($query) {
+                return "<i style='font-size:50px' class='" . $query->icon . "'></i>";
+            })
+            ->rawColumns(['icon', 'action'])
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(WhyChooseU $model): QueryBuilder
+    public function query(WhyChooseUs $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -40,20 +50,20 @@ class WhyChooseUsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('whychooseus-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('whychooseus-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(0)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -62,15 +72,15 @@ class WhyChooseUsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('icon'),
+            Column::make('title'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(150)
+                ->addClass('text-center'),
         ];
     }
 

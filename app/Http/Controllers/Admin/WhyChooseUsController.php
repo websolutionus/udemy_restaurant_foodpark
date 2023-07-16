@@ -43,28 +43,27 @@ class WhyChooseUsController extends Controller
         return to_route('admin.why-choose-us.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id) : View
     {
-        //
+        $whyChooseUs = WhyChooseUs::findOrFail($id);
+        return view('admin.why-choose-us.edit', compact('whyChooseUs'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(WhyChooseUsCreateRequest $request, string $id) : RedirectResponse
     {
-        //
+        $whyChooseUs = WhyChooseUs::findOrFail($id);
+        $whyChooseUs->update($request->validated());
+
+        toastr()->success('Created Successfully');
+
+        return to_route('admin.why-choose-us.index');
     }
 
     public function updateTitle(Request $request) {
@@ -99,6 +98,12 @@ class WhyChooseUsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try{
+            $whyChooseUs = WhyChooseUs::findOrFail($id);
+            $whyChooseUs->delete();
+            return response(['status' => 'success', 'message' => 'Deleted Successfully']);
+        }catch(\Exception $e){
+            return response(['status' => 'error', 'message' => 'something went wrong!']);
+        }
     }
 }

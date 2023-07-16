@@ -104,13 +104,22 @@ namespace App\Models{
  * App\Models\WhyChooseUs
  *
  * @property int $id
+ * @property string $icon
+ * @property string $title
+ * @property string $short_description
+ * @property int $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\WhyChooseUsFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|WhyChooseUs newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WhyChooseUs newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WhyChooseUs query()
  * @method static \Illuminate\Database\Eloquent\Builder|WhyChooseUs whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WhyChooseUs whereIcon($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WhyChooseUs whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WhyChooseUs whereShortDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WhyChooseUs whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WhyChooseUs whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WhyChooseUs whereUpdatedAt($value)
  */
 	class WhyChooseUs extends \Eloquent {}

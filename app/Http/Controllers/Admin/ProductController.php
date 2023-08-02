@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ProductDataTable;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ProductCreateRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -30,9 +31,9 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductCreateRequest $request)
     {
-        //
+        
     }
 
     /**

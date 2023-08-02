@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/css/toastr.min.css') }}">
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap-iconpicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/modules/select2/dist/css/select2.min.css') }}">
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
@@ -70,6 +71,7 @@
 
     <script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('admin/assets/modules/select2/dist/js/select2.full.min.js') }}"></script>
 
     <!-- Template JS File -->
     <script src="{{ asset('admin/assets/js/scripts.js') }}"></script>

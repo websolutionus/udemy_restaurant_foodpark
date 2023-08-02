@@ -9,7 +9,10 @@ use App\Http\Requests\Admin\ProductUpdateRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Traits\FileUploadTrait;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Str;
 
@@ -19,7 +22,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ProductDataTable $dataTable)
+    public function index(ProductDataTable $dataTable) : View|JsonResponse
     {
         return $dataTable->render('admin.product.index');
     }
@@ -36,7 +39,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductCreateRequest $request)
+    public function store(ProductCreateRequest $request) : RedirectResponse
     {
         /** Handle image file */
         $imagePath = $this->uploadImage($request, 'image');
@@ -63,13 +66,6 @@ class ProductController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -84,7 +80,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductUpdateRequest $request, string $id)
+    public function update(ProductUpdateRequest $request, string $id) : RedirectResponse
     {
                 $product = Product::findOrFail($id);
 
@@ -114,8 +110,16 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id) : Response
     {
-        //
+        try{
+            $product = Product::findOrFail($id);
+            $this->removeImage($product->thumb_image);
+            $product->delete();
+
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        }catch(\Exception $e){
+            return response(['status' => 'error', 'message' => 'something went wrong!']);
+        }
     }
 }

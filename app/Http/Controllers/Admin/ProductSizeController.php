@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\ProductSize;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class ProductSizeController extends Controller
@@ -17,15 +18,8 @@ class ProductSizeController extends Controller
     public function index(string $productId) : View
     {
         $product = Product::findOrFail($productId);
-        return view('admin.product.product-size.index', compact('product'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $sizes = ProductSize::where('product_id', $product->id)->get();
+        return view('admin.product.product-size.index', compact('product', 'sizes'));
     }
 
     /**
@@ -52,34 +46,17 @@ class ProductSizeController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id) : Response
     {
-        //
+        try{
+            $image = ProductSize::findOrFail($id);
+            $image->delete();
+
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        }catch(\Exception $e){
+            return response(['status' => 'error', 'message' => 'something went wrong!']);
+        }
     }
 }

@@ -37,6 +37,120 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Product
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property string $thumb_image
+ * @property int $category_id
+ * @property string $short_description
+ * @property string $long_description
+ * @property float $price
+ * @property float $offer_price
+ * @property string|null $sku
+ * @property string|null $seo_title
+ * @property string|null $seo_description
+ * @property int $show_at_home
+ * @property int $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Category $category
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductGallery> $productImages
+ * @property-read int|null $product_images_count
+ * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Product query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereLongDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereOfferPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereSeoDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereSeoTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereShortDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereShowAtHome($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereSku($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereThumbImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
+ */
+	class Product extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ProductGallery
+ *
+ * @property int $id
+ * @property int $product_id
+ * @property string $image
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductGallery newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductGallery newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductGallery query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductGallery whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductGallery whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductGallery whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductGallery whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductGallery whereUpdatedAt($value)
+ */
+	class ProductGallery extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ProductOption
+ *
+ * @property int $id
+ * @property int $product_id
+ * @property string $name
+ * @property float $price
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductOption newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductOption newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductOption query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductOption whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductOption whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductOption whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductOption wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductOption whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductOption whereUpdatedAt($value)
+ */
+	class ProductOption extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ProductSize
+ *
+ * @property int $id
+ * @property int $product_id
+ * @property string $name
+ * @property float $price
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductSize newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductSize newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductSize query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductSize whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductSize whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductSize whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductSize wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductSize whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductSize whereUpdatedAt($value)
+ */
+	class ProductSize extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\SectionTitle
  *
  * @property int $id

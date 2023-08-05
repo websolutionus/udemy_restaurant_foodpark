@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-lg-7 wow fadeInUp" data-wow-duration="1s">
                     <div class="fp__menu_details_text">
-                        <h2>Maxican Pizza Test Better</h2>
+                        <h2>{!! $product->name !!}</h2>
                         <p class="rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -60,49 +60,46 @@
                             <i class="far fa-star"></i>
                             <span>(201)</span>
                         </p>
-                        <h3 class="price">$320.00 <del>$350.00</del> </h3>
-                        <p class="short_description">Pizza is a savory dish of Italian origin consisting of a usually
-                            round, flattened base of leavened wheat-based dough topped with tomatoes, cheese, and often
-                            various other ingredients, which is then baked at a high temperature, traditionally in a
-                            wood-fired oven. A small pizza is sometimes called a pizzetta.</p>
+                        <h3 class="price">
+                            @if ($product->offer_price > 0)
+                                ${{ $product->offer_price }}
+                                <del>${{ $product->price }}</del>
+                            @else
+                                ${{ $product->price }}
+                            @endif
+                        </h3>
+                        <p class="short_description">{!! $product->short_description !!}</p>
 
+                        @if ($product->productSizes()->exists())
                         <div class="details_size">
                             <h5>select size</h5>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="large" checked>
-                                <label class="form-check-label" for="large">
-                                    large <span>+ $350</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="medium">
-                                <label class="form-check-label" for="medium">
-                                    medium <span>+ $250</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="small">
-                                <label class="form-check-label" for="small">
-                                    small <span>+ $150</span>
-                                </label>
-                            </div>
-                        </div>
 
+                            @foreach ($product->productSizes as $productSize)
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="size-{{ $productSize->id }}" checked>
+                                <label class="form-check-label" for="size-{{ $productSize->id }}">
+                                    {{ $productSize->name }} <span>+ ${{ $productSize->price }}</span>
+                                </label>
+                            </div>
+                            @endforeach
+
+                        </div>
+                        @endif
+
+                        @if ($product->productOptions()->exists())
                         <div class="details_extra_item">
                             <h5>select option <span>(optional)</span></h5>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="coca-cola">
-                                <label class="form-check-label" for="coca-cola">
-                                    coca-cola <span>+ $10</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="7up">
-                                <label class="form-check-label" for="7up">
-                                    7up <span>+ $15</span>
-                                </label>
-                            </div>
+                            @foreach ($product->productOptions as $productOption)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="option-{{ $productOption->id }}">
+                                    <label class="form-check-label" for="option-{{ $productOption->id }}">
+                                        {{ $productOption->name }} <span>+ ${{ $productOption->price }}</span>
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
+                        @endif
 
                         <div class="details_quentity">
                             <h5>select quentity</h5>
@@ -139,58 +136,7 @@
                             <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                                 aria-labelledby="pills-home-tab" tabindex="0">
                                 <div class="menu_det_description">
-                                    <p>Ipsum dolor, sit amet consectetur adipisicing elit. Doloribus consectetur
-                                        ullam in? Beatae, dolorum ad ea deleniti ratione voluptatum similique omnis
-                                        voluptas tempora optio soluta vero veritatis reiciendis blanditiis architecto.
-                                        Debitis nesciunt inventore voluptate tempora ea incidunt iste, corporis, quo
-                                        cumque facere doloribus possimus nostrum sed magni quasi, assumenda autem!
-                                        Repudiandae nihil magnam provident illo alias vero odit repellendus, ipsa nemo
-                                        itaque. Aperiam fuga, magnam quia illum minima blanditiis tempore. vero
-                                        veritatis reiciendis blanditiis architecto. Debitis nesciunt inventore voluptate
-                                        tempora ea incidunt iste, corporis, quo cumque facere doloribus possimus nostrum
-                                        sed magni quasi</p>
-                                    <ul>
-                                        <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus
-                                            consectetur ullam in</li>
-                                        <li>Dolor sit amet consectetur adipisicing elit. Earum itaque nesciunt.</li>
-                                        <li>Corporis, quo cumque facere doloribus possimus nostrum sed magni quasi.</li>
-                                        <li>Reiciendis blanditiis architecto. Debitis nesciunt inventore voluptate
-                                            tempora ea.</li>
-                                        <li>Incidunt iste, corporis, quo cumque facere doloribus possimus
-                                            nostrum sed magni quasi</li>
-                                        <li>Architecto. Debitis nesciunt inventore voluptate tempora ea incidunt iste
-                                            corporis.</li>
-                                        <li>Earum itaque nesciunt dolor laudantium placeat sed velit aspernatur.</li>
-                                        <li>Laudantium placeat sed velit aspernatur, nobis quos quibusdam distinctio
-                                            voluptatum.</li>
-                                    </ul>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum itaque nesciunt
-                                        dolor laudantium placeat sed velit aspernatur, nobis quos quibusdam distinctio
-                                        voluptatum officia vel sapiente enim, reprehenderit impedit beatae molestias
-                                        dolorum. A laborum consectetur sed quis exercitationem optio consequatur, unde
-                                        neque est odit, pariatur quae incidunt quasi dolorem nihil aliquid ut veritatis
-                                        porro eaque cupiditate voluptatem vel ad! Asperiores, praesentium. sit amet
-                                        consectetur adipisicing elit. Doloribus consectetur ullam in? Beatae, dolorum ad
-                                        ea deleniti ratione voluptatum similique omnis voluptas tempora optio soluta</p>
-
-                                    <ul>
-                                        <li>Reiciendis blanditiis architecto. Debitis nesciunt inventore voluptate
-                                            tempora ea.</li>
-                                        <li>Incidunt iste, corporis, quo cumque facere doloribus possimus
-                                            nostrum sed magni quasi</li>
-                                        <li>Architecto. Debitis nesciunt inventore voluptate tempora ea incidunt iste
-                                            corporis.</li>
-                                        <li>Earum itaque nesciunt dolor laudantium placeat sed velit aspernatur.</li>
-                                        <li>Laudantium placeat sed velit aspernatur, nobis quos quibusdam distinctio
-                                            voluptatum.</li>
-                                    </ul>
-                                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus consectetur
-                                        ullam in? Beatae, dolorum ad ea deleniti ratione voluptatum similique omnis
-                                        voluptas tempora optio soluta vero veritatis reiciendis blanditiis architecto.
-                                        Debitis nesciunt inventore voluptate tempora ea incidunt iste, corporis, quo
-                                        cumque facere doloribus possimus nostrum sed magni quasi, assumenda autem!
-                                        Repudiandae nihil magnam provident illo alias vero odit repellendus, ipsa nemo
-                                        itaque. Aperiam fuga, magnam quia illum minima blanditiis tempore.</p>
+                                   {!! $product->long_description !!}
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="pills-contact" role="tabpanel"

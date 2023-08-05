@@ -41,4 +41,8 @@ class FrontendController extends Controller
 
         return SectionTitle::whereIn('key', $keys)->pluck('value','key');
     }
+
+    function showProduct(string $slug) : View {
+        return view('frontend.pages.product-view');
+    }
 }

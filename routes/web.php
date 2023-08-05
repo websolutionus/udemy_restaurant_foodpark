@@ -33,8 +33,12 @@ Route::group(['middleware' => 'auth'], function(){
 
 });
 
+require __DIR__.'/auth.php';
+
+/** Show Home page */
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 
-require __DIR__.'/auth.php';
+/** Show Product details page */
+Route::get('/product/{slug}', [FrontendController::class, 'showProduct'])->name('product.show');
 
 

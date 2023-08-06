@@ -61,8 +61,7 @@
                                 @endif
                             </h5>
                             <ul class="d-flex flex-wrap justify-content-center">
-                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#cartModal"><i
-                                            class="fas fa-shopping-basket"></i></a></li>
+                                <li><a href="javascript:;" onclick="loadProductModal('{{ $product->id }}')"><i class="fas fa-shopping-basket"></i></a></li>
                                 <li><a href="#"><i class="fal fa-heart"></i></a></li>
                                 <li><a href="#"><i class="far fa-eye"></i></a></li>
                             </ul>

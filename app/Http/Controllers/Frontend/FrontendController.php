@@ -48,4 +48,10 @@ class FrontendController extends Controller
             ->where('id', '!=', $product->id)->take(8)->latest()->get();
         return view('frontend.pages.product-view', compact('product', 'relatedProducts'));
     }
+
+    function loadProductModal($productId) {
+        $product = Product::with(['productSizes', 'productOptions'])->findOrFail($productId);
+
+       
+    }
 }

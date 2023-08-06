@@ -13,12 +13,12 @@ class SettingsService {
         });
     }
 
-    function setGlobalSettings() {
+    function setGlobalSettings() : void {
         $settings = $this->getSettings();
         config()->set('settings', $settings);
     }
 
-    function clearCachedSettings() {
+    function clearCachedSettings() : void {
         Cache::forget('settings');
     }
 

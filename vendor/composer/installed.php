@@ -3,13 +3,22 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '4bc49f460a63e5d0722da8f0abe299c9feb0b615',
+        'reference' => '0c7a9f848d490ce73c2bd212f918b6d03af4e1e7',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'anayarojo/shoppingcart' => array(
+            'pretty_version' => '4.2.2',
+            'version' => '4.2.2.0',
+            'reference' => 'a93e04a36d6f9c1e4af8bbddfede021ff412c685',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../anayarojo/shoppingcart',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'barryvdh/laravel-debugbar' => array(
             'pretty_version' => 'v3.8.2',
             'version' => '3.8.2.0',
@@ -472,7 +481,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '4bc49f460a63e5d0722da8f0abe299c9feb0b615',
+            'reference' => '0c7a9f848d490ce73c2bd212f918b6d03af4e1e7',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

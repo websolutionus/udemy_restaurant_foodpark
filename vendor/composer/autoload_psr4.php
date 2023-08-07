@@ -86,6 +86,7 @@ return array(
     'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'GrahamCampbell\\ResultType\\' => array($vendorDir . '/graham-campbell/result-type/src'),
+    'Gloudemans\\Shoppingcart\\' => array($vendorDir . '/anayarojo/shoppingcart/src'),
     'Fruitcake\\Cors\\' => array($vendorDir . '/fruitcake/php-cors/src'),
     'Flasher\\Prime\\' => array($vendorDir . '/php-flasher/flasher'),
     'Flasher\\Laravel\\' => array($vendorDir . '/php-flasher/flasher-laravel'),

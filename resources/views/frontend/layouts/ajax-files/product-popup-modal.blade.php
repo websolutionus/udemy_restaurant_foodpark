@@ -1,10 +1,10 @@
 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i
     class="fal fa-times"></i></button>
 <div class="fp__cart_popup_img">
-<img src="images/menu1.png" alt="menu" class="img-fluid w-100">
+<img src="{{ asset($product->thumb_image) }}" alt="{{ $product->name }}" class="img-fluid w-100">
 </div>
 <div class="fp__cart_popup_text">
-<a href="#" class="title">Maxican Pizza Test Better</a>
+<a href="{{ route('product.show', $product->slug) }}" class="title">{!! $product->name !!}</a>
 <p class="rating">
     <i class="fas fa-star"></i>
     <i class="fas fa-star"></i>
@@ -13,46 +13,42 @@
     <i class="far fa-star"></i>
     <span>(201)</span>
 </p>
-<h4 class="price">$320.00 <del>$350.00</del> </h4>
+<h4 class="price">
+    @if ($product->offer_price > 0)
+    {{ currencyPosition($product->offer_price) }}
+    <del>{{ currencyPosition($product->price) }}</del>
+    @else
+    {{ currencyPosition($product->price) }}
+    @endif
+</h4>
 
+@if ($product->productSizes()->exists())
 <div class="details_size">
     <h5>select size</h5>
+    @foreach ($product->productSizes as $productSize)
     <div class="form-check">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" id="large"
-            checked>
-        <label class="form-check-label" for="large">
-            large <span>+ $350</span>
+        <input class="form-check-input" type="radio" value="{{ $productSize->id }}" name="flexRadioDefault" id="size-{{ $productSize->id }}" >
+        <label class="form-check-label" for="size-{{ $productSize->id }}">
+            {{ $productSize->name }} <span>+ {{ currencyPosition($productSize->price) }}</span>
         </label>
     </div>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" id="medium">
-        <label class="form-check-label" for="medium">
-            medium <span>+ $250</span>
-        </label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" id="small">
-        <label class="form-check-label" for="small">
-            small <span>+ $150</span>
-        </label>
-    </div>
+    @endforeach
 </div>
+@endif
 
+@if ($product->productOptions()->exists())
 <div class="details_extra_item">
     <h5>select option <span>(optional)</span></h5>
+    @foreach ($product->productOptions as $productOption)
     <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="coca-cola">
-        <label class="form-check-label" for="coca-cola">
-            coca-cola <span>+ $10</span>
+        <input class="form-check-input" type="checkbox" value="{{ $productOption->id }}" id="option-{{ $productOption->id }}">
+        <label class="form-check-label" for="option-{{ $productOption->id }}">
+            {{ $productOption->name }} <span>+ {{ currencyPosition($productOption->price) }}</span>
         </label>
     </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="7up">
-        <label class="form-check-label" for="7up">
-            7up <span>+ $15</span>
-        </label>
-    </div>
+    @endforeach
 </div>
+@endif
 
 <div class="details_quentity">
     <h5>select quentity</h5>

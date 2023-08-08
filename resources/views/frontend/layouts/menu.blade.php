@@ -79,7 +79,7 @@
             <h5>total item (05)</h5>
             <span class="close_cart"><i class="fal fa-times"></i></span>
         </div>
-        <ul>
+        <ul class="cart_contents">
             @foreach (Cart::content() as $cartProduct)
             <li>
                 <div class="menu_cart_img">

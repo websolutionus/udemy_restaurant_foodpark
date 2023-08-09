@@ -24,10 +24,6 @@
         ==============================-->
     {{-- @include('frontend.home.components.offer-item') --}}
 
-    <!-- CART POPUT START -->
-    @include('frontend.home.components.cart-popup')
-    <!-- CART POPUT END -->
-
     <!--=============================
         OFFER ITEM END
         ==============================-->

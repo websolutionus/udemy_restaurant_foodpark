@@ -22,6 +22,6 @@
             @endforeach
             <p class="price">{{ currencyPosition($cartProduct->price) }}</p>
         </div>
-        <span class="del_icon"><i class="fal fa-times"></i></span>
+        <span class="del_icon" onclick="removeProductFromSidebar('{{ $cartProduct->rowId }}')"><i class="fal fa-times"></i></span>
     </li>
 @endforeach

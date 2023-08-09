@@ -119,7 +119,7 @@
                                 <div class="quentity_btn_area d-flex flex-wrapa align-items-center">
                                     <div class="quentity_btn">
                                         <button class="btn btn-danger v_decrement"><i class="fal fa-minus"></i></button>
-                                        <input type="text" name="qty" placeholder="1" value="1" readonly
+                                        <input type="text" name="quantity" placeholder="1" value="1" readonly
                                             id="v_quantity">
                                         <button class="btn btn-success v_increment"><i class="fal fa-plus"></i></button>
                                     </div>

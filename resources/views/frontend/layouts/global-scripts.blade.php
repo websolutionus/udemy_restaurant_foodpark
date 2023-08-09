@@ -50,4 +50,18 @@ function updateSidebarCart(){
     })
 }
 
+/** Remove cart product from sidebar*/
+function removeProductFromSidebar($rowId){
+    $.ajax({
+        method: 'GET',
+        url: '{{ route("cart-product-remove", ":rowId") }}'.replace(":rowId", $rowId),
+        success: function(responce){
+
+        },
+        error: function(xhr, status, error){
+            console.log(error);
+        }
+    })
+}
+
 </script>

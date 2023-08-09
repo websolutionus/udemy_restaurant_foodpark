@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=============================
-                        BREADCRUMB START
-                    ==============================-->
+                            BREADCRUMB START
+                        ==============================-->
     <section class="fp__breadcrumb" style="background: url({{ asset('frontend/images/counter_bg.jpg') }});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
@@ -18,13 +18,13 @@
         </div>
     </section>
     <!--=============================
-                        BREADCRUMB END
-                    ==============================-->
+                            BREADCRUMB END
+                        ==============================-->
 
 
     <!--=============================
-                        MENU DETAILS START
-                    ==============================-->
+                            MENU DETAILS START
+                        ==============================-->
     <section class="fp__menu_details mt_115 xs_mt_85 mb_95 xs_mb_65">
         <div class="container">
             <div class="row">
@@ -72,10 +72,11 @@
                         </h3>
                         <p class="short_description">{!! $product->short_description !!}</p>
 
-                        <form action="">
+                        <form action="" id="v_add_to_cart_form">
                             @csrf
                             <input type="hidden" name="base_price" class="v_base_price"
                                 value="{{ $product->offer_price > 0 ? $product->offer_price : $product->price }}">
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                             @if ($product->productSizes()->exists())
                                 <div class="details_size">
@@ -84,10 +85,11 @@
                                     @foreach ($product->productSizes as $productSize)
                                         <div class="form-check">
                                             <input class="form-check-input v_product_size" type="radio"
-                                                name="flexRadioDefault" id="size-{{ $productSize->id }}"
-                                                data-price="{{ $productSize->price }}">
+                                                name="product_size" id="size-{{ $productSize->id }}"
+                                                data-price="{{ $productSize->price }}" value="{{ $productSize->id }}">
                                             <label class="form-check-label" for="size-{{ $productSize->id }}">
-                                                {{ $productSize->name }} <span>+ {{ currencyPosition($productSize->price) }}</span>
+                                                {{ $productSize->name }} <span>+
+                                                    {{ currencyPosition($productSize->price) }}</span>
                                             </label>
                                         </div>
                                     @endforeach
@@ -100,11 +102,12 @@
                                     <h5>select option <span>(optional)</span></h5>
                                     @foreach ($product->productOptions as $productOption)
                                         <div class="form-check">
-                                            <input class="form-check-input v_product_option" type="checkbox" value=""
-                                                id="option-{{ $productOption->id }}"
+                                            <input class="form-check-input v_product_option" name="product_option[]"
+                                                type="checkbox" value="{{ $productOption->id }}" id="option-{{ $productOption->id }}"
                                                 data-price="{{ $productOption->price }}">
                                             <label class="form-check-label" for="option-{{ $productOption->id }}">
-                                                {{ $productOption->name }} <span>+ {{ currencyPosition($productOption->price) }}</span>
+                                                {{ $productOption->name }} <span>+
+                                                    {{ currencyPosition($productOption->price) }}</span>
                                             </label>
                                         </div>
                                     @endforeach
@@ -116,16 +119,19 @@
                                 <div class="quentity_btn_area d-flex flex-wrapa align-items-center">
                                     <div class="quentity_btn">
                                         <button class="btn btn-danger v_decrement"><i class="fal fa-minus"></i></button>
-                                        <input type="text" name="qty" placeholder="1" value="1" readonly id="v_quantity">
+                                        <input type="text" name="qty" placeholder="1" value="1" readonly
+                                            id="v_quantity">
                                         <button class="btn btn-success v_increment"><i class="fal fa-plus"></i></button>
                                     </div>
-                                    <h3 id="v_total_price">{{ $product->offer_price > 0 ? currencyPosition($product->offer_price) : currencyPosition($product->price) }}</h3>
+                                    <h3 id="v_total_price">
+                                        {{ $product->offer_price > 0 ? currencyPosition($product->offer_price) : currencyPosition($product->price) }}
+                                    </h3>
                                 </div>
                             </div>
                         </form>
 
                         <ul class="details_button_area d-flex flex-wrap">
-                            <li><a class="common_btn" href="#">add to cart</a></li>
+                            <li><a class="common_btn v_submit_button" href="#">add to cart</a></li>
                             <li><a class="wishlist" href="#"><i class="far fa-heart"></i></a></li>
                         </ul>
                     </div>
@@ -403,8 +409,8 @@
     <!-- CART POPUT END -->
 
     <!--=============================
-                        MENU DETAILS END
-                    ==============================-->
+                            MENU DETAILS END
+                        ==============================-->
 @endsection
 
 @push('scripts')
@@ -466,8 +472,52 @@
                 // Calculate the total price
                 let totalPrice = (basePrice + selectedSizePrice + selectedOptionsPrice) * quantity;
                 $('#v_total_price').text("{{ config('settings.site_currency_icon') }}" + totalPrice);
-
             }
+
+            $('.v_submit_button').on('click', function(e){
+                e.preventDefault();
+                $("#v_add_to_cart_form").submit();
+            })
+
+            // Add to cart function
+            $("#v_add_to_cart_form").on('submit', function(e) {
+                e.preventDefault();
+
+                // Validation
+                let selectedSize = $(".v_product_size");
+                if (selectedSize.length > 0) {
+                    if ($(".v_product_size:checked").val() === undefined) {
+                        toastr.error('Please select a size');
+                        console.error('Please select a size');
+                        return;
+                    }
+                }
+
+                let formData = $(this).serialize();
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("add-to-cart") }}',
+                    data: formData,
+                    beforeSend: function() {
+                        $('.v_submit_button').attr('disabled', true);
+                        $('.v_submit_button').html(
+                            '<span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true"></span> Loading...'
+                            )
+                    },
+                    success: function(response) {
+                        updateSidebarCart();
+                        toastr.success(response.message);
+                    },
+                    error: function(xhr, status, error) {
+                        let errorMessage = xhr.responseJSON.message;
+                        toastr.error(errorMessage);
+                    },
+                    complete: function() {
+                        $('.v_submit_button').html('Add to Cart');
+                        $('.v_submit_button').attr('disabled', false);
+                    }
+                })
+            })
         })
     </script>
 @endpush

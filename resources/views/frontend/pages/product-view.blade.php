@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=============================
-        BREADCRUMB START
-    ==============================-->
+                    BREADCRUMB START
+                ==============================-->
     <section class="fp__breadcrumb" style="background: url({{ asset('frontend/images/counter_bg.jpg') }});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
@@ -18,13 +18,13 @@
         </div>
     </section>
     <!--=============================
-        BREADCRUMB END
-    ==============================-->
+                    BREADCRUMB END
+                ==============================-->
 
 
     <!--=============================
-        MENU DETAILS START
-    ==============================-->
+                    MENU DETAILS START
+                ==============================-->
     <section class="fp__menu_details mt_115 xs_mt_85 mb_95 xs_mb_65">
         <div class="container">
             <div class="row">
@@ -32,10 +32,12 @@
                     <div class="exzoom hidden" id="exzoom">
                         <div class="exzoom_img_box fp__menu_details_images">
                             <ul class='exzoom_img_ul'>
-                                <li><img class="zoom ing-fluid w-100" src="{{ asset($product->thumb_image) }}" alt="product"></li>
+                                <li><img class="zoom ing-fluid w-100" src="{{ asset($product->thumb_image) }}"
+                                        alt="product"></li>
 
                                 @foreach ($product->productImages as $image)
-                                <li><img class="zoom ing-fluid w-100" src="{{ asset($image->image) }}" alt="product"></li>
+                                    <li><img class="zoom ing-fluid w-100" src="{{ asset($image->image) }}" alt="product">
+                                    </li>
                                 @endforeach
 
                             </ul>
@@ -70,48 +72,56 @@
                         </h3>
                         <p class="short_description">{!! $product->short_description !!}</p>
 
-                        @if ($product->productSizes()->exists())
-                        <div class="details_size">
-                            <h5>select size</h5>
+                        <form action="">
+                            @csrf
+                            <input type="hidden" name="base_price" class="v_base_price"
+                            value="{{ $product->offer_price > 0 ? $product->offer_price : $product_price }}">
 
-                            @foreach ($product->productSizes as $productSize)
+                            @if ($product->productSizes()->exists())
+                                <div class="details_size">
+                                    <h5>select size</h5>
 
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="size-{{ $productSize->id }}" checked>
-                                <label class="form-check-label" for="size-{{ $productSize->id }}">
-                                    {{ $productSize->name }} <span>+ ${{ $productSize->price }}</span>
-                                </label>
-                            </div>
-                            @endforeach
+                                    @foreach ($product->productSizes as $productSize)
+                                        <div class="form-check">
+                                            <input class="form-check-input v_product_size" type="radio"
+                                                name="flexRadioDefault" id="size-{{ $productSize->id }}" data-price="{{ $productSize->price }}">
+                                            <label class="form-check-label" for="size-{{ $productSize->id }}">
+                                                {{ $productSize->name }} <span>+ ${{ $productSize->price }}</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
 
-                        </div>
-                        @endif
-
-                        @if ($product->productOptions()->exists())
-                        <div class="details_extra_item">
-                            <h5>select option <span>(optional)</span></h5>
-                            @foreach ($product->productOptions as $productOption)
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="option-{{ $productOption->id }}">
-                                    <label class="form-check-label" for="option-{{ $productOption->id }}">
-                                        {{ $productOption->name }} <span>+ ${{ $productOption->price }}</span>
-                                    </label>
                                 </div>
-                            @endforeach
-                        </div>
-                        @endif
+                            @endif
 
-                        <div class="details_quentity">
-                            <h5>select quentity</h5>
-                            <div class="quentity_btn_area d-flex flex-wrapa align-items-center">
-                                <div class="quentity_btn">
-                                    <button class="btn btn-danger"><i class="fal fa-minus"></i></button>
-                                    <input type="text" placeholder="1">
-                                    <button class="btn btn-success"><i class="fal fa-plus"></i></button>
+                            @if ($product->productOptions()->exists())
+                                <div class="details_extra_item">
+                                    <h5>select option <span>(optional)</span></h5>
+                                    @foreach ($product->productOptions as $productOption)
+                                        <div class="form-check">
+                                            <input class="form-check-input v_product_option" type="checkbox" value=""
+                                                id="option-{{ $productOption->id }}" data-price="{{ $productOption->price }}">
+                                            <label class="form-check-label" for="option-{{ $productOption->id }}">
+                                                {{ $productOption->name }} <span>+ ${{ $productOption->price }}</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
                                 </div>
-                                <h3>$320.00</h3>
+                            @endif
+
+                            <div class="details_quentity">
+                                <h5>select quentity</h5>
+                                <div class="quentity_btn_area d-flex flex-wrapa align-items-center">
+                                    <div class="quentity_btn">
+                                        <button class="btn btn-danger"><i class="fal fa-minus"></i></button>
+                                        <input type="text" placeholder="1">
+                                        <button class="btn btn-success"><i class="fal fa-plus"></i></button>
+                                    </div>
+                                    <h3 id="v_total_price">$320.00</h3>
+                                </div>
                             </div>
-                        </div>
+                        </form>
+
                         <ul class="details_button_area d-flex flex-wrap">
                             <li><a class="common_btn" href="#">add to cart</a></li>
                             <li><a class="wishlist" href="#"><i class="far fa-heart"></i></a></li>
@@ -136,7 +146,7 @@
                             <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                                 aria-labelledby="pills-home-tab" tabindex="0">
                                 <div class="menu_det_description">
-                                   {!! $product->long_description !!}
+                                    {!! $product->long_description !!}
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="pills-contact" role="tabpanel"
@@ -238,8 +248,7 @@
                                                             <input type="email" placeholder="Email">
                                                         </div>
                                                         <div class="col-xl-12">
-                                                            <textarea rows="3"
-                                                                placeholder="Write your review"></textarea>
+                                                            <textarea rows="3" placeholder="Write your review"></textarea>
                                                         </div>
                                                         <div class="col-12">
                                                             <button class="common_btn" type="submit">submit
@@ -256,49 +265,51 @@
                     </div>
                 </div>
             </div>
+
             @if (count($relatedProducts) > 0)
+                <div class="fp__related_menu mt_90 xs_mt_60">
+                    <h2>related item</h2>
+                    <div class="row related_product_slider">
+                        @foreach ($relatedProducts as $relatedProduct)
+                            <div class="col-xl-3 wow fadeInUp" data-wow-duration="1s">
+                                <div class="fp__menu_item">
+                                    <div class="fp__menu_item_img">
+                                        <img src="{{ asset($relatedProduct->thumb_image) }}"
+                                            alt="{{ $relatedProduct->name }}" class="img-fluid w-100">
+                                        <a class="category" href="#">{{ @$relatedProduct->category->name }}</a>
+                                    </div>
+                                    <div class="fp__menu_item_text">
+                                        <p class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                            <i class="far fa-star"></i>
+                                            <span>74</span>
+                                        </p>
+                                        <a class="title"
+                                            href="{{ route('product.show', $relatedProduct->slug) }}">{!! $relatedProduct->name !!}</a>
+                                        <h5 class="price">
+                                            @if ($relatedProduct->offer_price > 0)
+                                                {{ currencyPosition($relatedProduct->offer_price) }}
+                                                <del>{{ currencyPosition($relatedProduct->price) }}</del>
+                                            @else
+                                                {{ currencyPosition($relatedProduct->price) }}
+                                            @endif
+                                        </h5>
+                                        <ul class="d-flex flex-wrap justify-content-center">
+                                            <li><a href="#" data-bs-toggle="modal" data-bs-target="#cartModal"><i
+                                                        class="fas fa-shopping-basket"></i></a></li>
+                                            <li><a href="#"><i class="fal fa-heart"></i></a></li>
+                                            <li><a href="#"><i class="far fa-eye"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
 
-            <div class="fp__related_menu mt_90 xs_mt_60">
-                <h2>related item</h2>
-                <div class="row related_product_slider">
-                    @foreach ($relatedProducts as $relatedProduct)
-                    <div class="col-xl-3 wow fadeInUp" data-wow-duration="1s">
-                        <div class="fp__menu_item">
-                            <div class="fp__menu_item_img">
-                                <img src="{{ asset($relatedProduct->thumb_image) }}" alt="{{ $relatedProduct->name }}" class="img-fluid w-100">
-                                <a class="category" href="#">{{ @$relatedProduct->category->name }}</a>
-                            </div>
-                            <div class="fp__menu_item_text">
-                                <p class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                    <i class="far fa-star"></i>
-                                    <span>74</span>
-                                </p>
-                                <a class="title" href="{{ route('product.show', $relatedProduct->slug) }}">{!! $relatedProduct->name !!}</a>
-                                <h5 class="price">
-                                    @if ($relatedProduct->offer_price > 0)
-                                    {{ currencyPosition($relatedProduct->offer_price) }}
-                                    <del>{{ currencyPosition($relatedProduct->price) }}</del>
-                                    @else
-                                    {{ currencyPosition($relatedProduct->price) }}
-                                    @endif
-                                </h5>
-                                <ul class="d-flex flex-wrap justify-content-center">
-                                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#cartModal"><i
-                                                class="fas fa-shopping-basket"></i></a></li>
-                                    <li><a href="#"><i class="fal fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="far fa-eye"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
-                    @endforeach
-
                 </div>
-            </div>
             @endif
         </div>
     </section>
@@ -329,20 +340,22 @@
                             <div class="details_size">
                                 <h5>select size</h5>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="large01"
-                                        checked>
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="large01" checked>
                                     <label class="form-check-label" for="large01">
                                         large <span>+ $350</span>
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="medium01">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="medium01">
                                     <label class="form-check-label" for="medium01">
                                         medium <span>+ $250</span>
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="small01">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="small01">
                                     <label class="form-check-label" for="small01">
                                         small <span>+ $150</span>
                                     </label>
@@ -388,6 +401,46 @@
     <!-- CART POPUT END -->
 
     <!--=============================
-        MENU DETAILS END
-    ==============================-->
+                    MENU DETAILS END
+                ==============================-->
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.v_product_size').on('change', function() {
+                v_updateTotalPrice()
+            });
+
+            $('.v_product_option').on('change', function() {
+                v_updateTotalPrice()
+            });
+
+
+            // Function to update the total price base on seelected options
+            function v_updateTotalPrice() {
+                let basePrice = parseFloat($('.v_base_price').val());
+                let selectedSizePrice = 0;
+                let selectedOptionsPrice = 0;
+                let quantity = parseFloat($('#quantity').val());
+
+                // Calculate the selected size price
+                let selectedSize = $('.v_product_size:checked');
+                if (selectedSize.length > 0) {
+                    selectedSizePrice = parseFloat(selectedSize.data("price"));
+                }
+
+                // Calculate selected options price
+                let selectedOptions = $('.v_product_option:checked');
+                $(selectedOptions).each(function() {
+                    selectedOptionsPrice += parseFloat($(this).data("price"));
+                })
+
+                // Calculate the total price
+                let totalPrice = (basePrice + selectedSizePrice + selectedOptionsPrice);
+                $('#v_total_price').text("{{ config('settings.site_currency_icon') }}" + totalPrice);
+
+            }
+        })
+    </script>
+@endpush

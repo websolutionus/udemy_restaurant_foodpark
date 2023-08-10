@@ -134,9 +134,10 @@
                 let inputField = $(this).siblings(".quantity");
                 let currentValue = parseInt(inputField.val());
                 let rowId = inputField.data("id");
-                inputField.val(currentValue + 1);
-
+                
                 cartQtyUpdate(rowId, inputField.val(), function(response){
+                    inputField.val(response.qty);
+
                     let productTotal = response.product_total;
                     inputField.closest("tr")
                         .find(".produt_cart_total")
@@ -151,9 +152,10 @@
                 let rowId = inputField.data("id");
 
                 if(inputField.val() > 1){
-                    inputField.val(currentValue - 1);
 
                     cartQtyUpdate(rowId, inputField.val(), function(response){
+                    inputField.val(response.qty);
+
                     let productTotal = response.product_total;
                     inputField.closest("tr")
                         .find(".produt_cart_total")

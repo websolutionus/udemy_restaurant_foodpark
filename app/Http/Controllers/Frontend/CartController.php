@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class CartController extends Controller
@@ -23,8 +24,12 @@ class CartController extends Controller
      */
     function addToCart(Request $request)
     {
+        $product = Product::with(['productSizes', 'productOptions'])->findOrFail($request->product_id);
+        if($product->quantity < $request->quantity){
+            throw ValidationException::withMessages(['Quantity is not available!']);
+        }
+
         try {
-            $product = Product::with(['productSizes', 'productOptions'])->findOrFail($request->product_id);
             $productSize = $product->productSizes->where('id', $request->product_size)->first();
             $productOptions = $product->productOptions->whereIn('id', $request->product_option);
 
@@ -83,9 +88,16 @@ class CartController extends Controller
     }
 
     function cartQtyUpdate(Request $request) : Response {
+        $cartItem = Cart::get($request->rowId);
+        $product = Product::findOrFail($cartItem->id);
+
+        if($product->quantity < $request->qty){
+            throw ValidationException::withMessages(['Quantity is not available!']);
+        }
+
         try{
-            Cart::update($request->rowId, $request->qty);
-            return response(['product_total' => productTotal($request->rowId)], 200);
+            $cart = Cart::update($request->rowId, $request->qty);
+            return response(['product_total' => productTotal($request->rowId), 'qty' => $cart->qty], 200);
 
         }catch(\Exception $e){
             logger($e);

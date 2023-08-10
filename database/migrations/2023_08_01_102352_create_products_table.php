@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('long_description');
             $table->double('price');
             $table->double('offer_price')->default(0);
+            $table->integer('quantity');
             $table->string('sku')->nullable();
             $table->string('seo_title')->nullable();
             $table->string('seo_description')->nullable();

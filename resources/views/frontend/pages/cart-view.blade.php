@@ -4,7 +4,7 @@
     <!--=============================
             BREADCRUMB START
         ==============================-->
-    <section class="fp__breadcrumb" style="background: url(images/counter_bg.jpg);">
+    <section class="fp__breadcrumb" style="background: url({{ asset('frontend/images/counter_bg.jpg') }});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
@@ -55,7 +55,7 @@
                                         </th>
 
                                         <th class="fp__pro_icon">
-                                            <a class="clear_all" href="#">clear all</a>
+                                            <a class="clear_all" href="{{ route('cart.destroy') }}">clear all</a>
                                         </th>
                                     </tr>
 
@@ -91,10 +91,15 @@
                                         </td>
 
                                         <td class="fp__pro_icon">
-                                            <a href="#"><i class="far fa-times"></i></a>
+                                            <a href="#" class="reomove_cart_product" data-id="{{ $product->rowId }}"><i class="far fa-times"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach
+                                    @if (Cart::content()->count() === 0)
+                                    <tr>
+                                        <td colspan="6" class="text-center fp__pro_name" style="width: 100%;display: inline;">Cart is empty!</td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -173,6 +178,34 @@
                         if(callback && typeof callback === 'function'){
                             callback(response);
                         }
+                    },
+                    error: function(xhr, status, error){
+                        let errorMessage = xhr.responseJSON.message;
+                        hideLoader();
+                        toastr.error(errorMessage);
+                    },
+                    complete: function(){
+                        hideLoader();
+                    }
+                })
+            }
+
+            $('.reomove_cart_product').on('click', function(e){
+                e.preventDefault();
+                let rowId = $(this).data('id');
+                removeCartProduct(rowId);
+                $(this).closest('tr').remove();
+            })
+
+            function removeCartProduct(rowId){
+                $.ajax({
+                    method: 'get',
+                    url: '{{ route("cart-product-remove", ":rowId") }}'.replace(":rowId", rowId),
+                    beforeSend: function(){
+                        showLoader();
+                    },
+                    success: function(response){
+                        updateSidebarCart();
                     },
                     error: function(xhr, status, error){
                         let errorMessage = xhr.responseJSON.message;

@@ -1,4 +1,16 @@
 <script>
+/** Show Loader*/
+function showLoader(){
+    $('.overlay-container').removeClass('d-none');
+    $('.overlay').addClass('active');
+}
+
+/** Hide Loader*/
+function hideLoader(){
+    $('.overlay').removeClass('active');
+    $('.overlay-container').addClass('d-none');
+}
+
 
 /** Loard product modal**/
 function loadProductModal(productId){
@@ -71,5 +83,7 @@ function removeProductFromSidebar($rowId){
 
     })
 }
+
+
 
 </script>

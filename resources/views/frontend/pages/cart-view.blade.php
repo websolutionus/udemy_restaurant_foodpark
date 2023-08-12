@@ -117,12 +117,12 @@
                 <div class="col-lg-4 wow fadeInUp" data-wow-duration="1s">
                     <div class="fp__cart_list_footer_button">
                         <h6>total cart</h6>
-                        <p>subtotal: <span>$124.00</span></p>
+                        <p>subtotal: <span>{{ currencyPosition(cartTotal()) }}</span></p>
                         <p>delivery: <span>$00.00</span></p>
                         <p>discount: <span>$10.00</span></p>
                         <p class="total"><span>total:</span> <span>$134.00</span></p>
-                        <form>
-                            <input type="text" placeholder="Coupon Code">
+                        <form id="coupon_form">
+                            <input type="text" name="code" placeholder="Coupon Code">
                             <button type="submit">apply</button>
                         </form>
                         <a class="common_btn" href=" #">checkout</a>
@@ -240,6 +240,25 @@
                     },
                     complete: function() {
                         hideLoader();
+                    }
+                })
+            }
+
+            function couponApply($code, $subtotal) {
+                $.ajax({
+                    method: 'GET',
+                    url: '',
+                    beforeSend: function(){
+
+                    },
+                    success: function(response){
+
+                    },
+                    error: function(xhr, status, error){
+
+                    },
+                    complete: function(){
+
                     }
                 })
             }

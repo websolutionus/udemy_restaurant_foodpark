@@ -58,6 +58,8 @@ Route::get('/cart-destroy', [CartController::class, 'cartDestroy'])->name('cart.
 
 /** Coupon Routes */
 Route::post('/apply-coupon', [FrontendController::class, 'applyCoupon'])->name('apply-coupon');
+Route::get('/destroy-coupon', [FrontendController::class, 'destroyCoupon'])->name('destroy-coupon');
+
 
 
 

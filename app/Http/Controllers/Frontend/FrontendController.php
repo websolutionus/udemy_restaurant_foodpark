@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\SectionTitle;
 use App\Models\Slider;
@@ -57,6 +58,31 @@ class FrontendController extends Controller
     }
 
     function applyCoupon(Request $request) {
-        dd($request->all());
+
+        $subtotal = $request->subtotal;
+        $code = $request->code;
+
+        $coupon = Coupon::where('code', $code)->first();
+
+        if(!$coupon) {
+            return response(['message' => 'Invalid Coupon Code.'], 422);
+        }
+        if($coupon->quantity <= 0){
+            return response(['message' => 'Coupon has been fully redeemed.'], 422);
+        }
+        if($coupon->expire_date < now()){
+            return response(['message' => 'Coupon hs expired.'], 422);
+        }
+
+        if($coupon->discount_type === 'percent') {
+            $discount = $subtotal * ($coupon->discount / 100);
+        }elseif ($coupon->discount_type === 'amount'){
+            $discount = $coupon->discount;
+        }
+
+        $finalTotal = $subtotal - $discount;
+
+        return response(['discount' => $discount, 'finalTotal' => $finalTotal]);
+
     }
 }

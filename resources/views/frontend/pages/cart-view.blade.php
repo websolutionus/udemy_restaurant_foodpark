@@ -268,7 +268,8 @@
 
                     },
                     error: function(xhr, status, error){
-
+                        let errorMessage = xhr.responseJSON.message;
+                        toastr.error(errorMessage);
                     },
                     complete: function(){
 

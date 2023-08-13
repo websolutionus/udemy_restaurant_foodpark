@@ -122,7 +122,7 @@
                         <p>discount: <span>$10.00</span></p>
                         <p class="total"><span>total:</span> <span>$134.00</span></p>
                         <form id="coupon_form">
-                            <input type="text" name="code" placeholder="Coupon Code">
+                            <input type="text" id="coupon_code" name="code" placeholder="Coupon Code">
                             <button type="submit">apply</button>
                         </form>
                         <a class="common_btn" href=" #">checkout</a>
@@ -244,10 +244,23 @@
                 })
             }
 
-            function couponApply($code, $subtotal) {
+            $('#coupon_form').on('submit', function(e){
+                e.preventDefault();
+                let code = $("#coupon_code").val();
+                let subtotal = getCartTotal();
+
+                couponApply(code, subtotal);
+
+            })
+
+            function couponApply(code, subtotal) {
                 $.ajax({
-                    method: 'GET',
-                    url: '',
+                    method: 'POST',
+                    url: '{{ route("apply-coupon") }}',
+                    data: {
+                        code: code,
+                        subtotal: subtotal
+                    },
                     beforeSend: function(){
 
                     },

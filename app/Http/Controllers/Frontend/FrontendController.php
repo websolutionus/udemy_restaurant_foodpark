@@ -56,7 +56,7 @@ class FrontendController extends Controller
         return view('frontend.layouts.ajax-files.product-popup-modal', compact('product'))->render();
     }
 
-    function applyCoupon() : Response {
-
+    function applyCoupon(Request $request) {
+        dd($request->all());
     }
 }

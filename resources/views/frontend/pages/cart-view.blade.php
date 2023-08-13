@@ -117,7 +117,7 @@
                 <div class="col-lg-4 wow fadeInUp" data-wow-duration="1s">
                     <div class="fp__cart_list_footer_button">
                         <h6>total cart</h6>
-                        <p>subtotal: <span>{{ currencyPosition(cartTotal()) }}</span></p>
+                        <p>subtotal: <span id="subtotal">{{ currencyPosition(cartTotal()) }}</span></p>
                         <p>delivery: <span>$00.00</span></p>
                         <p>discount: <span id="discount">{{ config('settings.site_currency_icon') }}0</span></p>
                         <p class="total"><span>total:</span> <span id="final_total">{{ config('settings.site_currency_icon') }}0</span></p>
@@ -154,7 +154,12 @@
                         inputField.closest("tr")
                             .find(".produt_cart_total")
                             .text("{{ currencyPosition(':productTotal') }}"
-                                .replace(":productTotal", productTotal));
+                            .replace(":productTotal", productTotal));
+
+                        let finalTotal = getCartTotal();
+                        console.log(finalTotal);
+                        $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + finalTotal);
+
                     } else if (response.status === 'error') {
                         inputField.val(response.qty);
                         toastr.error(response.message);
@@ -188,6 +193,7 @@
                     });
                 }
             });
+
 
             function cartQtyUpdate(rowId, qty, callback) {
                 $.ajax({
@@ -250,8 +256,8 @@
                 let subtotal = getCartTotal();
 
                 couponApply(code, subtotal);
-
             })
+
 
             function couponApply(code, subtotal) {
                 $.ajax({

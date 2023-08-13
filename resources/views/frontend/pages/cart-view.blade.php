@@ -139,6 +139,9 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            var cartTotal = 0;
+
+
             $('.increment').on('click', function() {
                 let inputField = $(this).siblings(".quantity");
                 let currentValue = parseInt(inputField.val());
@@ -156,9 +159,8 @@
                             .text("{{ currencyPosition(':productTotal') }}"
                             .replace(":productTotal", productTotal));
 
-                        let finalTotal = getCartTotal();
-                        console.log(finalTotal);
-                        $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + finalTotal);
+                        cartTotal = response.cart_total;
+                        $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
 
                     } else if (response.status === 'error') {
                         inputField.val(response.qty);
@@ -185,6 +187,10 @@
                                 .find(".produt_cart_total")
                                 .text("{{ currencyPosition(':productTotal') }}"
                                     .replace(":productTotal", productTotal));
+
+                            cartTotal = response.cart_total;
+                            $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
+
                         } else if (response.error === 'error') {
                             inputField.val(response.qty);
                             toastr.error(response.message);
@@ -238,6 +244,8 @@
                     },
                     success: function(response) {
                         updateSidebarCart();
+                        cartTotal = response.cart_total;
+                        $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
                     },
                     error: function(xhr, status, error) {
                         let errorMessage = xhr.responseJSON.message;
@@ -253,7 +261,7 @@
             $('#coupon_form').on('submit', function(e){
                 e.preventDefault();
                 let code = $("#coupon_code").val();
-                let subtotal = getCartTotal();
+                let subtotal = cartTotal;
 
                 couponApply(code, subtotal);
             })

@@ -174,6 +174,8 @@
                         cartTotal = response.cart_total;
                         $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
 
+                        $("#final_total").text("{{ config('settings.site_currency_icon') }}" + response.grand_cart_total)
+
                     } else if (response.status === 'error') {
                         inputField.val(response.qty);
                         toastr.error(response.message);
@@ -202,6 +204,7 @@
 
                             cartTotal = response.cart_total;
                             $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
+                            $("#final_total").text("{{ config('settings.site_currency_icon') }}" + response.grand_cart_total)
 
                         } else if (response.error === 'error') {
                             inputField.val(response.qty);
@@ -258,6 +261,8 @@
                         updateSidebarCart();
                         cartTotal = response.cart_total;
                         $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
+                        $("#final_total").text("{{ config('settings.site_currency_icon') }}" + response.grand_cart_total)
+
                     },
                     error: function(xhr, status, error) {
                         let errorMessage = xhr.responseJSON.message;

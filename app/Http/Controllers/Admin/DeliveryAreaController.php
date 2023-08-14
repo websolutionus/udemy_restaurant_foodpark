@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\DeliveryAreaDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class DeliveryAreaController extends Controller
 {
@@ -19,9 +20,9 @@ class DeliveryAreaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('admin.delivery-area.create');
     }
 
     /**

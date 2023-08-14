@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('delivery_areas', function (Blueprint $table) {
             $table->id();
+            $table->string('area_name');
+            $table->string('min_delivery_time');
+            $table->string('max_delivery_time');
+            $table->double('delivery_fee');
+            $table->boolean('status');
             $table->timestamps();
         });
     }

@@ -46,27 +46,31 @@ class DeliveryAreaController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        //
+        $area = DeliveryArea::findOrFail($id);
+        return view('admin.delivery-area.edit', compact('area'));
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(DeliveryAreaCreateRequest $request, string $id)
     {
-        //
+        $area = DeliveryArea::findOrFail($id);
+        $area->area_name = $request->area_name;
+        $area->min_delivery_time = $request->min_delivery_time;
+        $area->max_delivery_time = $request->max_delivery_time;
+        $area->delivery_fee = $request->delivery_fee;
+        $area->status = $request->status;
+        $area->save();
+
+        toastr()->success('Updated Successfully!');
+
+        return to_route('admin.delivery-area.index');
     }
 
     /**
@@ -74,6 +78,12 @@ class DeliveryAreaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            DeliveryArea::findOrFail($id)->delete();
+
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        }catch(\Exception $e) {
+            return response(['status' => 'error', 'message' => 'something went wrong!']);
+        }
     }
 }

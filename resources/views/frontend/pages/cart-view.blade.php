@@ -152,7 +152,7 @@
                         @endif
                        </div>
 
-                        <a class="common_btn" href=" #">checkout</a>
+                        <a class="common_btn" href="{{ route('checkout.index') }}">checkout</a>
                     </div>
                 </div>
             </div>

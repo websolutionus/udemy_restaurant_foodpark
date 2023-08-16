@@ -120,7 +120,7 @@
 
                         <div class="col-md-12 col-lg-12 col-xl-12">
                             <div class="fp__check_single_form">
-                                <select id="select_js4" name="area">
+                                <select class="nice-select" name="area">
                                     <option value="">Slelect Area</option>
                                     @foreach ($deliveryAreas as $area)
                                         <option @selected($address->delivery_area_id === $area->id) value="{{ $area->id }}">{{ $area->area_name }}</option>

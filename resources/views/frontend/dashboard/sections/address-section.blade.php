@@ -1,9 +1,9 @@
 <div class="tab-pane fade" id="v-pills-address" role="tabpanel" aria-labelledby="v-pills-address-tab">
-    <div class="fp_dashboard_body address_body ">
+    <div class="fp_dashboard_body address_body">
         <h3>address <a class="dash_add_new_address"><i class="far fa-plus"></i> add new
             </a>
         </h3>
-        <div class="fp_dashboard_address">
+        <div class="fp_dashboard_address show_edit_address">
             <div class="fp_dashboard_existing_address">
                 <div class="row">
                     @foreach ($userAddresses as $address)
@@ -25,7 +25,7 @@
                                     </label>
                                 </div>
                                 <ul>
-                                    <li><a class="dash_edit_btn"><i class="far fa-edit"></i></a></li>
+                                    <li><a class="dash_edit_btn show_edit_section" data-class="edit_section_{{ $address->id }}"><i class="far fa-edit"></i></a></li>
                                     <li><a class="dash_del_icon"><i class="fas fa-trash-alt"></i></a>
                                     </li>
                                 </ul>
@@ -108,7 +108,8 @@
                     </div>
                 </form>
             </div>
-            <div class="fp_dashboard_edit_address ">
+            @foreach ($userAddresses as $address)
+            <div class="fp_dashboard_edit_address edit_section_{{ $address->id }}" >
                 <form action="" method="Post">
                     @csrf
                     @method('PUT')
@@ -182,6 +183,20 @@
                     </div>
                 </form>
             </div>
+            @endforeach
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $('.show_edit_section').on('click', function(){
+                let className = $(this).data('class');
+                $('.fp_dashboard_edit_address').removeClass('d-block')
+                $('.fp_dashboard_existing_address').addClass('d-none');
+                $('.'+className).addClass('d-block');
+            })
+        })
+    </script>
+@endpush

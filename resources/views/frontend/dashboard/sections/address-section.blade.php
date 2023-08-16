@@ -26,7 +26,7 @@
                                 </div>
                                 <ul>
                                     <li><a class="dash_edit_btn show_edit_section" data-class="edit_section_{{ $address->id }}"><i class="far fa-edit"></i></a></li>
-                                    <li><a class="dash_del_icon"><i class="fas fa-trash-alt"></i></a>
+                                    <li><a href="{{ route('address.destroy', $address->id) }}" class="dash_del_icon delete-item" ><i class="fas fa-trash-alt"></i></a>
                                     </li>
                                 </ul>
                             </div>

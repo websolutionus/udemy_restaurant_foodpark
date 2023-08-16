@@ -110,7 +110,7 @@
             </div>
             @foreach ($userAddresses as $address)
             <div class="fp_dashboard_edit_address edit_section_{{ $address->id }}" >
-                <form action="" method="Post">
+                <form action="{{ route('address.update', $address->id) }}" method="Post">
                     @csrf
                     @method('PUT')
                     <div class="row">

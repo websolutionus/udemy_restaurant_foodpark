@@ -4,14 +4,14 @@
     <!--=============================
         BREADCRUMB START
     ==============================-->
-    <section class="fp__breadcrumb" style="background: url(images/counter_bg.jpg);">
+    <section class="fp__breadcrumb" style="background: url({{ asset('frontend/images/counter_bg.jpg') }});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
                     <h1>checkout</h1>
                     <ul>
-                        <li><a href="index.html">home</a></li>
-                        <li><a href="#">checkout</a></li>
+                        <li><a href="{{ url('/') }}">home</a></li>
+                        <li><a href="javascript:;">checkout</a></li>
                     </ul>
                 </div>
             </div>
@@ -47,84 +47,74 @@
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form>
+                                                <form action="{{ route('address.store') }}" method="POST">
+                                                    @csrf
                                                     <div class="row">
-                                                        <div class="col-md-6 col-lg-12 col-xl-6">
-                                                            <div class="fp__check_single_form">
-                                                                <input type="text" placeholder="First Name">
-                                                            </div>
+                                                        <div class="col-12">
+                                                            <h4>add new address</h4>
                                                         </div>
-                                                        <div class="col-md-6 col-lg-12 col-xl-6">
-                                                            <div class="fp__check_single_form">
-                                                                <input type="text" placeholder="Last Name">
-                                                            </div>
-                                                        </div>
+
                                                         <div class="col-md-12 col-lg-12 col-xl-12">
                                                             <div class="fp__check_single_form">
-                                                                <input type="text"
-                                                                    placeholder="Company Name (Optional)">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-lg-12 col-xl-6">
-                                                            <div class="fp__check_single_form">
-                                                                <select id="select_js4">
-                                                                    <option value="">select country</option>
-                                                                    <option value="">bangladesh</option>
-                                                                    <option value="">nepal</option>
-                                                                    <option value="">japan</option>
-                                                                    <option value="">korea</option>
-                                                                    <option value="">thailand</option>
+                                                                <select id="select_js3" name="area">
+                                                                    <option value="">Slelect Area</option>
+                                                                    @foreach ($deliveryAreas as $area)
+                                                                        <option value="{{ $area->id }}">{{ $area->area_name }}</option>
+                                                                    @endforeach
+
                                                                 </select>
                                                             </div>
                                                         </div>
+
                                                         <div class="col-md-6 col-lg-12 col-xl-6">
                                                             <div class="fp__check_single_form">
-                                                                <input type="text" placeholder="Street Address *">
+                                                                <input type="text" placeholder="First Name" name="first_name">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 col-lg-12 col-xl-6">
                                                             <div class="fp__check_single_form">
-                                                                <input type="text"
-                                                                    placeholder="Apartment, suite, unit, etc. (optional)">
+                                                                <input type="text" placeholder="Last Name" name="last_name">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6 col-lg-12 col-xl-6">
+                                                            <div class="fp__check_single_form">
+                                                                <input type="text" placeholder="Phone" name="phone">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 col-lg-12 col-xl-6">
                                                             <div class="fp__check_single_form">
-                                                                <input type="text" placeholder="Town / City *">
+                                                                <input type="text" placeholder="Email" name="email">
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 col-lg-12 col-xl-6">
-                                                            <div class="fp__check_single_form">
-                                                                <input type="text" placeholder="State *">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-lg-12 col-xl-6">
-                                                            <div class="fp__check_single_form">
-                                                                <input type="text" placeholder="Zip *">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-lg-12 col-xl-6">
-                                                            <div class="fp__check_single_form">
-                                                                <input type="text" placeholder="Phone *">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-lg-12 col-xl-6">
-                                                            <div class="fp__check_single_form">
-                                                                <input type="email" placeholder="Email *">
-                                                            </div>
-                                                        </div>
+
                                                         <div class="col-md-12 col-lg-12 col-xl-12">
                                                             <div class="fp__check_single_form">
-                                                                <h5>Additional Information</h5>
-                                                                <textarea cols="3" rows="4"
-                                                                    placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
+                                                                <textarea cols="3" rows="4" placeholder="Address" name="address"></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
-                                                            <div class="fp__check_single_form m-0">
-                                                                <button type="submit" class="common_btn">add
-                                                                    address</button>
+                                                            <div class="fp__check_single_form check_area">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="type" id="flexRadioDefault1"
+                                                                        value="home">
+                                                                    <label class="form-check-label" for="flexRadioDefault1">
+                                                                        home
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="type" id="flexRadioDefault2"
+                                                                        value="office">
+                                                                    <label class="form-check-label" for="flexRadioDefault2">
+                                                                        office
+                                                                    </label>
+                                                                </div>
                                                             </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <button type="button" class="common_btn cancel_new_address">cancel</button>
+                                                            <button type="submit" class="common_btn">save
+                                                                address</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -135,138 +125,26 @@
                             </div>
 
                             <div class="row">
+                                @foreach ($addresses as $address)
                                 <div class="col-md-6">
                                     <div class="fp__checkout_single_address">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="flexRadioDefault"
                                                 id="home">
                                             <label class="form-check-label" for="home">
+                                                @if ($address->type === 'home')
                                                 <span class="icon"><i class="fas fa-home"></i> home</span>
-                                                <span class="address">house# 22, road# 10, block# G, Basundhara
-                                                    Residential Area.</span>
+                                                @else
+                                                <span class="icon"><i class="fas fa-home"></i> office</span>
+
+                                                @endif
+                                                <span class="address">{{ $address->address }}, {{ $address->deliveryArea?->area_name }}</span>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="fp__checkout_single_address">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                id="office">
-                                            <label class="form-check-label" for="office">
-                                                <span class="icon"><i class="far fa-car-building"></i> office</span>
-                                                <span class="address">house# 22, road# 10, block# G, Basundhara
-                                                    Residential Area.</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="fp__checkout_single_address">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                id="office2">
-                                            <label class="form-check-label" for="office2">
-                                                <span class="icon"><i class="far fa-car-building"></i> office
-                                                    2</span>
-                                                <span class="address">house# 22, road# 10, block# G, Basundhara
-                                                    Residential Area.</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="fp__checkout_single_address">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                id="home2">
-                                            <label class="form-check-label" for="home2">
-                                                <span class="icon"><i class="fas fa-home"></i> home 2</span>
-                                                <span class="address">house# 22, road# 10, block# G, Basundhara
-                                                    Residential Area.</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
-
-                            <form>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <h5>billing address</h5>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="First Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="Last Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 col-lg-12 col-xl-12">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="Company Name (Optional)">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <select id="select_js3">
-                                                <option value="">select country</option>
-                                                <option value="">bangladesh</option>
-                                                <option value="">nepal</option>
-                                                <option value="">japan</option>
-                                                <option value="">korea</option>
-                                                <option value="">thailand</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="Street Address *">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="Apartment, suite, unit, etc. (optional)">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="Town / City *">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="State *">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="Zip *">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="Phone *">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="email" placeholder="Email *">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 col-lg-12 col-xl-12">
-                                        <div class="fp__check_single_form">
-                                            <h5>Additional Information</h5>
-                                            <textarea cols="3" rows="4"
-                                                placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-
                         </div>
                     </div>
                 </div>

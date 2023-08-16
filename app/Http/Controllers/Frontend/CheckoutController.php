@@ -12,6 +12,7 @@ class CheckoutController extends Controller
     function index(){
         $addresses = Address::where(['user_id' => auth()->user()->id])->get();
         $deliveryAreas = DeliveryArea::where('status', 1)->get();
+
         return view('frontend.pages.checkout', compact('addresses', 'deliveryAreas'));
     }
 }

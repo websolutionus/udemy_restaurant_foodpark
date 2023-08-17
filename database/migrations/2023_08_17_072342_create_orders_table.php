@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamp('payment_approve_date')->nullable();
             $table->string('transaction_id')->nullable();
             $table->json('coupon_info')->nullable();
-            $table->string('currency_name');
+            $table->string('currency_name')->nullable();
             $table->string('order_status')->default('pending');
 
             $table->timestamps();

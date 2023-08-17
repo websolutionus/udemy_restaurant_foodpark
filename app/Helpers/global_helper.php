@@ -98,3 +98,16 @@ if(!function_exists('grandCartTotal')){
     }
 }
 
+/** Generate Invoice Id */
+if(!function_exists('generateInvoiceId')){
+    function generateInvoiceId()
+    {
+        $randomNumber = rand(1, 9999);
+        $currentDateTime = now();
+
+        $invoiceId = $randomNumber.$currentDateTime->format('yd').$currentDateTime->format('s');
+
+        return $invoiceId;
+    }
+}
+

@@ -8,16 +8,16 @@
                 <div class="form-group">
                     <label for="">Paypal Status</label>
                     <select name="paypal_status" id="" class="select2 form-control">
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
+                        <option @selected($paymentGateway['paypal_status'] === 1) value="1">Active</option>
+                        <option @selected($paymentGateway['paypal_status'] === 0) value="0">Inactive</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="">Paypal Account Mode</label>
                     <select name="paypal_account_mode" id="" class="select2 form-control">
-                        <option value="sandbox">Sandbox</option>
-                        <option value="live">Live</option>
+                        <option @selected($paymentGateway['paypal_account_mode'] === 'sandbox') value="sandbox">Sandbox</option>
+                        <option @selected($paymentGateway['paypal_account_mode'] === 'live') value="live">Live</option>
                     </select>
                 </div>
 
@@ -26,7 +26,7 @@
                     <select name="paypal_country" id="" class="select2 form-control">
                         <option value="">Select</option>
                         @foreach (config('country_list') as $key => $country)
-                            <option value="{{ $key }}">{{ $country }}</option>
+                            <option @selected($paymentGateway['paypal_country'] === $key) value="{{ $key }}">{{ $country }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -36,24 +36,24 @@
                     <select name="paypal_currency" id="" class="select2 form-control">
                         <option value="">Select</option>
                         @foreach (config('currencys.currency_list') as $currency)
-                        <option @selected(config('settings.site_default_currency') === $currency) value="{{ $currency }}">{{ $currency }}</option>
+                        <option @selected($paymentGateway['paypal_currency'] === $currency) value="{{ $currency }}">{{ $currency }}</option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="">Currency Rate ( Per {{ config('settings.site_default_currency') }} )</label>
-                    <input name="paypal_rate" type="text" class="form-control" value="">
+                    <input name="paypal_rate" type="text" class="form-control" value="{{ $paymentGateway['paypal_rate'] }}">
                 </div>
 
                 <div class="form-group">
                     <label for="">Paypal Client Id</label>
-                    <input name="paypal_api_key" type="text" class="form-control" value="">
+                    <input name="paypal_api_key" type="text" class="form-control" value="{{ $paymentGateway['paypal_api_key'] }}">
                 </div>
 
                 <div class="form-group">
                     <label for="">Paypal Secret Key</label>
-                    <input name="paypal_secret_key" type="text" class="form-control" value="">
+                    <input name="paypal_secret_key" type="text" class="form-control" value="{{ $paymentGateway['paypal_secret_key'] }}">
                 </div>
 
                 <div class="form-group">
@@ -69,3 +69,14 @@
         </div>
     </div>
 </div>
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $('.image-preview').css({
+                'background-image': 'url({{ $paymentGateway["paypal_logo"] }})',
+                'background-size': 'cover',
+                'background-position': 'center center'
+            })
+        })
+    </script>
+@endpush

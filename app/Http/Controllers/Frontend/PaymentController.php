@@ -7,6 +7,7 @@ use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PaymentController extends Controller
 {
@@ -76,8 +77,34 @@ class PaymentController extends Controller
         return $config;
     }
 
-    function payWhitPaypal()
+    function payWithPaypal()
     {
+        $config = $this->setPaypalConfig();
+        $provider = new PayPalClient($config);
+        $provider->getAccessToken();
+
+        /** calculate payable amount */
+
+        $grandTotal = session()->get('grand_total');
+        $payableAmount = round($grandTotal * config('gatewaySettings.paypal_rate'));
+
+        $response = $provider->createOrder([
+            'intent' => "CAPTURE",
+            'application_context' => [
+                'return_url' => route('paypal.success'),
+                'cancel_url' => route('paypal.cancel')
+            ],
+            'purchase_units' => [
+                [
+                    'amount' => [
+                        'currency_code' => config('gatewaySettings.paypal_currency'),
+                        'value' => $payableAmount
+                    ]
+                ]
+            ]
+        ]);
+
+        dd($response);
     }
 
     function paypalSuccess()

@@ -84,7 +84,6 @@ class PaymentController extends Controller
         $provider->getAccessToken();
 
         /** calculate payable amount */
-
         $grandTotal = session()->get('grand_total');
         $payableAmount = round($grandTotal * config('gatewaySettings.paypal_rate'));
 
@@ -104,11 +103,20 @@ class PaymentController extends Controller
             ]
         ]);
 
-        dd($response);
+        if(isset($response['id']) && $response['id'] != NULL){
+            foreach($response['links'] as $link){
+                if($link['rel'] === 'approve'){
+                    return redirect()->away($link['href']);
+                }
+            }
+        }else {
+
+        }
     }
 
     function paypalSuccess()
     {
+        
     }
 
     function paypalCancel()

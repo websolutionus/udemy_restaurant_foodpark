@@ -25,6 +25,7 @@ class OrderService {
             $order->coupon_info = json_encode(session()->get('coupon'));
             $order->currency_name = NULL;
             $order->order_status = 'pending';
+            $order->delivery_area_id = session()->get('delivery_area_id');
             $order->save();
 
             foreach(\Cart::content() as $product) {
@@ -41,7 +42,7 @@ class OrderService {
 
             /** Putting the Order id in session */
             session()->put('order_id', $order->id);
-            
+
             /** Putting the grand total amount in session */
             session()->put('grand_total', $order->grand_total);
 

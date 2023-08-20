@@ -152,6 +152,8 @@ namespace App\Models{
  * @property string $order_status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $delivery_area_id
+ * @property-read \App\Models\DeliveryArea $deliveryArea
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
@@ -160,6 +162,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereCouponInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereCurrencyName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereDeliveryAreaId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereDeliveryCharge($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereDiscount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereGrandTotal($value)

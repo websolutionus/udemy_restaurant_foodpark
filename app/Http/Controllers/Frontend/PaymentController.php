@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Events\OrderPaymentUpdateEvent;
+use App\Events\OrderPlacedNotificationEvent;
 use App\Http\Controllers\Controller;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
@@ -125,7 +126,7 @@ class PaymentController extends Controller
 
 
         if(isset($response['status']) && $response['status'] === 'COMPLETED'){
-            
+
             $orderId = session()->get('order_id');
 
             $capture = $response['purchase_units'][0]['payments']['captures'][0];
@@ -136,7 +137,8 @@ class PaymentController extends Controller
             ];
 
             OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'PayPal');
-
+            OrderPlacedNotificationEvent::dispatch($orderId);
+            
             dd('success');
 
         }

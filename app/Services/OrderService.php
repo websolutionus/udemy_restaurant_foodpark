@@ -13,7 +13,7 @@ class OrderService {
             $order->invoice_id = generateInvoiceId();
             $order->user_id = auth()->user()->id;
             $order->address = session()->get('address');
-            $order->discount = session()->get('coupon')['discount'];
+            $order->discount = session()->get('coupon')['discount'] ?? 0;
             $order->delivery_charge = session()->get('delivery_fee');
             $order->subtotal = cartTotal();
             $order->grand_total = grandCartTotal(session()->get('delivery_fee'));

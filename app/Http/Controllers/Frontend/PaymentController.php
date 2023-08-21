@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Stripe\Stripe;
+use Stripe\Checkout\Session as StripeSession;
+
 
 class PaymentController extends Controller
 {
@@ -42,7 +45,7 @@ class PaymentController extends Controller
     function makePayment(Request $request, OrderService $orderService)
     {
         $request->validate([
-            'payment_gateway' => ['required', 'string', 'in:paypal']
+            'payment_gateway' => ['required', 'string', 'in:paypal,stripe']
         ]);
 
         /** Create Order */
@@ -53,6 +56,10 @@ class PaymentController extends Controller
                     return response(['redirect_url' => route('paypal.payment')]);
                     break;
 
+                case 'stripe':
+                    return response(['redirect_url' => route('stripe.payment')]);
+                    break;
+
                 default:
                     break;
             }
@@ -61,7 +68,6 @@ class PaymentController extends Controller
 
 
     /** Paypal Payment  */
-
     function setPaypalConfig(): array
     {
         $config = [
@@ -160,4 +166,16 @@ class PaymentController extends Controller
     {
         return redirect()->route('payment.cancel');
     }
+
+    /** Stripe Payment */
+
+    function payWithStripe() {
+        Stripe::getApiKey(config('gatewaySettings.stripe_secret_key'));
+
+        $response = StripeSession::create([
+            
+        ]);
+    }
+
+
 }

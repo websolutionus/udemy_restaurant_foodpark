@@ -124,7 +124,7 @@ class PaymentController extends Controller
         }
     }
 
-    function paypalSuccess(Request $request)
+    function paypalSuccess(Request $request, OrderService $orderService)
     {
         $config = $this->setPaypalConfig();
         $provider = new PayPalClient($config);
@@ -146,6 +146,9 @@ class PaymentController extends Controller
 
             OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'PayPal');
             OrderPlacedNotificationEvent::dispatch($orderId);
+
+            /** Clear session data */
+            $orderService->clearSession();
 
             return redirect()->route('payment.success');
         }else {

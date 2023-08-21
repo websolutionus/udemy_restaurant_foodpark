@@ -85,7 +85,7 @@
                         });
                     },
                     complete: function() {
-                        hideLoader();
+                        // hideLoader();
                     }
                 })
             });

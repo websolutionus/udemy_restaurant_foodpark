@@ -197,5 +197,13 @@ class PaymentController extends Controller
         return redirect()->away($response->url);
     }
 
+    function stripeSuccess() {
+        return 'success';
+    }
+
+    function cancelSuccess() {
+        return 'cancel';
+    }
+
 
 }

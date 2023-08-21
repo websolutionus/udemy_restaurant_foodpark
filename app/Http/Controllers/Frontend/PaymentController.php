@@ -74,7 +74,7 @@ class PaymentController extends Controller
             'live' => [
                 'client_id'         => config('gatewaySettings.paypal_api_key'),
                 'client_secret'     => config('gatewaySettings.paypal_secret_key'),
-                'app_id'            => env('PAYPAL_LIVE_APP_ID', ''),
+                'app_id'            => config('gatewaySettings.paypal_app_id'),
             ],
 
             'payment_action' => 'Sale', // Can only be 'Sale', 'Authorization' or 'Order'

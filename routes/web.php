@@ -86,7 +86,8 @@ Route::group(['middleware' => 'auth'], function(){
 
     /** Stripe Routes */
     Route::get('stripe/payment', [PaymentController::class, 'payWithStripe'])->name('stripe.payment');
-
+    Route::get('stripe/success', [PaymentController::class, 'stripeSuccess'])->name('stripe.success');
+    Route::get('stripe/cancel', [PaymentController::class, 'stripeCancel'])->name('stripe.cancel');
 
 
 

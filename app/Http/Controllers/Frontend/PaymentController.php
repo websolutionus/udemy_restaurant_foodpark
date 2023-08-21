@@ -170,11 +170,31 @@ class PaymentController extends Controller
     /** Stripe Payment */
 
     function payWithStripe() {
-        Stripe::getApiKey(config('gatewaySettings.stripe_secret_key'));
+        Stripe::setApiKey(config('gatewaySettings.stripe_secret_key'));
+
+        /** calculate payable amount */
+        $grandTotal = session()->get('grand_total');
+        $payableAmount = round($grandTotal * config('gatewaySettings.stripe_rate')) * 100;
 
         $response = StripeSession::create([
-            
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => config('gatewaySettings.stripe_currency'),
+                        'product_data' => [
+                            'name' => 'Product'
+                        ],
+                        'unit_amount' => $payableAmount
+                    ],
+                    'quantity' => 1
+                ]
+            ],
+            'mode' => 'payment',
+            'success_url' => route('stripe.success'),
+            'cancel_url' => route('stripe.cancel')
         ]);
+
+        return redirect()->away($response->url);
     }
 
 

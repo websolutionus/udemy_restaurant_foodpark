@@ -190,15 +190,20 @@ class PaymentController extends Controller
                 ]
             ],
             'mode' => 'payment',
-            'success_url' => route('stripe.success'),
+            'success_url' => route('stripe.success') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('stripe.cancel')
         ]);
 
         return redirect()->away($response->url);
     }
 
-    function stripeSuccess() {
-        return 'success';
+    function stripeSuccess(Request $request) {
+        $sessionId = $request->session_id;
+        Stripe::setApiKey(config('gatewaySettings.stripe_secret_key'));
+
+        $response = StripeSession::retrieve($sessionId);
+
+        dd($response);
     }
 
     function cancelSuccess() {

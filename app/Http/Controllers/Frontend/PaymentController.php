@@ -241,7 +241,7 @@ class PaymentController extends Controller
         return view('frontend.pages.razorpay-redirect');
     }
 
-    function payWithRazorpay(Request $request) {
+    function payWithRazorpay(Request $request, OrderService $orderService) {
         $api = new RazorpayApi(
             config('gatewaySettings.razorpay_api_key'),
             config('gatewaySettings.razorpay_secret_key'),
@@ -257,11 +257,29 @@ class PaymentController extends Controller
                     ->capture(['amount' => $payableAmount]);
             }catch(\Exception $e) {
                 logger($e);
-                return redirect()->route('payment.cancel');
+                $this->transactionFailUpdateStatus('Razorpay');
+                return redirect()->route('payment.cancel')->withErrors($e->getMessage());
             }
 
             if($response['status'] === 'captured'){
 
+                $orderId = session()->get('order_id');
+                $paymentInfo = [
+                    'transaction_id' => $response->id,
+                    'currency' => config('settings.site_default_currency'),
+                    'status' => 'COMPLETED'
+                ];
+
+                OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'Razorpay');
+                OrderPlacedNotificationEvent::dispatch($orderId);
+
+                /** Clear session data */
+                $orderService->clearSession();
+
+                return redirect()->route('payment.success');
+            }else {
+                $this->transactionFailUpdateStatus('Razorpay');
+                return redirect()->route('payment.cancel')->withErrors($e->getMessage());
             }
         }
     }

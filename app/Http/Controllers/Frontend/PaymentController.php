@@ -12,6 +12,7 @@ use Illuminate\View\View;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Stripe\Stripe;
 use Stripe\Checkout\Session as StripeSession;
+use Razorpay\Api\Api as RazorpayApi ;
 
 
 class PaymentController extends Controller
@@ -241,7 +242,28 @@ class PaymentController extends Controller
     }
 
     function payWithRazorpay(Request $request) {
-        dd($request->all());
+        $api = new RazorpayApi(
+            config('gatewaySettings.razorpay_api_key'),
+            config('gatewaySettings.razorpay_secret_key'),
+        );
+
+        if($request->has('razorpay_payment_id') && $request->filled('razorpay_payment_id')){
+            $grandTotal = session()->get('grand_total');
+            $payableAmount = ($grandTotal * config('gatewaySettings.razorpay_rate')) * 100;
+
+            try{
+                $response = $api->payment
+                    ->fetch($request->razorpay_payment_id)
+                    ->capture(['amount' => $payableAmount]);
+            }catch(\Exception $e) {
+                logger($e);
+                return redirect()->route('payment.cancel');
+            }
+
+            if($response['status'] === 'captured'){
+
+            }
+        }
     }
 
 

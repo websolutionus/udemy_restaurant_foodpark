@@ -12,13 +12,16 @@
     </style>
 </head>
 <body>
-
+    @php
+        $grandTotal = session()->get('grand_total');
+        $payableAmount = ($grandTotal * config('gatewaySettings.razorpay_rate')) * 100
+    @endphp
     <form action="{{ route('razorpay.payment') }}" method="POST" >
         @csrf
         <script src="https://checkout.razorpay.com/v1/checkout.js"
             data-key="{{ config('gatewaySettings.razorpay_api_key') }}"
             data-currency="{{ config('gatewaySettings.razorpay_currency') }}"
-            data-amount="10000"
+            data-amount="{{ $payableAmount }}"
             data-buttontext="Pay"
             data-name="Payment"
             data-descritpion="Payment for product"

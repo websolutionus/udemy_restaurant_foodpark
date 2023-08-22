@@ -1,7 +1,7 @@
 <div class="tab-pane fade show" id="razorpay-setting" role="tabpanel" aria-labelledby="home-tab4">
     <div class="card">
         <div class="card-body border">
-            <form action="{{ route('admin.stripe-setting.update') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.razorpay-setting.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 

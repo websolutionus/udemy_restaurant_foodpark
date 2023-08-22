@@ -46,6 +46,26 @@
                                 </a>
                             </div>
 
+                            <div class="col-lg-3 col-6 col-sm-4 col-md-3 wow fadeInUp" data-wow-duration="1s">
+                                <a class="fp__single_payment payment-card" data-name="stripe" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                    href="#">
+                                    <img src="{{ asset(config('gatewaySettings.razorpay_logo')) }}" alt="payment method" class="img-fluid w-100">
+                                </a>
+
+                                <form action="">
+                                    <script src="https://checkout.razorpay.com/v1/checkout.js"
+                                        data-key="{{ config('gatewaySettings.razorpay_api_key') }}"
+                                        data-amount="10000"
+                                        data-buttontext="Pay"
+                                        data-name="Payment"
+                                        data-descritpion="Payment for product"
+                                        data-prefill.name="Jhon"
+                                        data-prefill.email="test@gmail.com"
+                                        data-theme.color="#ff7529"
+                                    ></script>
+                                </form>
+                            </div>
+
                         </div>
                     </div>
                 </div>

@@ -52,9 +52,11 @@
                                     <img src="{{ asset(config('gatewaySettings.razorpay_logo')) }}" alt="payment method" class="img-fluid w-100">
                                 </a>
 
-                                <form action="">
+                                <form action="{{ route('razorpay.payment') }}" method="POST">
+                                    @csrf
                                     <script src="https://checkout.razorpay.com/v1/checkout.js"
                                         data-key="{{ config('gatewaySettings.razorpay_api_key') }}"
+                                        data-currency="{{ config('gatewaySettings.razorpay_currency') }}"
                                         data-amount="10000"
                                         data-buttontext="Pay"
                                         data-name="Payment"

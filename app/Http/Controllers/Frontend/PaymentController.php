@@ -227,9 +227,13 @@ class PaymentController extends Controller
         }
     }
 
-    function cancelSuccess() {
+    function stripeCancel() {
         $this->transactionFailUpdateStatus('Stripe');
         return redirect()->route('payment.cancel');
+    }
+
+    function payWithRazorpay(Request $request) {
+        dd($request->all());
     }
 
 

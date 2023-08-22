@@ -45,7 +45,7 @@ class PaymentController extends Controller
     function makePayment(Request $request, OrderService $orderService)
     {
         $request->validate([
-            'payment_gateway' => ['required', 'string', 'in:paypal,stripe']
+            'payment_gateway' => ['required', 'string', 'in:paypal,stripe,razorpay']
         ]);
 
         /** Create Order */
@@ -58,6 +58,10 @@ class PaymentController extends Controller
 
                 case 'stripe':
                     return response(['redirect_url' => route('stripe.payment')]);
+                    break;
+
+                case 'razorpay':
+                    return response(['redirect_url' => route('razorpay-redirect')]);
                     break;
 
                 default:
@@ -230,6 +234,10 @@ class PaymentController extends Controller
     function stripeCancel() {
         $this->transactionFailUpdateStatus('Stripe');
         return redirect()->route('payment.cancel');
+    }
+
+    function razorpayRedirect() {
+        return view('frontend.pages.razorpay-redirect');
     }
 
     function payWithRazorpay(Request $request) {

@@ -37,9 +37,30 @@ class OrderDataTable extends DataTable
                     return '<span class="badge badge-warning">'.$query->order_status.'</span>';
                 }
             })
-            ->rawColumns(['order_status'])
+            ->addColumn('payment_status', function($query){
+                if(strtoupper($query->payment_status) == 'COMPLETED'){
+                    return '<span class="badge badge-success">COMPLETED</span>';
+                }elseif(strtoupper($query->payment_status) === 'pending'){
+                    return '<span class="badge badge-warning">Pending</span>';
+                }else {
+                    return '<span class="badge badge-danger">'.$query->payment_status.'</span>';
+                }
+            })
+            ->addColumn('date', function($query){
+                return date('d-m-Y', strtotime($query->created_at));
+            })
 
-            ->addColumn('action', 'order.action')
+            ->addColumn('action', function($query){
+                $view = "<a href='".route('admin.slider.edit', $query->id)."' class='btn btn-primary'><i class='fas fa-eye'></i></a>";
+                $status = "<a href='".route('admin.slider.edit', $query->id)."' class='btn btn-warning ml-2'><i class='fas fa-truck-loading'></i></a>";
+
+                $delete = "<a href='".route('admin.slider.destroy', $query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
+
+
+                return $view.$status.$delete;
+            })
+            ->rawColumns(['order_status', 'payment_status', 'action'])
+
             ->setRowId('id');
     }
 
@@ -87,11 +108,11 @@ class OrderDataTable extends DataTable
             Column::make('grand_total'),
             Column::make('order_status'),
             Column::make('payment_status'),
-            Column::make('created_at'),
+            Column::make('date'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  ->width(150)
                   ->addClass('text-center'),
         ];
     }

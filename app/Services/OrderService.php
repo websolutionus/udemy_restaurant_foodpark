@@ -25,7 +25,7 @@ class OrderService {
             $order->coupon_info = json_encode(session()->get('coupon'));
             $order->currency_name = NULL;
             $order->order_status = 'pending';
-            $order->delivery_area_id = session()->get('delivery_area_id');
+            $order->address_id = session()->get('address_id');
             $order->save();
 
             foreach(\Cart::content() as $product) {

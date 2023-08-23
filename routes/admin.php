@@ -58,6 +58,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
     /** Order Routes */
     Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+
 
 
     /** Payment Gateway Setting Routes */

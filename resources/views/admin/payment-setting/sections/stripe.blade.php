@@ -8,18 +8,10 @@
                 <div class="form-group">
                     <label for="">Stripe Status</label>
                     <select name="stripe_status" id="" class="select3 form-control">
-                        <option @selected(@$paymentGateway['stripe_status'] === 1) value="1">Active</option>
-                        <option @selected(@$paymentGateway['stripe_status'] === 0) value="0">Inactive</option>
+                        <option @selected(@$paymentGateway['stripe_status'] == 1) value="1">Active</option>
+                        <option @selected(@$paymentGateway['stripe_status'] == 0) value="0">Inactive</option>
                     </select>
                 </div>
-
-                {{-- <div class="form-group">
-                    <label for="">Stripe Account Mode</label>
-                    <select name="paypal_account_mode" id="" class="select2 form-control">
-                        <option @selected(@$paymentGateway['paypal_account_mode'] === 'sandbox') value="sandbox">Sandbox</option>
-                        <option @selected(@$paymentGateway['paypal_account_mode'] === 'live') value="live">Live</option>
-                    </select>
-                </div> --}}
 
                 <div class="form-group">
                     <label for="">Stripe Country Name</label>

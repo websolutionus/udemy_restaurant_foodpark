@@ -8,8 +8,8 @@
                 <div class="form-group">
                     <label for="">Razorpay Status</label>
                     <select name="razorpay_status" id="" class="select3 form-control">
-                        <option @selected(@$paymentGateway['razorpay_status'] === 1) value="1">Active</option>
-                        <option @selected(@$paymentGateway['razorpay_status'] === 0) value="0">Inactive</option>
+                        <option @selected(@$paymentGateway['razorpay_status'] == 1) value="1">Active</option>
+                        <option @selected(@$paymentGateway['razorpay_status'] == 0) value="0">Inactive</option>
                     </select>
                 </div>
 

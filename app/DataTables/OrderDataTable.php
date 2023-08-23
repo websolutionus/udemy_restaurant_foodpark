@@ -40,8 +40,8 @@ class OrderDataTable extends DataTable
             ->addColumn('payment_status', function($query){
                 if(strtoupper($query->payment_status) == 'COMPLETED'){
                     return '<span class="badge badge-success">COMPLETED</span>';
-                }elseif(strtoupper($query->payment_status) === 'pending'){
-                    return '<span class="badge badge-warning">Pending</span>';
+                }elseif(strtoupper($query->payment_status) == 'PENDING'){
+                    return '<span class="badge badge-warning">PENDING</span>';
                 }else {
                     return '<span class="badge badge-danger">'.$query->payment_status.'</span>';
                 }

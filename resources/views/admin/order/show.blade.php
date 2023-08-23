@@ -24,15 +24,21 @@
                             <div class="col-md-6">
                                 <address>
                                     <strong>Deliver To:</strong><br>
-                                    <strong>Name:</strong> {!! @$order->user->name !!}
-                                    <strong>Phone:</strong> {!! @$order->user->name !!}
+                                    <strong>Name:</strong> {!! @$order->userAddress->first_name !!} {!! @$order->userAddress->last_name !!}
+                                    <br>
+                                    <strong>Phone:</strong> {!! @$order->userAddress->phone !!}
+                                    <br>
+                                    <strong>Address:</strong> {!! @$order->userAddress->address !!}
+                                    <br>
+                                    <strong>Aria:</strong> {!! @$order->userAddress->deliveryArea->area_name !!}
 
-                                    <strong>Address:</strong> {!! $order->address !!}
                                 </address>
                             </div>
                             <div class="col-md-6 text-md-right">
                                 <address>
-
+                                    <strong>Order Date:</strong><br>
+                                    {{ date('F d, Y / H:i', strtotime($order->created_at)) }}
+                                    <br><br>
                                 </address>
                             </div>
                         </div>
@@ -40,14 +46,28 @@
                             <div class="col-md-6">
                                 <address>
                                     <strong>Payment Method:</strong><br>
-                                    Visa ending **** 4242<br>
-                                    ujang@maman.com
+                                    {{ $order->payment_method }}<br>
+                                    <strong>Payment Status: </strong>
+                                        @if(strtoupper($order->payment_status) == 'COMPLETED')
+                                            <span class="badge badge-success">COMPLETED</span>
+                                        @elseif(strtoupper($order->payment_status) == 'PENDING')
+                                            <span class="badge badge-warning">PENDING</span>
+                                        @else
+                                            <span class="badge badge-danger">{{ $order->payment_status }}</span>
+                                        @endif
                                 </address>
                             </div>
                             <div class="col-md-6 text-md-right">
                                 <address>
-                                    <strong>Order Date:</strong><br>
-                                    September 19, 2018<br><br>
+                                    <strong>Order Status:</strong><br>
+                                    @if($order->order_status === 'delivered')
+                                        <span class="badge badge-success">Delivered</span>';
+                                    @elseif($order->order_status === 'declined')
+                                        <span class="badge badge-danger">Declined</span>';
+                                    @else
+                                        <span class="badge badge-warning">{{ $order->order_status }}</span>
+                                    @endif
+                                        <br><br>
                                 </address>
                             </div>
                         </div>

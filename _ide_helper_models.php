@@ -137,7 +137,7 @@ namespace App\Models{
  * @property int $id
  * @property string $invoice_id
  * @property int $user_id
- * @property \App\Models\Address|null $address
+ * @property string $address
  * @property float $discount
  * @property float $delivery_charge
  * @property float $subtotal
@@ -155,6 +155,7 @@ namespace App\Models{
  * @property int $address_id
  * @property-read \App\Models\DeliveryArea $deliveryArea
  * @property-read \App\Models\User $user
+ * @property-read \App\Models\Address|null $userAddress
  * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Order query()

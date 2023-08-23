@@ -18,7 +18,7 @@ class Order extends Model
         return $this->belongsTo(DeliveryArea::class);
     }
 
-    function address() : BelongsTo {
-        return $this->belongsTo(Address::class);
+    function userAddress() : BelongsTo {
+        return $this->belongsTo(Address::class, 'address_id', 'id');
     }
 }

@@ -154,6 +154,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $address_id
  * @property-read \App\Models\DeliveryArea $deliveryArea
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $orderItems
+ * @property-read int|null $order_items_count
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Address|null $userAddress
  * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()

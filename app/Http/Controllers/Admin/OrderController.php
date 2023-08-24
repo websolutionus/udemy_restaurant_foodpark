@@ -8,6 +8,7 @@ use App\Models\Order;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class OrderController extends Controller
@@ -20,6 +21,12 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
 
         return view('admin.order.show', compact('order'));
+    }
+
+    function getOrderStatus(string $id) : Response {
+        $order = Order::select(['order_status', 'payment_status'])->findOrFail($id);
+
+        return response($order);
     }
 
     function orderStatusUpdate(Request $request, string $id) : RedirectResponse {

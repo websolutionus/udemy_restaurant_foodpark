@@ -33,7 +33,7 @@
                         @method('PUT')
                         <div class="form-group">
                             <label for="">Payment Status</label>
-                            <select class="form-control" name="payment_status" id="">
+                            <select class="form-control payment_status" name="payment_status" id="">
                                 <option value="pending">Pending</option>
                                 <option value="completed">Completed</option>
                             </select>
@@ -42,7 +42,7 @@
 
                         <div class="form-group">
                             <label for="">Order Status</label>
-                            <select class="form-control" name="order_status" id="">
+                            <select class="form-control order_status" name="order_status" id="">
                                 <option value="pending">Pending</option>
                                 <option value="in_process">In Process</option>
                                 <option value="delivered">Delivered</option>
@@ -67,11 +67,26 @@
     <script>
         $(document).ready(function(){
             $(document).on('click', '.order_status', function(){
+                let id = $(this).data('id');
+
+                let paymentStatus = $('.payment_status option');
+                let orderStatus = $('.order_status option');
+
                 $.ajax({
                     method: 'GET',
-                    url: '',
+                    url: '{{ route("admin.orders.status", ":id") }}'.replace(":id", id),
                     success: function(response) {
+                        paymentStatus.each(function() {
+                            if($(this).val() == response.payment_status) {
+                                $(this).attr('selected', 'selected');
+                            }
+                        })
 
+                        orderStatus.each(function() {
+                            if($(this).val() == response.order_status) {
+                                $(this).attr('selected', 'selected');
+                            }
+                        })
                     },
                     error: function(xhr, status, error){
 

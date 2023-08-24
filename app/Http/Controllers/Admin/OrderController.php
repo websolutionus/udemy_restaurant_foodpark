@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\DeclinedOrderDataTable;
+use App\DataTables\DeliveredOrderDataTable;
 use App\DataTables\InProcessOrderDataTable;
 use App\DataTables\OrderDataTable;
 use App\DataTables\PendingOrderDataTable;
@@ -25,6 +27,14 @@ class OrderController extends Controller
 
     function inProcessOrderIndex(InProcessOrderDataTable $dataTable) : View|JsonResponse {
         return $dataTable->render('admin.order.inprocess-order-index');
+    }
+
+    function deliveredOrderIndex(DeliveredOrderDataTable $dataTable) : View|JsonResponse {
+        return $dataTable->render('admin.order.delivered-order-index');
+    }
+
+    function declinedOrderIndex(DeclinedOrderDataTable $dataTable) : View|JsonResponse {
+        return $dataTable->render('admin.order.declined-order-index');
     }
 
     function show($id) : View {

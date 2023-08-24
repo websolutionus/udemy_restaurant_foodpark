@@ -29,7 +29,7 @@ class OrderController extends Controller
         return response($order);
     }
 
-    function orderStatusUpdate(Request $request, string $id) : RedirectResponse {
+    function orderStatusUpdate(Request $request, string $id) : RedirectResponse|Response {
         $request->validate([
             'payment_status' => ['required', 'in:pending,completed'],
             'order_status' => ['required', 'in:pending,in_process,delivered,declined']
@@ -40,9 +40,13 @@ class OrderController extends Controller
         $order->order_status = $request->order_status;
         $order->save();
 
-        toastr()->success('Status Updated Successfully!');
+        if($request->ajax()){
+            return response(['message' => 'Order Status Updated!']);
+        }else {
+            toastr()->success('Status Updated Successfully!');
 
-        return redirect()->back();
+            return redirect()->back();
+        }
 
     }
 }

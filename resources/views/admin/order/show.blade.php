@@ -3,7 +3,7 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>Invoice</h1>
+        <h1>Order Preview</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
             <div class="breadcrumb-item">Invoice</div>
@@ -182,10 +182,34 @@
                 <div class="float-lg-left mb-lg-0 mb-3">
 
                 </div>
-                <button class="btn btn-warning btn-icon icon-left"><i class="fas fa-print"></i>
+                <button class="btn btn-warning btn-icon icon-left" id="print_btn"><i class="fas fa-print"></i>
                     Print</button>
             </div>
         </div>
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function(){
+        $('#print_btn').on('click', function() {
+            let printContents = $('.invoice-print').html();
+            let originalContents = document.body.innerHTML;
+
+            let printWindow = window.open('', '', 'width=600,height=600');
+            printWindow.document.open();
+            printWindow.document.write('<html><body>');
+            printWindow.document.write(printContents);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+
+            printWindow.print();
+            printWindow.close();
+
+            document.body.innerHTML = originalContents;
+
+        })
+    })
+</script>
+@endpush

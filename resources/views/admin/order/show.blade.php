@@ -127,7 +127,7 @@
                         </div>
                         <div class="row mt-4">
                             <div class="col-lg-8">
-                                <div class="col-md-4">
+                                <div class="col-md-4 d-print-none">
                                     <form action="{{ route('admin.orders.status-update', $order->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
@@ -195,19 +195,19 @@
     $(document).ready(function(){
         $('#print_btn').on('click', function() {
             let printContents = $('.invoice-print').html();
-            let originalContents = document.body.innerHTML;
 
             let printWindow = window.open('', '', 'width=600,height=600');
             printWindow.document.open();
-            printWindow.document.write('<html><body>');
+            printWindow.document.write('<html>');
+            printWindow.document.write('<link rel="stylesheet" href="{{ asset("admin/assets/modules/bootstrap/css/bootstrap.min.css") }}">');
+
+            printWindow.document.write('<body>');
             printWindow.document.write(printContents);
             printWindow.document.write('</body></html>');
             printWindow.document.close();
 
             printWindow.print();
             printWindow.close();
-
-            document.body.innerHTML = originalContents;
 
         })
     })

@@ -44,8 +44,8 @@
         </div>
         @foreach ($orders as $order)
         <div class="fp__invoice invoice_details_{{ $order->id }}">
-            <a class="go_back"><i class="fas fa-long-arrow-alt-left"></i> go back</a>
-            <div class="fp__track_order">
+            <a class="go_back d-print-none"><i class="fas fa-long-arrow-alt-left"></i> go back</a>
+            <div class="fp__track_order d-print-none">
                 <ul>
 
                     @if ($order->order_status === 'declined')
@@ -71,6 +71,7 @@
             <div class="fp__invoice_header">
                 <div class="header_address">
                     <h4>invoice to</h4>
+                    <p>{{ @$order->userAddress->first_name }}</p>
                     <p>{{ $order->address }}</p>
                     <p>{{ @$order->userAddress->phone }}</p>
                     <p>{{ @$order->userAddress->email }}</p>
@@ -186,7 +187,7 @@
                     </table>
                 </div>
             </div>
-            <a class="print_btn common_btn" href="#"><i class="far fa-print"></i> print
+            <a class="print_btn common_btn d-print-none" href="javascript:;" onclick="printInvoice('{{ $order->id }}')"><i class="far fa-print "></i> print
                 PDF</a>
 
         </div>
@@ -201,8 +202,22 @@
             $(".invoice_details_"+id).fadeIn();
         }
 
-        $(document).ready(function(){
+        function printInvoice(id) {
+            let printContents = $('.invoice_details_'+id).html();
 
-        })
+            let printWindow = window.open('', '', 'width=600,height=600');
+            printWindow.document.open();
+            printWindow.document.write('<html>');
+            printWindow.document.write('<link rel="stylesheet" href="{{ asset("frontend/css/bootstrap.min.css") }}">');
+            printWindow.document.write('<link rel="stylesheet" href="{{ asset("frontend/css/style.css") }}');
+
+            printWindow.document.write('<body>');
+            printWindow.document.write(printContents);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+
+            printWindow.print();
+            printWindow.close();
+        }
     </script>
 @endpush

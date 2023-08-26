@@ -453,13 +453,13 @@ $(function () {
 
 
     //*==========ORDER HISTORY==========
-    $(".view_invoice").on("click", function () {
-        $(".fp_dashboard_order").fadeOut();
-    });
+    // $(".view_invoice").on("click", function () {
+    //     $(".fp_dashboard_order").fadeOut();
+    // });
 
-    $('.view_invoice').on('click', function () {
-        $(".fp__invoice").fadeIn();
-    });
+    // $('.view_invoice').on('click', function () {
+    //     $(".fp__invoice").fadeIn();
+    // });
 
     $(".go_back").on("click", function () {
         $(".fp_dashboard_order").fadeIn();

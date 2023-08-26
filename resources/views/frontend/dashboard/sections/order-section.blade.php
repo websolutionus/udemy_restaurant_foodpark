@@ -34,7 +34,7 @@
                             <td>
                                 <h5>{{ currencyPosition($order->grand_total) }}</h5>
                             </td>
-                            <td><a class="view_invoice">View Details</a></td>
+                            <td><a class="view_invoice" onclick="viewInvoice('{{ $order->id }}')">View Details</a></td>
                         </tr>
                         @endforeach
 
@@ -42,7 +42,8 @@
                 </table>
             </div>
         </div>
-        <div class="fp__invoice">
+        @foreach ($orders as $order)
+        <div class="fp__invoice invoice_details_{{ $order->id }}">
             <a class="go_back"><i class="fas fa-long-arrow-alt-left"></i> go back</a>
             <div class="fp__track_order">
                 <ul>
@@ -253,5 +254,15 @@
                 PDF</a>
 
         </div>
+        @endforeach
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        function viewInvoice(id){
+            $(".fp_dashboard_order").fadeOut();
+            $(".invoice_details_"+id).fadeIn();
+        }
+    </script>
+@endpush

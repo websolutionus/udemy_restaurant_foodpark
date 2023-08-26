@@ -47,11 +47,25 @@
             <a class="go_back"><i class="fas fa-long-arrow-alt-left"></i> go back</a>
             <div class="fp__track_order">
                 <ul>
-                    <li class="active">order pending</li>
-                    <li>order accept</li>
-                    <li>order process</li>
-                    <li>on the way</li>
-                    <li>Completed</li>
+
+                    @if ($order->order_status === 'declined')
+
+                    <li class="
+                    declined_status 
+                    {{ in_array($order->order_status, ['declined']) ? 'active' : '' }}
+                    ">order declined</li>
+                    @else
+                    <li class="
+                    {{ in_array($order->order_status, ['pending', 'in_process', 'delivered', 'declined']) ? 'active' : '' }}
+                    ">order pending</li>
+                    <li class="
+                    {{ in_array($order->order_status, ['in_process', 'delivered', 'declined']) ? 'active' : '' }}
+                    ">order in process</li>
+                    <li class="
+                    {{ in_array($order->order_status, ['delivered']) ? 'active' : '' }}
+                    ">order delivered</li>
+                    @endif
+                    {{-- <li>on decliend</li> --}}
                 </ul>
             </div>
             <div class="fp__invoice_header">
@@ -264,5 +278,9 @@
             $(".fp_dashboard_order").fadeOut();
             $(".invoice_details_"+id).fadeIn();
         }
+
+        $(document).ready(function(){
+
+        })
     </script>
 @endpush

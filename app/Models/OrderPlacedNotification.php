@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class OrderPlacedNotification extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['seen'];
 }

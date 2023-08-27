@@ -48,5 +48,6 @@ window.Echo.channel("order-placed").listen(
          </a>`;
 
         $(".rt_notification").prepend(html);
+        $('.notification_beep').addClass('beep');
     }
 );

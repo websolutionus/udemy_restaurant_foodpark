@@ -66,10 +66,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::get('delivered-orders', [OrderController::class, 'deliveredOrderIndex'])->name('delivered-orders');
     Route::get('declined-orders', [OrderController::class, 'declinedOrderIndex'])->name('declined-orders');
 
-
-
     Route::get('orders/status/{id}', [OrderController::class, 'getOrderStatus'])->name('orders.status');
     Route::put('orders/status-update/{id}', [OrderController::class, 'orderStatusUpdate'])->name('orders.status-update');
+
+    /** Order Notification Routes */
+    Route::get('clear-notification',[AdminDashboardController::class, 'clearNotification'])->name('clear-notification');
 
 
 

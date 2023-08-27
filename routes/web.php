@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\RTOrderPlacedNotificationEvent;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Frontend\CartController;
@@ -94,7 +95,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('razorpay/payment', [PaymentController::class, 'payWithRazorpay'])->name('razorpay.payment');
 
 
-
+    Route::get('test', function(){
+        RTOrderPlacedNotificationEvent::dispatch();
+    });
 });
 
 

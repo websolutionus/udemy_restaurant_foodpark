@@ -21,6 +21,7 @@ class RTOrderPlacedNotificationEvent implements ShouldBroadcast
      */
     public function __construct($order)
     {
+
         $this->setConfig();
 
         $this->order = $order;

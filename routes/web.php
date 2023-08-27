@@ -9,6 +9,7 @@ use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -96,8 +97,8 @@ Route::group(['middleware' => 'auth'], function(){
 
 
     Route::get('test', function(){
-        
-        RTOrderPlacedNotificationEvent::dispatch("hello there!");
+        $order = Order::first();
+        RTOrderPlacedNotificationEvent::dispatch($order);
     });
 });
 

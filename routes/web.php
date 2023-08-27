@@ -96,10 +96,6 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('razorpay/payment', [PaymentController::class, 'payWithRazorpay'])->name('razorpay.payment');
 
 
-    Route::get('test', function(){
-        $order = Order::first();
-        RTOrderPlacedNotificationEvent::dispatch($order);
-    });
 });
 
 

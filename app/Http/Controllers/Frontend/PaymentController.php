@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Events\OrderPaymentUpdateEvent;
 use App\Events\OrderPlacedNotificationEvent;
+use App\Events\RTOrderPlacedNotificationEvent;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -157,6 +159,7 @@ class PaymentController extends Controller
 
             OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'PayPal');
             OrderPlacedNotificationEvent::dispatch($orderId);
+            RTOrderPlacedNotificationEvent::dispatch(Order::find($orderId));
 
             /** Clear session data */
             $orderService->clearSession();
@@ -221,6 +224,8 @@ class PaymentController extends Controller
 
             OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'Stripe');
             OrderPlacedNotificationEvent::dispatch($orderId);
+            RTOrderPlacedNotificationEvent::dispatch(Order::find($orderId));
+
 
             /** Clear session data */
             $orderService->clearSession();
@@ -272,6 +277,8 @@ class PaymentController extends Controller
 
                 OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'Razorpay');
                 OrderPlacedNotificationEvent::dispatch($orderId);
+                RTOrderPlacedNotificationEvent::dispatch(Order::find($orderId));
+
 
                 /** Clear session data */
                 $orderService->clearSession();

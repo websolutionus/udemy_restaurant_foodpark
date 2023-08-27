@@ -43,7 +43,7 @@ window.Echo.channel("order-placed").listen(
             </div>
             <div class="dropdown-item-desc">
                 ${e.message}
-                <div class="time">Yesterday</div>
+                <div class="time">${e.date}</div>
             </div>
          </a>`;
 

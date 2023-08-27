@@ -95,7 +95,7 @@
                         </div>
                         <div class="dropdown-item-desc">
                             {{ $notification->message }}
-                            <div class="time">Yesterday</div>
+                            <div class="time">{{ date('h:i A | d-F-Y', strtotime($notification->created_at)) }}</div>
                         </div>
                     </a>
                     @endforeach

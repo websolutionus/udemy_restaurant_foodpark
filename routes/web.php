@@ -96,6 +96,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 
     Route::get('test', function(){
+        
         RTOrderPlacedNotificationEvent::dispatch("hello there!");
     });
 });

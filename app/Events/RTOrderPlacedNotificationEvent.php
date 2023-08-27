@@ -21,17 +21,7 @@ class RTOrderPlacedNotificationEvent implements ShouldBroadcast
      */
     public function __construct($order)
     {
-
-        $this->setConfig();
-
         $this->order = $order;
-    }
-
-    function setConfig() {
-        config(['broadcasting.connections.pusher.key' => config('settings.pusher_key')]);
-        config(['broadcasting.connections.pusher.secret' => config('settings.pusher_secret')]);
-        config(['broadcasting.connections.pusher.app_id' => config('settings.pusher_app_id')]);
-        config(['broadcasting.connections.pusher.options.cluster' => config('settings.pusher_cluster')]);
     }
 
     /**

@@ -60,17 +60,17 @@
                     let html =  `
                         <div class="fp__chating tf_chat_right">
                             <div class="fp__chating_img">
-                                <img src="images/client_img_1.jpg" alt="person"
-                                    class="img-fluid w-100">
+                                <img src="{{ asset(auth()->user()->avatar) }}" alt="person"
+                                    class="img-fluid w-100" style="border-radius: 50%;">
                             </div>
                             <div class="fp__chating_text">
                                 <p>${message}</p>
-                                <span>15 Jun, 2023, 05:26 AM</span>
+                                <span>sending...</span>
                             </div>
                         </div>`
 
-                        $('.fp__chat_body').append(html)
-
+                        $('.fp__chat_body').append(html);
+                        $('.fp_send_message').val("");
                     },
                     success: function(response){
                     },

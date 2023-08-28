@@ -79,15 +79,38 @@
                         </div>
                     </div>
                 </div>
-                <form class="fp__single_chat_bottom">
+                <form class="fp__single_chat_bottom chat_input">
+                    @csrf
                     <label for="select_file"><i class="far fa-file-medical"
                             aria-hidden="true"></i></label>
                     <input id="select_file" type="file" hidden="">
-                    <input type="text" placeholder="Type a message...">
-                    <button class="fp__massage_btn"><i class="fas fa-paper-plane"
+                    <input type="text" placeholder="Type a message..." name="message">
+                    <input type="hidden" name="receiver_id" value="1">
+
+                    <button class="fp__massage_btn" type="submit"><i class="fas fa-paper-plane"
                             aria-hidden="true"></i></button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $('.chat_input').on('submit', function(e){
+                e.preventDefault();
+                let formData = $(this).serialize();
+                $.ajax({
+                    method: 'POST',
+                    url: "{{ route('chat.send-message') }}",
+                    data: formData,
+                    success: function(response){
+                    },
+                    error: function(xhr, status, error){
+                    }
+                })
+            })
+        })
+    </script>
+@endpush

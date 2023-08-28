@@ -69,6 +69,11 @@
                                             class="fas fa-star"></i></span> Reviews</button>
 
                                 <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
+                                data-bs-target="#v-pills-settings" type="button" role="tab"
+                                aria-controls="v-pills-settings" aria-selected="false"><span><i
+                                        class="far fa-comment-dots"></i></span> Message <b>7</b></button>
+
+                                <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
                                     data-bs-target="#v-pills-settings" type="button" role="tab"
                                     aria-controls="v-pills-settings" aria-selected="false"><span><i
                                             class="fas fa-user-lock"></i></span> Change Password </button>
@@ -92,6 +97,9 @@
                                 @include('frontend.dashboard.sections.address-section')
 
                                 @include('frontend.dashboard.sections.order-section')
+
+                                @include('frontend.dashboard.sections.message-section')
+
 
                                 <div class="tab-pane fade " id="v-pills-messages2" role="tabpanel"
                                     aria-labelledby="v-pills-messages-tab2">

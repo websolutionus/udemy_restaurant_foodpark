@@ -122,7 +122,7 @@
                                     <p>{{ $item->product_name }}</p>
                                     <span class="size">{{ @$size->name }} - {{ @$size->price ? currencyPosition(@$size->price) : ''}}</span>
                                     @foreach ($options as $option)
-                                    <span class="coca_cola">{{ @$option['name'] }} - {{ $option['price'] ? currencyPosition(@$option['price']) : '' }}</span>
+                                    <span class="coca_cola">{{ @$option->name }} - {{ @$option->price ? currencyPosition(@$option->price) : '' }}</span>
                                     @endforeach
                                 </td>
                                 <td class="price">

@@ -9,6 +9,7 @@ use Illuminate\View\View;
 class ChatController extends Controller
 {
     function index() : View {
+        dd(auth()->user()->chats);
         return view('admin.chat.index');
     }
 }

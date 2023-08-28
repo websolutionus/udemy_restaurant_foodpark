@@ -71,6 +71,31 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Chat
+ *
+ * @property int $id
+ * @property int $sender_id
+ * @property int $receiver_id
+ * @property string $message
+ * @property int $seen
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Chat newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Chat newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Chat query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Chat whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chat whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chat whereMessage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chat whereReceiverId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chat whereSeen($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chat whereSenderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Chat whereUpdatedAt($value)
+ */
+	class Chat extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Coupon
  *
  * @property int $id
@@ -467,6 +492,8 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Chat> $chats
+ * @property-read int|null $chats_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens

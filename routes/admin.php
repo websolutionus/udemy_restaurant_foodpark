@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\DeliveryAreaController;
 use App\Http\Controllers\Admin\OrderController;
@@ -71,6 +72,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
     /** Order Notification Routes */
     Route::get('clear-notification',[AdminDashboardController::class, 'clearNotification'])->name('clear-notification');
+
+    /** chat Routes */
+    Route::get('chat',[ChatController::class, 'index'])->name('chat.index');
 
 
 

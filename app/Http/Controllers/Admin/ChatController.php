@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -27,6 +28,12 @@ class ChatController extends Controller
     }
 
     function getConversation(string $senderId) {
+        $receiverId = auth()->user()->id;
 
+        $messages = Chat::whereIn('sender_id', [$senderId, $receiverId])
+            ->whereIn('receiver_id', [$senderId, $receiverId])
+            ->orderBy('created_at', 'asc')
+            ->get();
+        dd($messages);
     }
 }

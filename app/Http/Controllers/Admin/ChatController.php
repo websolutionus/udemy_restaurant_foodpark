@@ -25,4 +25,8 @@ class ChatController extends Controller
 
         return view('admin.chat.index', compact('chatUsers'));
     }
+
+    function getConversation(string $senderId) {
+
+    }
 }

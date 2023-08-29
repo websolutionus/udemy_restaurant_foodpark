@@ -23,7 +23,7 @@
                     <div class="card-body">
                         <ul class="list-unstyled list-unstyled-border">
                             @foreach ($chatUsers as $chatUser)
-                            <li class="media">
+                            <li class="media fp_chat_user" data-user="{{ $chatUser->id }}" style="cursor: pointer">
                                 <img alt="image" class="mr-3 rounded-circle" width="50"
                                     src="{{ asset($chatUser->avatar) }}" style="width: 50px;height: 50px; object-fit: cover;">
                                 <div class="media-body">
@@ -63,3 +63,28 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $('.fp_chat_user').on('click', function(){
+                let senderId = $(this).data('user');
+
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route("admin.chat.get-conversation", ":senderId") }}'.replace(":senderId", senderId),
+                    beforeSend: function() {
+
+                    },
+                    success: function(response) {
+
+                    },
+                    error: function(xhr, status, error) {
+
+                    }
+
+                })
+            })
+        })
+    </script>
+@endpush

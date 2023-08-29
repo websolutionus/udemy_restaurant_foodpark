@@ -43,9 +43,7 @@
                         <h4>Chat with Rizal</h4>
                     </div>
                     <div class="card-body chat-content">
-                        <div class="chat-item chat-left" style=""><img src="../dist/img/avatar/avatar-1.png"><div class="chat-details"><div class="chat-text">Hi, dude!</div><div class="chat-time">01:31</div></div></div>
 
-                        <div class="chat-item chat-right" style=""><img src="../dist/img/avatar/avatar-2.png"><div class="chat-details"><div class="chat-text">Wat?</div><div class="chat-time">01:31</div></div></div>
                     </div>
 
                     <div class="card-footer chat-form">
@@ -77,6 +75,15 @@
 
                     },
                     success: function(response) {
+                        $('.chat-content').empty();
+                        
+                        $.each(response, function(index, message){
+                            $html = `
+                            <div class="chat-item chat-left" style=""><img src="../dist/img/avatar/avatar-1.png"><div class="chat-details"><div class="chat-text">${message.message}</div><div class="chat-time">01:31</div></div></div>
+                            `
+                            $('.chat-content').append($html);
+
+                        })
 
                     },
                     error: function(xhr, status, error) {

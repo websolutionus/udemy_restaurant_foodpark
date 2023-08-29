@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class ChatController extends Controller
@@ -27,13 +28,13 @@ class ChatController extends Controller
         return view('admin.chat.index', compact('chatUsers'));
     }
 
-    function getConversation(string $senderId) {
+    function getConversation(string $senderId) : Response {
         $receiverId = auth()->user()->id;
 
         $messages = Chat::whereIn('sender_id', [$senderId, $receiverId])
             ->whereIn('receiver_id', [$senderId, $receiverId])
             ->orderBy('created_at', 'asc')
             ->get();
-        dd($messages);
+        return response($messages);
     }
 }

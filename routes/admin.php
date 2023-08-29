@@ -76,6 +76,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     /** chat Routes */
     Route::get('chat',[ChatController::class, 'index'])->name('chat.index');
     Route::get('chat/get-conversation/{senderId}',[ChatController::class, 'getConversation'])->name('chat.get-conversation');
+    Route::post('chat/send-message', [ChatController::class, 'sendMessage'])->name('chat.send-message');
 
 
 

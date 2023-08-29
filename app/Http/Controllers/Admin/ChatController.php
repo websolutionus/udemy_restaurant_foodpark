@@ -23,9 +23,6 @@ class ChatController extends Controller
             ->distinct()
             ->get();
 
-        dd($chatUsers);
-
-
-        return view('admin.chat.index');
+        return view('admin.chat.index', compact('chatUsers'));
     }
 }

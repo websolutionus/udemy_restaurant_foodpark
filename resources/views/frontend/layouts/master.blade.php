@@ -23,6 +23,11 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/custom.css') }}">
 
+    <script>
+        var loggedInUserId = "{{ auth()->user()->id }}";
+    </script>
+
+    @vite(['/resources/js/app.js'])
     <!-- <link rel="stylesheet" href="css/rtl.css"> -->
 </head>
 

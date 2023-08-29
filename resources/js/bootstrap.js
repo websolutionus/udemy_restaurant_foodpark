@@ -51,3 +51,11 @@ window.Echo.channel("order-placed").listen(
         $('.notification_beep').addClass('beep');
     }
 );
+
+window.Echo.private("chat."+loggedInUserId).listen(
+    "ChatEvent",
+    (e) => {
+        console.log(e);
+    }
+);
+

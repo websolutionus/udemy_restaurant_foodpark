@@ -33,6 +33,7 @@ class ChatController extends Controller
 
         $messages = Chat::whereIn('sender_id', [$senderId, $receiverId])
             ->whereIn('receiver_id', [$senderId, $receiverId])
+            ->with(['sender'])
             ->orderBy('created_at', 'asc')
             ->get();
         return response($messages);

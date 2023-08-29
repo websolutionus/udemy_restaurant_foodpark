@@ -69,14 +69,16 @@
     <script>
         $(document).ready(function(){
             var userId = "{{ auth()->user()->id }}"
-
             $('#receiver_id').val("");
+
+            function scrollToBootom(){
+                let chatContent = $('.chat-content');
+                chatContent.scrollTop(chatContent.prop("scrollHeight"));
+            }
 
             $('.fp_chat_user').on('click', function(){
                 let senderId = $(this).data('user');
-
                 $('#receiver_id').val(senderId);
-
                 $.ajax({
                     method: 'GET',
                     url: '{{ route("admin.chat.get-conversation", ":senderId") }}'.replace(":senderId", senderId),
@@ -87,12 +89,16 @@
                         $('.chat-content').empty();
 
                         $.each(response, function(index, message){
+                            let avatar = "{{ asset(':avatar') }}".replace(':avatar', message.sender.avatar);
+
                             let html = `
-                            <div class="chat-item ${message.sender_id == userId ? "chat-right" : "chat-left"} " style=""><img src="../dist/img/avatar/avatar-1.png"><div class="chat-details"><div class="chat-text">${message.message}</div><div class="chat-time">sending...</div></div></div>
+                            <div class="chat-item ${message.sender_id == userId ? "chat-right" : "chat-left"} " style=""><img style="width:50px;height:50px;object-fit:cover;" src="${avatar}"><div class="chat-details"><div class="chat-text">${message.message}</div><div class="chat-time">sending...</div></div></div>
                             `
                             $('.chat-content').append(html);
 
                         })
+
+                        scrollToBootom()
 
                     },
                     error: function(xhr, status, error) {

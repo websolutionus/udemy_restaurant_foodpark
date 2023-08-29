@@ -48,6 +48,46 @@
 @push('scripts')
     <script>
         $(document).ready(function(){
+            var userId = "{{ auth()->user()->id }}";
+
+            $('.fp_chat_message').on('click', function(){
+                let senderId = 1;
+
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route("chat.get-conversation", ":senderId") }}'.replace(":senderId", senderId),
+                    beforeSend: function() {
+
+                    },
+                    success: function(response) {
+                        $('.fp__chat_body').empty();
+
+                        $.each(response, function(index, message){
+                            let avatar = "{{ asset(':avatar') }}".replace(':avatar', message.sender.avatar);
+
+                            let html = `<div class="fp__chating ${message.sender_id == userId ? 'tf_chat_right' : ''}"><div class="fp__chating_img"><img src="${avatar}"
+                                            class="img-fluid w-100" style="border-radius: 50%;">
+                                    </div><div class="fp__chating_text">
+                                        <p>${message.message}</p>
+                                        <span>sending...</span>
+                                    </div>
+                                </div>`
+
+                            $('.fp__chat_body').append(html);
+
+                        })
+
+                        scrollToBootom()
+
+                    },
+                    error: function(xhr, status, error) {
+
+                    }
+
+                })
+            })
+
+
             $('.chat_input').on('submit', function(e){
                 e.preventDefault();
                 let formData = $(this).serialize();

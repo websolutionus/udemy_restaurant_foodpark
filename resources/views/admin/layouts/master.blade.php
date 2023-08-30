@@ -29,6 +29,7 @@
     </script>
     <!-- /END GA -->
     @vite(['resources/js/app.js'])
+    
 </head>
 
 <body>

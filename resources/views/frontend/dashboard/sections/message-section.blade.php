@@ -50,6 +50,11 @@
         $(document).ready(function(){
             var userId = "{{ auth()->user()->id }}";
 
+            function scrollToBootom(){
+                let chatContent = $('.chat-content');
+                chatContent.scrollTop(chatContent.prop("scrollHeight"));
+            }
+
             $('.fp_chat_message').on('click', function(){
                 let senderId = 1;
 

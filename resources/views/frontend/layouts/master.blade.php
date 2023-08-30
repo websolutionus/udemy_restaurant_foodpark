@@ -24,10 +24,12 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/custom.css') }}">
 
     <script>
-        var loggedInUserId = "{{ auth()->user()->id }}";
+        var pusherKey = "{{ config('settings.pusher_key') }}";
+        var pusherCluster = "{{ config('settings.pusher_cluster') }}";
+        var loggedInUserId = "{{ auth()->user()->id ?? '' }}";
     </script>
 
-    @vite(['/resources/js/app.js'])
+    @vite(['resources/js/app.js'])
     <!-- <link rel="stylesheet" href="css/rtl.css"> -->
 </head>
 

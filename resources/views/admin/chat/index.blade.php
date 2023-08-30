@@ -69,6 +69,7 @@
     <script>
         $(document).ready(function(){
             var userId = "{{ auth()->user()->id }}"
+            var avatar = "{{ asset(auth()->user()->avatar) }}";
             $('#receiver_id').val("");
 
             function scrollToBootom(){
@@ -76,6 +77,7 @@
                 chatContent.scrollTop(chatContent.prop("scrollHeight"));
             }
 
+            // fetch conversations
             $('.fp_chat_user').on('click', function(){
                 let senderId = $(this).data('user');
                 $('#receiver_id').val(senderId);
@@ -92,7 +94,7 @@
                             let avatar = "{{ asset(':avatar') }}".replace(':avatar', message.sender.avatar);
 
                             let html = `
-                            <div class="chat-item ${message.sender_id == userId ? "chat-right" : "chat-left"} " style=""><img style="width:50px;height:50px;object-fit:cover;" src="${avatar}"><div class="chat-details"><div class="chat-text">${message.message}</div><div class="chat-time">sending...</div></div></div>
+                            <div class="chat-item ${message.sender_id == userId ? "chat-right" : "chat-left"} " style=""><img style="width:50px;height:50px;object-fit:cover;" src="${avatar}"><div class="chat-details"><div class="chat-text">${message.message}</div></div></div>
                             `
                             $('.chat-content').append(html);
 
@@ -108,6 +110,7 @@
                 })
             })
 
+            // send message
             $('#chat-form').on('submit', function(e){
                 e.preventDefault();
                 let formData = $(this).serialize();
@@ -118,11 +121,12 @@
                     beforeSend: function(){
                     let message = $('.fp_send_message').val();
                     let html = `
-                            <div class="chat-item chat-right" style=""><img src="../dist/img/avatar/avatar-1.png"><div class="chat-details"><div class="chat-text">${message}</div><div class="chat-time">sending...</div></div></div>
+                            <div class="chat-item chat-right" style=""><img src="${avatar}"><div class="chat-details"><div class="chat-text">${message}</div><div class="chat-time">sending...</div></div></div>
                             `
 
                         $('.chat-content').append(html);
                         $('.fp_send_message').val("");
+                        scrollToBootom()
                     },
                     success: function(response){
                     },

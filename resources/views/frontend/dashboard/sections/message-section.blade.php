@@ -6,28 +6,6 @@
             <div class="fp__chat_area">
                 <div class="fp__chat_body">
 
-                    {{-- <div class="fp__chating">
-                        <div class="fp__chating_img">
-                            <img src="images/service_provider.png" alt="person"
-                                class="img-fluid w-100">
-                        </div>
-                        <div class="fp__chating_text">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            </p>
-                            <span>15 Jun, 2023, 05:26 AM</span>
-                        </div>
-                    </div> --}}
-                    {{-- <div class="fp__chating tf_chat_right">
-                        <div class="fp__chating_img">
-                            <img src="images/client_img_1.jpg" alt="person"
-                                class="img-fluid w-100">
-                        </div>
-                        <div class="fp__chating_text">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            </p>
-                            <span>15 Jun, 2023, 05:26 AM</span>
-                        </div>
-                    </div> --}}
                 </div>
                 <form class="fp__single_chat_bottom chat_input">
                     @csrf
@@ -51,10 +29,11 @@
             var userId = "{{ auth()->user()->id }}";
 
             function scrollToBootom(){
-                let chatContent = $('.chat-content');
+                let chatContent = $('.fp__chat_body');
                 chatContent.scrollTop(chatContent.prop("scrollHeight"));
             }
 
+            // fetch conversations
             $('.fp_chat_message').on('click', function(){
                 let senderId = 1;
 
@@ -74,7 +53,6 @@
                                             class="img-fluid w-100" style="border-radius: 50%;">
                                     </div><div class="fp__chating_text">
                                         <p>${message.message}</p>
-                                        <span>sending...</span>
                                     </div>
                                 </div>`
 
@@ -92,7 +70,7 @@
                 })
             })
 
-
+            // Send Message
             $('.chat_input').on('submit', function(e){
                 e.preventDefault();
                 let formData = $(this).serialize();
@@ -116,6 +94,7 @@
 
                         $('.fp__chat_body').append(html);
                         $('.fp_send_message').val("");
+                        scrollToBootom();
                     },
                     success: function(response){
                     },

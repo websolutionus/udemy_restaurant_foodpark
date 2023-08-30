@@ -1,3 +1,8 @@
+function scrollToBootom(){
+    let chatContent = $('.fp__chat_body');
+    chatContent.scrollTop(chatContent.prop("scrollHeight"));
+}
+
 window.Echo.private("chat."+loggedInUserId).listen(
     "ChatEvent",
     (e) => {
@@ -10,5 +15,6 @@ window.Echo.private("chat."+loggedInUserId).listen(
         </div>`
 
         $('.fp__chat_body').append(html);
+        scrollToBootom()
     }
 );

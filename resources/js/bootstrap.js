@@ -52,10 +52,5 @@ window.Echo.channel("order-placed").listen(
     }
 );
 
-window.Echo.private("chat."+loggedInUserId).listen(
-    "ChatEvent",
-    (e) => {
-        console.log(e);
-    }
-);
+
 

@@ -113,7 +113,7 @@
                 let formData = $(this).serialize();
                 $.ajax({
                     method: 'POST',
-                    url: "{{ route('chat.send-message') }}",
+                    url: "{{ route('admin.chat.send-message') }}",
                     data: formData,
                     beforeSend: function(){
                     let message = $('.fp_send_message').val();

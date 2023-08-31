@@ -25,13 +25,19 @@
                             @foreach ($senders as $sender)
                             @php
                                 $chatUser = \App\Models\User::find($sender->sender_id);
+                                $unseenMessages = \App\Models\Chat::where(['sender_id' => $chatUser->id, 'receiver_id' => auth()->user()->id, 'seen' => 0])->count();
+
                             @endphp
                             <li class="media fp_chat_user" data-name="{{ $chatUser->name }}" data-user="{{ $chatUser->id }}" style="cursor: pointer">
                                 <img alt="image" class="mr-3 rounded-circle " width="50"
                                     src="{{ asset($chatUser->avatar) }}" style="width: 50px;height: 50px; object-fit: cover;">
                                 <div class="media-body">
                                     <div class="mt-0 mb-1 font-weight-bold">{{ $chatUser->name }}</div>
-                                    <div class="text-warning text-small font-600-bold got_new_message"></div>
+                                    <div class="text-warning text-small font-600-bold got_new_message">
+                                        @if ($unseenMessages > 0)
+                                        <i class="beep"></i>new message
+                                        @endif
+                                    </div>
                                 </div>
                             </li>
                             @endforeach
@@ -83,6 +89,7 @@
             $('.fp_chat_user').on('click', function(){
                 let senderId = $(this).data('user');
                 let senderName = $(this).data('name')
+                let clickedElemnt = $(this);
                 $('#mychatbox').attr('data-inbox', senderId);
                 $('#receiver_id').val(senderId);
                 $.ajax({
@@ -104,6 +111,8 @@
                             $('.chat-content').append(html);
 
                         })
+
+                        clickedElemnt.find(".got_new_message").html("")
 
                         scrollToBootom()
 
@@ -132,6 +141,16 @@
                         $('.chat-content').append(html);
                         $('.fp_send_message').val("");
                         scrollToBootom()
+
+                        // remove beep notification
+
+                        $(".fp_chat_user").each(function(){
+                            let senderId = $(this).data('user');
+
+                            if($('#mychatbox').attr('data-inbox') == senderId) {
+                                $(this).find(".got_new_message").html("");
+                            }
+                        })
                     },
                     success: function(response){
                     },

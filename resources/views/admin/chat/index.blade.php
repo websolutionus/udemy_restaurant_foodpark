@@ -22,7 +22,10 @@
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled list-unstyled-border">
-                            @foreach ($chatUsers as $chatUser)
+                            @foreach ($senders as $sender)
+                            @php
+                                $chatUser = \App\Models\User::find($sender->sender_id);
+                            @endphp
                             <li class="media fp_chat_user" data-name="{{ $chatUser->name }}" data-user="{{ $chatUser->id }}" style="cursor: pointer">
                                 <img alt="image" class="mr-3 rounded-circle " width="50"
                                     src="{{ asset($chatUser->avatar) }}" style="width: 50px;height: 50px; object-fit: cover;">

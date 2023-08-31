@@ -16,5 +16,6 @@ window.Echo.private("chat."+loggedInUserId).listen(
 
         $('.fp__chat_body').append(html);
         scrollToBootom()
+        $('.sunseen-message-count').text(1);
     }
 );

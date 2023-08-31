@@ -26,5 +26,7 @@ window.Echo.private("chat."+loggedInUserId).listen(
 
             }
         })
+
+        $('.message-envelope').addClass('beep')
     }
 );

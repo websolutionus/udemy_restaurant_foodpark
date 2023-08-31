@@ -57,6 +57,7 @@
                                 </div>`
 
                             $('.fp__chat_body').append(html);
+                            $('.sunseen-message-count').text(0);
 
                         })
 

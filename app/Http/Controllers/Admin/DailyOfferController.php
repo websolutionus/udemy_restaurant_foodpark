@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\DailyOfferDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\DailyOffer;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -40,7 +41,19 @@ class DailyOfferController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'product' => ['required', 'integer'],
+            'status' => ['required', 'boolean']
+        ]);
+
+        $offer = new DailyOffer();
+        $offer->product_id = $request->product;
+        $offer->status = $request->status;
+        $offer->save();
+
+        toastr()->success('Created Successfully');
+        
+        return to_route('admin.daily-offer.index');
     }
 
     /**

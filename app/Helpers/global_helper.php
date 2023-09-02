@@ -111,3 +111,13 @@ if(!function_exists('generateInvoiceId')){
     }
 }
 
+/** get product discount in percent */
+if(!function_exists('discountInPercent')){
+    function discountInPercent($originalPrice, $discountPrice)
+    {
+        $result = (($originalPrice - $discountPrice) / $originalPrice) * 100;
+        return round($result, 2);
+    }
+}
+
+

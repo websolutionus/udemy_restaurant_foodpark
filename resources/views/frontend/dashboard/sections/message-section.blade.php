@@ -9,9 +9,8 @@
                 </div>
                 <form class="fp__single_chat_bottom chat_input">
                     @csrf
-                    <label for="select_file"><i class="far fa-file-medical"
-                            aria-hidden="true"></i></label>
-                    <input id="select_file" type="file" hidden="">
+
+                    <input  type="hidden"  name="msg_temp_id" class="msg_temp_id" value="">
                     <input type="text" placeholder="Type a message..." name="message" class="fp_send_message">
                     <input type="hidden" name="receiver_id" value="1">
 
@@ -27,7 +26,6 @@
     <script>
         $(document).ready(function(){
             var userId = "{{ auth()->user()->id }}";
-
             function scrollToBootom(){
                 let chatContent = $('.fp__chat_body');
                 chatContent.scrollTop(chatContent.prop("scrollHeight"));
@@ -74,6 +72,10 @@
             // Send Message
             $('.chat_input').on('submit', function(e){
                 e.preventDefault();
+                var msgId = Math.floor(Math.random() * (1 - 10000 + 1)) + 10000;
+                $('.msg_temp_id').val(msgId)
+
+
                 let formData = $(this).serialize();
                 $.ajax({
                     method: 'POST',
@@ -89,7 +91,7 @@
                             </div>
                             <div class="fp__chating_text">
                                 <p>${message}</p>
-                                <span>sending...</span>
+                                <span class="msg_sending ${msgId}">sending...</span>
                             </div>
                         </div>`
 
@@ -98,6 +100,10 @@
                         scrollToBootom();
                     },
                     success: function(response){
+                        if($('.msg_temp_id').val() == response.msgId){
+                            console.log($('.'+msgId))
+                            $('.'+msgId).remove();
+                        }
                     },
                     error: function(xhr, status, error){
                         let errors = xhr.responseJSON.errors;

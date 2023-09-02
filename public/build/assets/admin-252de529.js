@@ -1,0 +1,3 @@
+function a(){let t=$(".chat-content");t.scrollTop(t.prop("scrollHeight"))}window.Echo.private("chat."+loggedInUserId).listen("ChatEvent",t=>{if(console.log(t),t.senderId==$("#mychatbox").attr("data-inbox")){let e=`
+            <div class="chat-item chat-left" style=""><img style="width:50px;height:50px;object-fit:cover;" src="${t.avatar}"><div class="chat-details"><div class="chat-text">${t.message}</div><div class="chat-time">sending...</div></div></div>
+            `;$(".chat-content").append(e),a()}$(".fp_chat_user").each(function(){let e=$(this).data("user");if(t.senderId==e){let s='<i class="beep"></i>new message';$(this).find(".got_new_message").html(s)}}),$(".message-envelope").addClass("beep")});

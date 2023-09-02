@@ -31,7 +31,7 @@ class ChatController extends Controller
         $receiverId = auth()->user()->id;
 
         Chat::where('sender_id', $senderId)->where('receiver_id', $receiverId)->where('seen', 0)->update(['seen' => 1]);
-        
+
         $messages = Chat::whereIn('sender_id', [$senderId, $receiverId])
             ->whereIn('receiver_id', [$senderId, $receiverId])
             ->with(['sender'])
@@ -56,6 +56,6 @@ class ChatController extends Controller
         $senderId = auth()->user()->id;
         broadcast(new ChatEvent($request->message, $avatar, $request->receiver_id, $senderId))->toOthers();
 
-        return response(['status' => 'success']);
+        return response(['status' => 'success', 'msgId' => $request->msg_temp_id]);
     }
 }

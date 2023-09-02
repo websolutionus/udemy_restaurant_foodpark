@@ -4,9 +4,19 @@
     "isEntry": true,
     "src": "resources/css/app.css"
   },
+  "resources/js/admin.js": {
+    "file": "assets/admin-252de529.js",
+    "isEntry": true,
+    "src": "resources/js/admin.js"
+  },
   "resources/js/app.js": {
     "file": "assets/app-16f6aa18.js",
     "isEntry": true,
     "src": "resources/js/app.js"
+  },
+  "resources/js/frontend.js": {
+    "file": "assets/frontend-4b834145.js",
+    "isEntry": true,
+    "src": "resources/js/frontend.js"
   }
 }

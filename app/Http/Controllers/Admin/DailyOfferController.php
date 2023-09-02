@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\DailyOfferDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
-use Response;
 
 use function Termwind\render;
 
@@ -21,8 +22,9 @@ class DailyOfferController extends Controller
         return $dataTable->render('admin.daily-offer.index');
     }
 
-    function productSearch(Request $request) {
-        return $request->all();
+    function productSearch(Request $request) : Response {
+        $product = Product::select('id', 'name', 'thumb_image')->where('name', 'LIKE', '%'.$request->search.'%')->get();
+        return response($product);
     }
 
     /**

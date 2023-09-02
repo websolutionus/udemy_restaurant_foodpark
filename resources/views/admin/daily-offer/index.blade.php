@@ -10,7 +10,7 @@
             <div class="card-header">
                 <h4>All Daily Offers</h4>
                 <div class="card-header-action">
-                    <a href="{{ route('admin.delivery-area.create') }}" class="btn btn-primary">
+                    <a href="{{ route('admin.daily-offer.create') }}" class="btn btn-primary">
                         Create new
                     </a>
                 </div>

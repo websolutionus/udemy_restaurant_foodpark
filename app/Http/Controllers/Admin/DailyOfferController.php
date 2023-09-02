@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Response;
 
 use function Termwind\render;
 
@@ -20,12 +21,16 @@ class DailyOfferController extends Controller
         return $dataTable->render('admin.daily-offer.index');
     }
 
+    function productSearch(Request $request) {
+        return $request->all();
+    }
+
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create() : View
     {
-        //
+        return view('admin.daily-offer.create');
     }
 
     /**

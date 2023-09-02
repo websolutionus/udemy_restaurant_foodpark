@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('daily_offers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

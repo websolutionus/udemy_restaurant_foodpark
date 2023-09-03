@@ -31,7 +31,21 @@ class ChefDataTable extends DataTable
             ->addColumn('image', function($query){
                 return '<img width="60px" src="'.asset($query->image).'">';
             })
-            ->rawColumns(['action', 'image'])
+            ->addColumn('show_at_home', function($query){
+                if($query->show_at_home === 1){
+                    return '<span class="badge badge-primary">Yes</span>';
+                }else {
+                    return '<span class="badge badge-danger">No</span>';
+                }
+            })
+            ->addColumn('status', function($query){
+                if($query->status === 1){
+                    return '<span class="badge badge-primary">Active</span>';
+                }else {
+                    return '<span class="badge badge-danger">InActive</span>';
+                }
+            })
+            ->rawColumns(['action', 'image', 'show_at_home', 'status'])
             ->setRowId('id');
     }
 
@@ -76,6 +90,8 @@ class ChefDataTable extends DataTable
             Column::make('image')->width(150),
             Column::make('name'),
             Column::make('title'),
+            Column::make('show_at_home'),
+            Column::make('status'),
             Column::computed('action')
             ->exportable(false)
             ->printable(false)

@@ -41,7 +41,7 @@
     <!--=============================
             ADD SLIDER START
         ==============================-->
-    {{-- @include('frontend.home.components.ad-slider') --}}
+    @include('frontend.home.components.ad-slider')
 
     <!--=============================
             ADD SLIDER END

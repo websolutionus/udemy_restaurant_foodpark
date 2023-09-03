@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\BannerSliderController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\CouponController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\WhyChooseUsController;
+use App\Models\BannerSlider;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
@@ -85,6 +87,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::put('daily-offer-title-update', [DailyOfferController::class, 'updateTitle'])->name('daily-offer-title-update');
     Route::resource('daily-offer', DailyOfferController::class);
 
+    /** Banner Slider Routes */
+    Route::resource('banner-slider', BannerSliderController::class);
 
 
     /** Payment Gateway Setting Routes */

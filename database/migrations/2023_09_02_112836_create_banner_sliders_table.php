@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('banner_sliders', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('sub_title');
+            $table->string('banner');
+            $table->boolean('status');
             $table->timestamps();
         });
     }

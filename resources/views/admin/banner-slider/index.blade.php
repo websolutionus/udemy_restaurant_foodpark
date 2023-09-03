@@ -10,7 +10,7 @@
             <div class="card-header">
                 <h4>All Banner Slider</h4>
                 <div class="card-header-action">
-                    <a href="{{ route('admin.coupon.create') }}" class="btn btn-primary">
+                    <a href="{{ route('admin.banner-slider.create') }}" class="btn btn-primary">
                         Create new
                     </a>
                 </div>

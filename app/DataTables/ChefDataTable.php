@@ -22,7 +22,16 @@ class ChefDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'chef.action')
+            ->addColumn('action', function($query){
+                $edit = "<a href='".route('admin.chefs.edit', $query->id)."' class='btn btn-primary'><i class='fas fa-edit'></i></a>";
+                $delete = "<a href='".route('admin.chefs.destroy', $query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
+
+                return $edit.$delete;
+            })
+            ->addColumn('image', function($query){
+                return '<img width="60px" src="'.asset($query->image).'">';
+            })
+            ->rawColumns(['action', 'image'])
             ->setRowId('id');
     }
 
@@ -62,15 +71,16 @@ class ChefDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+
+            Column::make('id')->width(100),
+            Column::make('image')->width(150),
+            Column::make('name'),
+            Column::make('title'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            ->exportable(false)
+            ->printable(false)
+            ->width(150)
+            ->addClass('text-center'),
         ];
     }
 

@@ -12,7 +12,7 @@
 
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.banner-slider.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.chefs.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label>Image</label>

@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ChefDataTable;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ChefCreateRequest;
+use App\Models\Chef;
+use App\Traits\FileUploadTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +16,7 @@ use function Ramsey\Uuid\v1;
 
 class ChefController extends Controller
 {
+    use FileUploadTrait;
     /**
      * Display a listing of the resource.
      */
@@ -32,9 +36,25 @@ class ChefController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) : RedirectResponse
+    public function store(ChefCreateRequest $request) : RedirectResponse
     {
-        //
+        $imagePath = $this->uploadImage($request, 'image');
+
+        $chef = new Chef();
+        $chef->image = $imagePath;
+        $chef->name = $request->name;
+        $chef->title = $request->title;
+        $chef->fb = $request->fb;
+        $chef->in = $request->in;
+        $chef->x = $request->x;
+        $chef->web = $request->web;
+        $chef->show_at_home = $request->show_at_home;
+        $chef->status = $request->status;
+        $chef->save();
+
+        toastr()->success('Created Successfully!');
+
+        return to_route('admin.chefs.index');
     }
 
 

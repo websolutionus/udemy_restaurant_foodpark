@@ -43,6 +43,8 @@ class BannerSliderController extends Controller
         $bannerSlider->banner = $imagePath;
         $bannerSlider->title = $request->title;
         $bannerSlider->sub_title = $request->sub_title;
+        $bannerSlider->url = $request->url;
+
         $bannerSlider->status = $request->status;
         $bannerSlider->save();
 
@@ -52,19 +54,12 @@ class BannerSliderController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id) : View
     {
-        //
+        $bannerSlider = BannerSlider::findOrFail($id);
+        return view('admin.banner-slider.edit', compact('bannerSlider'));
     }
 
     /**
@@ -72,7 +67,20 @@ class BannerSliderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $imagePath = $this->uploadImage($request, 'image', $request->old_image);
+
+        $bannerSlider = BannerSlider::findOrFail($id);
+        $bannerSlider->banner = !empty($imagePath) ? $imagePath : $request->old_image;
+        $bannerSlider->title = $request->title;
+        $bannerSlider->sub_title = $request->sub_title;
+        $bannerSlider->url = $request->url;
+
+        $bannerSlider->status = $request->status;
+        $bannerSlider->save();
+
+        toastr()->success("Update Successfully!");
+
+        return to_route('admin.banner-slider.index');
     }
 
     /**
@@ -80,6 +88,13 @@ class BannerSliderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $slider = BannerSlider::findOrFail($id);
+            $this->removeImage($slider->banner);
+            $slider->delete();
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'message' => 'something went wrong!']);
+        }
     }
 }

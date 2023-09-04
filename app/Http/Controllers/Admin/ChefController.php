@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ChefCreateRequest;
 use App\Http\Requests\Admin\ChefUpdateRequest;
 use App\Models\Chef;
+use App\Models\SectionTitle;
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -24,7 +25,9 @@ class ChefController extends Controller
      */
     public function index(ChefDataTable $dataTable) : View|JsonResponse
     {
-        return $dataTable->render('admin.chef.index');
+        $keys = ['chef_top_title', 'chef_main_title', 'chef_sub_title'];
+        $titles = SectionTitle::whereIn('key', $keys)->pluck('value','key');
+        return $dataTable->render('admin.chef.index', compact('titles'));
     }
 
     /**
@@ -91,6 +94,26 @@ class ChefController extends Controller
         toastr()->success('Update Successfully!');
 
         return to_route('admin.chefs.index');
+    }
+
+    public function updateTitle(Request $request)
+    {
+        $validatedData = $request->validate([
+                    'chef_top_title' => ['max:100'],
+                    'chef_main_title' => ['max:200'],
+                    'chef_sub_title' => ['max:500']
+                ]);
+
+        foreach ($validatedData as $key => $value) {
+            SectionTitle::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+        }
+
+        toastr()->success('Updated Successfully!');
+
+        return redirect()->back();
     }
 
     /**

@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\ProductSizeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\WhyChooseUsController;
 use App\Models\AppDownloadSection;
 use App\Models\BannerSlider;
@@ -100,6 +101,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     /** App Download Routes */
     Route::get('app-download', [AppDownloadSectionController::class, 'index'])->name('app-download.index');
     Route::post('app-download', [AppDownloadSectionController::class, 'store'])->name('app-download.store');
+
+    /** Testimonial Routes */
+    Route::resource('testimonial', TestimonialController::class);
 
 
 

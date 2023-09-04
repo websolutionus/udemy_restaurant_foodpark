@@ -70,7 +70,7 @@
     <!--=============================
            TESTIMONIAL  START
         ==============================-->
-    {{-- @include('frontend.home.components.testimonial') --}}
+    @include('frontend.home.components.testimonial')
 
     <!--=============================
             TESTIMONIAL END

@@ -12,7 +12,7 @@
 
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.banner-slider.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.app-download.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-3">
@@ -21,6 +21,8 @@
                                 <div id="image-preview" class="image-preview">
                                     <label for="image-upload" id="image-label">Choose File</label>
                                     <input type="file" name="image" id="image-upload" />
+                                    <input type="hidden" name="old_image" value=""/>
+
                                 </div>
                             </div>
                         </div>
@@ -29,7 +31,9 @@
                                 <label>Background</label>
                                 <div id="image-preview-2" class="image-preview">
                                     <label for="image-upload" id="image-label-2">Choose File</label>
-                                    <input type="file" name="image" id="image-upload-2" />
+                                    <input type="file" name="background" id="image-upload-2" />
+                                    <input type="hidden" name="background" value="" />
+
                                 </div>
                             </div>
                         </div>
@@ -46,12 +50,12 @@
 
                     <div class="form-group">
                         <label for="">Play Store Link <code>(Leave empty for hide)</code></label>
-                        <input type="text" class="form-control" name="title">
+                        <input type="text" class="form-control" name="play_store_link">
                     </div>
 
                     <div class="form-group">
                         <label for="">Apple Store Link <code>(Leave empty for hide)</code></label>
-                        <input type="text" class="form-control" name="title">
+                        <input type="text" class="form-control" name="apple_store_link">
                     </div>
 
 

@@ -99,6 +99,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
     /** App Download Routes */
     Route::get('app-download', [AppDownloadSectionController::class, 'index'])->name('app-download.index');
+    Route::post('app-download', [AppDownloadSectionController::class, 'store'])->name('app-download.store');
+
 
 
 

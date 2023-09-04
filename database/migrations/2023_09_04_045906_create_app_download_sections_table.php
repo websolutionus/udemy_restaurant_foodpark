@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('image');
             $table->string('background');
             $table->string('title');
-            $table->string('short_description');
+            $table->text('short_description');
             $table->string('play_store_link')->nullable();
             $table->string('apple_store_link')->nullable();
             $table->timestamps();

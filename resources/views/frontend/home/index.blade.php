@@ -60,7 +60,7 @@
     <!--=============================
             DOWNLOAD APP START
         ==============================-->
-    {{-- @include('frontend.home.components.app-download') --}}
+    @include('frontend.home.components.app-download')
 
     <!--=============================
             DOWNLOAD APP END

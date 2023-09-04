@@ -19,7 +19,7 @@
                     <a class="nav-link" href="menu.html">menu</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="chefs.html">chefs</a>
+                    <a class="nav-link" href="{{ route('chef') }}">chefs</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">pages <i class="far fa-angle-down"></i></a>

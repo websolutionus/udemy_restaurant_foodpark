@@ -27,7 +27,7 @@ class FrontendController extends Controller
         $categories = Category::where(['show_at_home' => 1, 'status' => 1])->get();
         $dailyOffers = DailyOffer::with('product')->where('status', 1)->take(15)->get();
         $bannerSliders = BannerSlider::where('status', 1)->latest()->take(10)->get();
-        $chefs = Chef::where(['show_at_home' => 1, 'status' => 1])->take(10)->get();
+        $chefs = Chef::where(['show_at_home' => 1, 'status' => 1])->get();
 
 
         return view('frontend.home.index',
@@ -53,6 +53,11 @@ class FrontendController extends Controller
         ];
 
         return SectionTitle::whereIn('key', $keys)->pluck('value','key');
+    }
+
+    function chef() : View {
+        $chefs = Chef::where(['status' => 1])->paginate(12);
+        return view('frontend.pages.chefs', compact('chefs'));
     }
 
     function showProduct(string $slug) : View {

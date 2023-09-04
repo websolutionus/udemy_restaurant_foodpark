@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,800&family=Jost:wght@200;300;400;500;600;700;800;900&family=Lobster&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,800&family=Jost:wght@200;300;400;500;600;700;800;900&family=Lobster&display=swap");
 
 * {
     margin: 0;
@@ -79,19 +79,18 @@ button {
 }
 
 :root {
-    --colorPrimary: #F86F03;
+    --colorPrimary: #f86f03;
     --paraColor: #494949;
     --colorBlack: #010f1c;
     --colorWhite: #ffffff;
-    --paraFont:
-        'Barlow', sans-serif;
-    --headingFont:
-        'Jost', sans-serif;
-    --cursiveFont:
-        'Lobster', cursive;
+    --paraFont: "Barlow", sans-serif;
+    --headingFont: "Jost", sans-serif;
+    --cursiveFont: "Lobster", cursive;
     --boxShadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    --gradiantBg: rgb(156, 3, 30)linear-gradient(0deg, rgba(156, 3, 30, 1) 0%, rgba(235, 0, 41, 1) 100%);
-    --gradiantHoverBg: rgb(235, 0, 41)linear-gradient(0deg, rgba(235, 0, 41, 1) 0%, rgba(156, 3, 30, 1) 100%);
+    --gradiantBg: rgb(156, 3, 30)
+        linear-gradient(0deg, rgba(156, 3, 30, 1) 0%, rgba(235, 0, 41, 1) 100%);
+    --gradiantHoverBg: rgb(235, 0, 41)
+        linear-gradient(0deg, rgba(235, 0, 41, 1) 0%, rgba(156, 3, 30, 1) 100%);
 }
 
 /*============================
@@ -106,11 +105,11 @@ button {
     font-size: 15px !important;
     font-weight: 600 !important;
     position: relative;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .common_btn:hover {
@@ -153,7 +152,6 @@ button {
 /*============================
     COMMON CSS END
 ============================*/
-
 
 /*============================
     TOPBAR START
@@ -202,11 +200,11 @@ button {
     margin-left: 15px;
     padding-left: 15px;
     font-size: 16px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .topbar_icon li:last-child a {
@@ -217,7 +215,6 @@ button {
 /*============================
     TOPBAR START
 ============================*/
-
 
 /*============================
     MENU START
@@ -230,11 +227,11 @@ button {
     background: var(--colorWhite);
     border-bottom: 1px solid #eee;
     z-index: 999;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .main_menu .navbar-brand {
@@ -259,11 +256,11 @@ button {
     text-transform: capitalize;
     margin: 0px 15px;
     padding: 0;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     position: relative;
 }
 
@@ -281,11 +278,11 @@ button {
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .main_menu .navbar-nav .nav-item:hover .nav-link,
@@ -300,11 +297,11 @@ button {
 
 .main_menu .navbar-nav .nav-item .nav-link i {
     font-size: 14px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .droap_menu {
@@ -325,11 +322,11 @@ button {
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
-    transition: all linear .2s;
-    -webkit-transition: all linear .2s;
-    -moz-transition: all linear .2s;
-    -ms-transition: all linear .2s;
-    -o-transition: all linear .2s;
+    transition: all linear 0.2s;
+    -webkit-transition: all linear 0.2s;
+    -moz-transition: all linear 0.2s;
+    -ms-transition: all linear 0.2s;
+    -o-transition: all linear 0.2s;
 }
 
 .droap_menu::-webkit-scrollbar {
@@ -351,11 +348,11 @@ button {
     position: relative;
     padding: 0px 15px;
     border-bottom: 1px solid #eee;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .droap_menu li:last-child a {
@@ -402,11 +399,11 @@ button {
     padding: 0;
     position: relative;
     cursor: pointer;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .main_menu .menu_icon li a:hover,
@@ -456,11 +453,11 @@ button {
     z-index: 9999;
     justify-content: center;
     align-items: center;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__search_form form {
@@ -488,11 +485,11 @@ button {
     top: -100px;
     right: 0;
     cursor: pointer;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__search_form form .close_search:hover {
@@ -518,11 +515,11 @@ button {
     border-radius: 30px;
     font-size: 16px;
     font-weight: 600;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__search_form button:hover {
@@ -542,11 +539,11 @@ button {
     top: 0;
     left: 0;
     z-index: 999;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     opacity: 0;
     visibility: hidden;
 }
@@ -559,14 +556,14 @@ button {
     background: var(--colorWhite);
     padding: 20px;
     height: 100vh;
-    transform: scaleX(.5);
+    transform: scaleX(0.5);
     transform-origin: right;
     opacity: 0;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__menu_cart_header {
@@ -592,12 +589,12 @@ button {
     right: 0;
     border-radius: 50%;
     font-size: 16px;
-    transition: all linear .3s;
+    transition: all linear 0.3s;
     cursor: pointer;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__menu_cart_header .close_cart:hover {
@@ -659,11 +656,11 @@ button {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__menu_cart_area ul li .menu_cart_text .size {
@@ -719,11 +716,11 @@ button {
     font-size: 14px;
     background: #ffd7de;
     text-align: center;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
@@ -790,7 +787,6 @@ button {
 
 /* mini cart end */
 
-
 /* reservation modal start */
 .fp__reservation .modal {
     background: #0000008a;
@@ -813,7 +809,7 @@ button {
     font-weight: 600;
 }
 
-.fp__reservation_form input[type=date] {
+.fp__reservation_form input[type="date"] {
     text-transform: uppercase;
 }
 
@@ -831,11 +827,11 @@ button {
     font-weight: 600;
     width: 100%;
     text-align: center;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__reservation_form button:hover {
@@ -847,7 +843,6 @@ button {
 /*============================
     MENU END
 ============================*/
-
 
 /*============================
     BANNER START
@@ -878,7 +873,7 @@ button {
     height: 110px;
     top: 80px;
     left: 4%;
-    animation: rotate linear .10s infinite;
+    animation: rotate linear 0.1s infinite;
     -webkit-animation: rotate linear 50s infinite;
 }
 
@@ -1059,12 +1054,12 @@ button {
     background: var(--colorPrimary);
     margin: 0px 3px;
     padding: 0;
-    opacity: .2;
-    transition: all linear .2s;
-    -webkit-transition: all linear .2s;
-    -moz-transition: all linear .2s;
-    -ms-transition: all linear .2s;
-    -o-transition: all linear .2s;
+    opacity: 0.2;
+    transition: all linear 0.2s;
+    -webkit-transition: all linear 0.2s;
+    -moz-transition: all linear 0.2s;
+    -ms-transition: all linear 0.2s;
+    -o-transition: all linear 0.2s;
     position: relative;
 }
 
@@ -1083,7 +1078,6 @@ button {
 /*============================
     BANNER END
 ============================*/
-
 
 /*============================
     WHY CHOOSE START
@@ -1144,7 +1138,6 @@ button {
     WHY CHOOSE END
 ============================*/
 
-
 /*============================
     OFFER ITEM START
 ============================*/
@@ -1194,14 +1187,14 @@ button {
     font-size: 20px;
     font-weight: 800;
     margin: 10px 0px 5px;
-    transition: all linear .3s;
+    transition: all linear 0.3s;
     display: block;
     color: var(--colorBlack);
     font-family: var(--headingFont);
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -1229,11 +1222,11 @@ button {
     color: var(--colorWhite);
     font-size: 14px;
     border-radius: 50%;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__offer_item_single:hover .title {
@@ -1263,10 +1256,10 @@ button {
     top: 50%;
     right: -7px;
     transform: translateY(-50%);
-    opacity: .2;
+    opacity: 0.2;
     z-index: 1;
     cursor: pointer;
-    transition: all linear .3s;
+    transition: all linear 0.3s;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
@@ -1275,10 +1268,10 @@ button {
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .add_slider .prevArrow,
@@ -1288,7 +1281,6 @@ button {
     right: auto;
     left: -7px;
 }
-
 
 .add_slider:hover .nextArrow,
 .add_slider:hover .prevArrow,
@@ -1317,11 +1309,11 @@ button {
     border-radius: 50%;
     opacity: 1;
     color: var(--colorPrimary);
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__cart_popup .btn-close:hover {
@@ -1346,11 +1338,11 @@ button {
     font-family: var(--headingFont);
     color: var(--colorBlack);
     display: block;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__cart_popup_text .title:hover {
@@ -1389,7 +1381,6 @@ button {
 /*============================
     OFFER ITEM END
 ============================*/
-
 
 /*============================
     MENU ITEM START
@@ -1436,7 +1427,7 @@ button {
     border: 1px solid var(--colorPrimary);
     font-weight: 500;
     font-size: 15px;
-    transition: all linear .3s;
+    transition: all linear 0.3s;
 }
 
 .menu_filter button:hover,
@@ -1450,11 +1441,11 @@ button {
     position: relative;
     border-radius: 10px;
     overflow: hidden;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     box-shadow: var(--boxShadow);
 }
 
@@ -1484,11 +1475,11 @@ button {
     padding: 30px;
     text-align: center;
     position: relative;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__menu_item .fp__menu_item_text .rating {
@@ -1523,11 +1514,11 @@ button {
     margin: 10px 0px 12px 0px;
     display: block;
     text-align: center;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__menu_item .fp__menu_item_text .price {
@@ -1584,7 +1575,6 @@ button {
     MENU ITEM END
 ============================*/
 
-
 /*============================
     OFFER SLIDER START
 ============================*/
@@ -1634,7 +1624,6 @@ button {
     OFFER SLIDER END
 ============================*/
 
-
 /*============================
     TEAM START
 ============================*/
@@ -1661,11 +1650,11 @@ button {
     text-align: center;
     position: relative;
     margin-top: 25px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__single_team_img {
@@ -1676,11 +1665,11 @@ button {
     border: 5px solid var(--colorPrimary);
     border-radius: 50%;
     overflow: hidden;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__single_team_text h4 {
@@ -1691,11 +1680,11 @@ button {
     font-weight: 600;
     display: block;
     text-align: center;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__single_team_text p {
@@ -1715,11 +1704,11 @@ button {
     font-size: 14px;
     margin: 0px 5px;
     border-radius: 50%;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
@@ -1761,7 +1750,6 @@ button {
 /*============================
     TEAM END
 ============================*/
-
 
 /*============================
     DOWNLOAD APP START
@@ -1815,11 +1803,11 @@ button {
     justify-content: center;
     align-items: center;
     margin-right: 15px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__download_text ul li a:hover {
@@ -1850,11 +1838,11 @@ button {
 
 .fp__download_img {
     height: 590px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     animation: download_animi linear 5s alternate infinite;
     -webkit-animation: download_animi linear 5s alternate infinite;
 }
@@ -1880,7 +1868,6 @@ button {
 /*============================
     DOWNLOAD APP END
 ============================*/
-
 
 /*============================
     COUNTER START
@@ -1950,7 +1937,6 @@ button {
     COUNTER END
 ============================*/
 
-
 /*============================
     TESTIMONIAL START
 ============================*/
@@ -1976,7 +1962,7 @@ button {
     top: 5px;
     right: 10px;
     z-index: 1;
-    opacity: .5;
+    opacity: 0.5;
 }
 
 .fp__testimonial_header {
@@ -2054,7 +2040,6 @@ button {
     TESTIMONIAL END
 ============================*/
 
-
 /*============================
     BLOG START
 ============================*/
@@ -2077,11 +2062,11 @@ button {
 }
 
 .fp__single_blog_img img {
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__single_blog_text {
@@ -2092,11 +2077,11 @@ button {
     bottom: 0;
     left: 0;
     z-index: 1;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__single_blog_text .category {
@@ -2110,11 +2095,11 @@ button {
     position: absolute;
     top: -15px;
     left: 30px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__single_blog_text ul li {
@@ -2125,11 +2110,11 @@ button {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__single_blog_text ul li i {
@@ -2142,11 +2127,11 @@ button {
     background: var(--gradiantBg);
     color: var(--colorWhite);
     margin-right: 5px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__single_blog_text .title {
@@ -2155,11 +2140,11 @@ button {
     text-transform: capitalize;
     color: var(--colorBlack);
     margin-top: 15px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -2168,7 +2153,12 @@ button {
 
 .fp__single_blog:hover .fp__single_blog_text {
     background: rgb(0, 0, 0);
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.8270658605238971) 0%, rgba(0, 0, 0, 0.527345972568715) 67%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.8270658605238971) 0%,
+        rgba(0, 0, 0, 0.527345972568715) 67%,
+        rgba(0, 0, 0, 0) 100%
+    );
 }
 
 .fp__single_blog:hover ul li,
@@ -2191,7 +2181,6 @@ button {
 /*============================
     BLOG END
 ============================*/
-
 
 /*============================
     BRAND START
@@ -2226,7 +2215,6 @@ button {
 /*============================
     BRAND END
 ============================*/
-
 
 /*============================
     FOOTER START
@@ -2277,11 +2265,11 @@ footer {
     margin-top: 15px;
     display: block;
     position: relative;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__footer_content ul li a::after {
@@ -2298,11 +2286,11 @@ footer {
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__footer_content ul li a:hover {
@@ -2331,11 +2319,11 @@ footer {
     position: absolute;
     top: 3px;
     right: 3px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__footer_content button:hover {
@@ -2389,22 +2377,22 @@ footer {
     text-transform: capitalize;
     color: var(--colorWhite);
     margin: 0px 5px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     font-weight: 600;
 }
 
 .fp__footer_bottom_text ul li a {
     color: var(--colorWhite);
     text-transform: capitalize;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     margin-left: 12px;
     position: relative;
     padding-left: 20px;
@@ -2485,7 +2473,6 @@ footer {
     FOOTER END
 ============================*/
 
-
 /*============================
     BREADCRUMB START
 ============================*/
@@ -2562,7 +2549,6 @@ footer {
     BREADCRUMB END
 ============================*/
 
-
 /*============================
     PAGINATION START
 ============================*/
@@ -2603,7 +2589,6 @@ footer {
 /*============================
     PAGINATION END
 ============================*/
-
 
 /*============================
     ABOUT PAGE START
@@ -2858,7 +2843,6 @@ footer {
     ABOUT PAGE END
 ============================*/
 
-
 /*============================
     MENU PAGE START
 ============================*/
@@ -2877,7 +2861,6 @@ footer {
 /*============================
     MENU PAGE END
 ============================*/
-
 
 /*============================
     CONTACT START
@@ -2966,7 +2949,7 @@ footer {
     left: 0;
     transform: translateY(-50%);
     color: var(--colorPrimary);
-    border-right: 1px solid #E4E7E9;
+    border-right: 1px solid #e4e7e9;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
@@ -2993,11 +2976,11 @@ footer {
     border-radius: 30px;
     font-size: 16px !important;
     font-weight: 600 !important;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     margin-top: 20px;
 }
 
@@ -3025,7 +3008,6 @@ footer {
     CONTACT END
 ============================*/
 
-
 /*================================
     BLOG DETAILS START
 ================================*/
@@ -3034,7 +3016,7 @@ footer {
 }
 
 .fp__blog_det_area {
-    background: #FFFFFF;
+    background: #ffffff;
     box-shadow: var(--boxShadow);
     border-radius: 5px;
     overflow: hidden;
@@ -3178,11 +3160,11 @@ footer {
     font-size: 12px;
     border-radius: 50%;
     background: var(--colorPrimary);
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
@@ -3190,7 +3172,7 @@ footer {
 }
 
 .blog_tags_share {
-    border-top: 1px solid #E9F2FF;
+    border-top: 1px solid #e9f2ff;
     margin-top: 30px;
     padding-top: 20px;
 }
@@ -3210,11 +3192,11 @@ footer {
     color: var(--colorBlack);
     text-transform: capitalize;
     margin-right: 10px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .blog_tags_share .tags ul li a:hover {
@@ -3230,11 +3212,11 @@ footer {
     color: var(--colorWhite);
     border-radius: 50%;
     font-size: 14px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .blog_tags_share .share ul li a:hover {
@@ -3278,11 +3260,11 @@ footer {
     font-weight: 700;
     color: var(--colorBlack);
     width: 60%;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     font-family: var(--headingFont);
 }
 
@@ -3373,11 +3355,11 @@ footer {
     font-size: 20px;
     font-weight: 600;
     text-transform: capitalize;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__single_comm_text a:hover {
@@ -3403,11 +3385,11 @@ footer {
 }
 
 .fp__single_comm_text a {
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__single_comment .status {
@@ -3476,7 +3458,7 @@ footer {
 }
 
 .blog_sidebar form input {
-    background: #F5F9FF;
+    background: #f5f9ff;
     border-radius: 5px;
 }
 
@@ -3487,11 +3469,11 @@ footer {
     font-size: 18px;
     color: var(--colorPrimary);
     background: none;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .blog_sidebar form button:hover {
@@ -3528,11 +3510,11 @@ footer {
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin-bottom: 7px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__related_blog ul li .text a:hover {
@@ -3556,15 +3538,15 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #F5F9FF;
+    background: #f5f9ff;
     color: var(--colorBlack);
     padding-left: 20px;
     margin-top: 10px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__blog_categori ul li a span {
@@ -3592,7 +3574,7 @@ footer {
 }
 
 .fp__blog_tags ul li a {
-    background: #F5F9FF;
+    background: #f5f9ff;
     border-radius: 3px;
     font-size: 16px;
     font-weight: 400;
@@ -3600,11 +3582,11 @@ footer {
     padding: 7px 17px;
     margin-top: 10px;
     margin-right: 10px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__blog_tags ul li a:hover {
@@ -3648,7 +3630,6 @@ footer {
 /*================================
     BLOG DETAILS END
 ================================*/
-
 
 /*============================
     MENU DETAILS START
@@ -3806,11 +3787,11 @@ footer {
     background: var(--gradiantBg);
     color: var(--colorWhite);
     border-radius: 50%;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .details_button_area .wishlist:hover {
@@ -3841,11 +3822,11 @@ footer {
     font-size: 18px;
     font-weight: 600;
     color: var(--colorBlack);
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__menu_description_area .nav .nav-item .nav-link:hover,
@@ -3917,11 +3898,11 @@ footer {
     border: 1px solid var(--colorPrimary);
     padding: 3px 15px 4px 15px;
     border-radius: 30px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__comment .load_more:hover,
@@ -3947,11 +3928,11 @@ footer {
 .fp__post_review form .rating i {
     color: #ff9933;
     cursor: pointer;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__post_review form .rating i:hover {
@@ -3981,7 +3962,6 @@ footer {
 /*============================
     MENU DETAILS END
 ============================*/
-
 
 /*======================
     CART VIEW PAGE START
@@ -4026,7 +4006,7 @@ footer {
 
 .fp__pro_status p {
     text-transform: capitalize;
-    color: #08C !important;
+    color: #08c !important;
 }
 
 .fp__pro_status span {
@@ -4133,11 +4113,11 @@ footer {
     display: block;
     margin-bottom: 5px;
     width: 100%;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__cart_list table tbody tr td a:hover {
@@ -4330,7 +4310,6 @@ footer {
 CART VIEW PAGE END
 ========================*/
 
-
 /*======================
 CHECKOUT PAGE START
 ========================*/
@@ -4361,11 +4340,11 @@ CHECKOUT PAGE START
     padding: 5px 10px;
     font-family: var(--paraFont);
     background: var(--colorWhite);
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     -ms-border-radius: 3px;
@@ -4482,12 +4461,12 @@ CHECKOUT PAGE START
     text-align: center;
     margin: 3px;
     border-radius: 2px;
-    transition: all linear .3s;
+    transition: all linear 0.3s;
     cursor: pointer;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__checkout_single_address ul li a:hover {
@@ -4498,7 +4477,6 @@ CHECKOUT PAGE START
 /*======================
   CHECKOUT PAGE END
 ========================*/
-
 
 /*========================
     SIGNIN START
@@ -4676,7 +4654,6 @@ CHECKOUT PAGE START
     SIGNIN END
 =================================== */
 
-
 /*============================
     PAYMENT PAGE START
 ============================*/
@@ -4686,7 +4663,7 @@ CHECKOUT PAGE START
     overflow: hidden;
     background: #faf6f3fa;
     display: block;
-    transition: all linear .3s;
+    transition: all linear 0.3s;
     margin-top: 25px;
     height: 110px;
 }
@@ -4727,11 +4704,11 @@ CHECKOUT PAGE START
     font-size: 10px;
     border-radius: 50%;
     background: var(--gradiantBg);
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__pay_modal_info input,
@@ -4773,7 +4750,6 @@ CHECKOUT PAGE START
 /*============================
     PAYMENT PAGE END
 ============================*/
-
 
 /*============================
     FAQ PAGE START
@@ -4860,7 +4836,6 @@ CHECKOUT PAGE START
     FAQ PAGE END
 ============================*/
 
-
 /* =================================
     TERMS AND CONDITION START
 ================================= */
@@ -4917,7 +4892,7 @@ CHECKOUT PAGE START
 .fp__career_det_text ol li::after {
     position: absolute;
     content: "\f30b";
-    font-family: 'Font Awesome 5 Free';
+    font-family: "Font Awesome 5 Free";
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -4932,7 +4907,6 @@ CHECKOUT PAGE START
 /* =================================
     TERMS AND CONDITION END
 ================================= */
-
 
 /*============================
     404 page START
@@ -4979,7 +4953,6 @@ CHECKOUT PAGE START
     404 page END
 ============================*/
 
-
 /*============================
     TESTIMONIAL PAGE START
 ============================*/
@@ -4990,7 +4963,6 @@ CHECKOUT PAGE START
 /*============================
     TESTIMONIAL PAGE END
 ============================*/
-
 
 /* ===========================
     DASHBOARD START
@@ -5045,11 +5017,11 @@ CHECKOUT PAGE START
     background: var(--colorWhite);
     box-shadow: var(--boxShadow);
     cursor: pointer;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .dasboard_header .dasboard_header_img label:hover {
@@ -5149,11 +5121,11 @@ CHECKOUT PAGE START
     cursor: pointer;
     font-size: 14px;
     text-transform: capitalize;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp_dashboard_body h3 .dash_add_new_address:hover {
@@ -5242,11 +5214,11 @@ CHECKOUT PAGE START
     font-weight: 600;
     padding: 4px 15px;
     border-radius: 30px;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     cursor: pointer;
 }
 
@@ -5575,11 +5547,11 @@ CHECKOUT PAGE START
     color: var(--colorWhite) !important;
     font-weight: 400;
     cursor: pointer;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__invoice .go_back i {
@@ -5752,7 +5724,7 @@ CHECKOUT PAGE START
 }
 
 .fp__invoice table tr:last-child td {
-    border-bottom: .5px solid #ddd;
+    border-bottom: 0.5px solid #ddd;
 }
 
 .fp__invoice table tr td {
@@ -5798,11 +5770,11 @@ CHECKOUT PAGE START
 }
 
 .fp__invoice table tfoot {
-    border-bottom: .5px solid #ddd;
+    border-bottom: 0.5px solid #ddd;
 }
 
 .fp__invoice table tfoot tr td {
-    border-bottom: .5px solid #ddd;
+    border-bottom: 0.5px solid #ddd;
 }
 
 .fp__invoice table tfoot tr td b {
@@ -5887,7 +5859,6 @@ CHECKOUT PAGE START
     DASHBOARD END
 ========================*/
 
-
 /*============================
     HOME 2 START
 ============================*/
@@ -5945,7 +5916,6 @@ CHECKOUT PAGE START
 
 /* menu end */
 
-
 /* bannner 2 start */
 .fp__banner2 {
     overflow-x: hidden;
@@ -5991,14 +5961,14 @@ CHECKOUT PAGE START
     text-align: center;
     border-radius: 50%;
     font-size: 20px;
-    opacity: .5;
+    opacity: 0.5;
     cursor: pointer;
     z-index: 1;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
@@ -6016,7 +5986,6 @@ CHECKOUT PAGE START
 }
 
 /* banner 2 end */
-
 
 /* why choose 2 start */
 .fp__why_choose2 {
@@ -6048,7 +6017,6 @@ CHECKOUT PAGE START
 }
 
 /* why choose 2 end */
-
 
 /* offer item end */
 .fp__offer_item2 {
@@ -6086,11 +6054,11 @@ CHECKOUT PAGE START
     top: -25px;
     left: -25px;
     border: 1px solid #eee;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__offer_item2 .fp__offer_item_single ul {
@@ -6130,7 +6098,6 @@ CHECKOUT PAGE START
 }
 
 /* offer item end */
-
 
 /* menu 2 start */
 .fp__menu2 .menu_filter button {
@@ -6182,14 +6149,12 @@ CHECKOUT PAGE START
 
 /* menu 2 end */
 
-
 /* video start */
 .home_2 .fp__about_video_bg {
     border-radius: 0;
 }
 
 /* video end */
-
 
 /* download app 2 start */
 .fp__download2 .fp__download_img {
@@ -6219,7 +6184,6 @@ CHECKOUT PAGE START
 }
 
 /* download app 2 end */
-
 
 /* blog 2 start */
 .fp__blog2 .fp__blog_overlay {
@@ -6260,7 +6224,6 @@ CHECKOUT PAGE START
 
 /* blog 2 end */
 
-
 /* tean 2 start */
 .fp__team2 .fp__single_team2 {
     margin: 25px 12px 10px 12px;
@@ -6273,11 +6236,11 @@ CHECKOUT PAGE START
     text-align: center;
     margin-top: 25px;
     overflow: hidden;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__single_team_img2 {
@@ -6287,11 +6250,11 @@ CHECKOUT PAGE START
 }
 
 .fp__single_team_img2 img {
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__single_team_img2 ul {
@@ -6299,11 +6262,11 @@ CHECKOUT PAGE START
     width: 100%;
     bottom: -40px;
     left: 0;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__single_team_img2 ul li a {
@@ -6316,11 +6279,11 @@ CHECKOUT PAGE START
     font-size: 14px;
     margin: 0px 5px;
     border-radius: 50%;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
@@ -6343,11 +6306,11 @@ CHECKOUT PAGE START
     font-weight: 600;
     display: block;
     text-align: center;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__single_team_text2 p {
@@ -6369,7 +6332,6 @@ CHECKOUT PAGE START
 }
 
 /* tean 2 end*/
-
 
 /* testimonial 2 start */
 .fp__single_testimonial2 {
@@ -6449,7 +6411,7 @@ CHECKOUT PAGE START
     bottom: 10px;
     right: 10px;
     z-index: 1;
-    opacity: .2;
+    opacity: 0.2;
 }
 
 .fp__testimonial2 .nextArrow,
@@ -6465,10 +6427,10 @@ CHECKOUT PAGE START
     top: 50%;
     right: -7px;
     transform: translateY(-50%);
-    opacity: .2;
+    opacity: 0.2;
     z-index: 1;
     cursor: pointer;
-    transition: all linear .3s;
+    transition: all linear 0.3s;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
@@ -6477,10 +6439,10 @@ CHECKOUT PAGE START
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
 }
 
 .fp__testimonial2 .prevArrow {
@@ -6495,7 +6457,6 @@ CHECKOUT PAGE START
 
 /* testimonial 2 end */
 
-
 /* brand 2 start */
 .fp__brand2 .fp__brand_overlay {
     background: var(--colorWhite);
@@ -6508,7 +6469,6 @@ CHECKOUT PAGE START
 }
 
 /* brand 2 end */
-
 
 /* footer 2 start */
 .footer2 .footer_overlay {
@@ -6622,11 +6582,11 @@ CHECKOUT PAGE START
     margin: 0 !important;
     margin-bottom: 7px !important;
     font-family: var(--headingFont);
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -6685,7 +6645,6 @@ CHECKOUT PAGE START
 /*============================
     SEARCH MENU END
 ============================*/
-
 
 /*============================
     SIGN IN START
@@ -6782,7 +6741,7 @@ CHECKOUT PAGE START
 }
 
 .fp__chating_text p {
-    background: #F5F9FF;
+    background: #f5f9ff;
     color: var(--colorBlack);
     padding: 15px;
     border-radius: 10px;
@@ -6828,11 +6787,11 @@ CHECKOUT PAGE START
     line-height: 31px;
     text-align: center;
     border-radius: 50%;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
@@ -6867,11 +6826,11 @@ CHECKOUT PAGE START
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
-    transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
@@ -6881,3 +6840,29 @@ CHECKOUT PAGE START
 .fp__massage_btn:hover {
     background: var(--colorBlack);
 }
+
+.fp__pagination ul li span {
+    width: 50px !important;
+    height: 50px !important;
+    padding: 0 !important;
+    line-height: 50px !important;
+    text-align: center !important;
+    font-size: 16px !important;
+    background: var(--colorWhite);
+    color: var(--paraColor) !important;
+    border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    -ms-border-radius: 0 !important;
+    -o-border-radius: 0 !important;
+    margin: 0px 10px;
+    margin-left: 10px;
+
+}
+
+.active > .page-link, .page-link.active {
+    z-index: 3;
+    color: var(--colorWhite);
+    background-color: var(--colorPrimary);
+    border-color: var(--colorPrimary);
+  }

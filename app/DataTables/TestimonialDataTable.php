@@ -22,7 +22,28 @@ class TestimonialDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'testimonial.action')
+            ->addColumn('action', function($query){
+                $edit = "<a href='".route('admin.testimonial.edit', $query->id)."' class='btn btn-primary'><i class='fas fa-edit'></i></a>";
+                $delete = "<a href='".route('admin.testimonial.destroy', $query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
+
+                return $edit.$delete;
+            })->addColumn('image', function($query){
+                return '<img width="60px" src="'.asset($query->image).'">';
+            })->addColumn('status', function($query){
+                if($query->status === 1){
+                    return '<span class="badge badge-primary">Active</span>';
+                }else {
+                    return '<span class="badge badge-danger">InActive</span>';
+                }
+            })
+            ->addColumn('show_at_home', function($query){
+                if($query->status === 1){
+                    return '<span class="badge badge-primary">Yes</span>';
+                }else {
+                    return '<span class="badge badge-danger">No</span>';
+                }
+            })
+            ->rawColumns(['action', 'image', 'status', 'show_at_home'])
             ->setRowId('id');
     }
 
@@ -62,15 +83,19 @@ class TestimonialDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('image'),
+            Column::make('name'),
+            Column::make('rating'),
+            Column::make('review'),
+            Column::make('show_at_home'),
+            Column::make('status'),
+            Column::computed('action')
+            ->exportable(false)
+            ->printable(false)
+            ->width(100)
+            ->addClass('text-center'),
         ];
     }
 

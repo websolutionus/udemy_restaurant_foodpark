@@ -6,6 +6,7 @@ use App\DataTables\TestimonialDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\TestimonialCreateRequest;
 use App\Http\Requests\Admin\TestimonialUpdateRequest;
+use App\Models\SectionTitle;
 use App\Models\Tesimonial;
 use App\Models\Testimonial;
 use App\Traits\FileUploadTrait;
@@ -23,7 +24,9 @@ class TestimonialController extends Controller
      */
     public function index(TestimonialDataTable $dataTable) : View|JsonResponse
     {
-        return $dataTable->render('admin.testimonial.index');
+        $keys = ['testimonial_top_title', 'testimonial_main_title', 'testimonial_sub_title'];
+        $titles = SectionTitle::whereIn('key', $keys)->pluck('value','key');
+        return $dataTable->render('admin.testimonial.index', compact('titles'));
     }
 
     /**
@@ -85,6 +88,23 @@ class TestimonialController extends Controller
         toastr()->success('Created Successfully');
 
         return to_route('admin.testimonial.index');
+    }
+
+    public function updateTitle(Request $request)
+    {
+        $validatedData = $request->validate([
+                    'testimonial_top_title' => ['max:100'],
+                    'testimonial_main_title' => ['max:200'],
+                    'testimonial_sub_title' => ['max:500']
+                ]);
+        foreach ($validatedData as $key => $value) {
+            SectionTitle::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+        }
+        toastr()->success('Updated Successfully!');
+        return redirect()->back();
     }
 
     /**

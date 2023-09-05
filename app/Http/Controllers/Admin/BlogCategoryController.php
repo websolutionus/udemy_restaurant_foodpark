@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\BlogCategoryDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\BlogCategory;
+use App\Models\BlogCateogry;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Str;
 
 class BlogCategoryController extends Controller
 {
@@ -21,9 +24,9 @@ class BlogCategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create() : View
     {
-        //
+        return view('admin.blog.blog-category.create');
     }
 
     /**
@@ -31,7 +34,20 @@ class BlogCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'max:255', 'unique:blog_categories,name'],
+            'status' => ['required', 'boolean']
+        ]);
+
+        $category = new BlogCategory();
+        $category->name = $request->name;
+        $category->slug = Str::slug($request->name);
+        $category->status = $request->status;
+        $category->save();
+
+        toastr()->success('Created Successfully!');
+
+        return to_route('admin.blog-category.index');
     }
 
     /**

@@ -49,7 +49,12 @@ require __DIR__.'/auth.php';
 
 /** Show Home page */
 Route::get('/', [FrontendController::class, 'index'])->name('home');
+
+/** Chef page */
 Route::get('/chef', [FrontendController::class, 'chef'])->name('chef');
+/** Testimonial page */
+Route::get('/testimonials', [FrontendController::class, 'testimonial'])->name('testimonial');
+
 
 
 /** Show Product details page */

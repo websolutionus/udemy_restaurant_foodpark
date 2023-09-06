@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\AppDownloadSection;
 use App\Models\BannerSlider;
+use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Chef;
 use App\Models\Counter;
@@ -81,7 +82,8 @@ class FrontendController extends Controller
     }
 
     function blog() : View {
-        return view('frontend.pages.blog');
+        $blogs = Blog::with(['category', 'user'])->where('status', 1)->latest()->paginate(9);
+        return view('frontend.pages.blog', compact('blogs'));
     }
 
     function showProduct(string $slug) : View {

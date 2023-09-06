@@ -55,6 +55,10 @@ Route::get('/chef', [FrontendController::class, 'chef'])->name('chef');
 /** Testimonial page */
 Route::get('/testimonials', [FrontendController::class, 'testimonial'])->name('testimonial');
 
+/** Blogs Routes */
+Route::get('/blogs', [FrontendController::class, 'blog'])->name('blogs');
+
+
 
 
 /** Show Product details page */

@@ -3,16 +3,16 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>Product</h1>
+        <h1>Blog</h1>
     </div>
 
     <div class="card card-primary">
         <div class="card-header">
-            <h4>Create Procut</h4>
+            <h4>Create Blog</h4>
 
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.blogs.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="form-group">
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Ttile</label>
+                    <label>Title</label>
                     <input type="text" name="title" class="form-control" value="{{ old('title') }}">
                 </div>
 

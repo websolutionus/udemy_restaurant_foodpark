@@ -6,12 +6,15 @@ use App\DataTables\BlogCategoryDataTable;
 use App\DataTables\BlogDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BlogCreateRequest;
+use App\Http\Requests\Admin\BlogUpdateRequest;
 use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\BlogCateogry;
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Str;
 
@@ -39,7 +42,7 @@ class BlogController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BlogCreateRequest $request)
+    public function store(BlogCreateRequest $request) : RedirectResponse
     {
         $imagePath = $this->uploadImage($request, 'image');
 
@@ -63,34 +66,50 @@ class BlogController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id) : View
     {
-        //
+        $blog = Blog::findOrFail($id);
+        $categories = BlogCategory::all();
+        return view('admin.blog.edit', compact('blog', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(BlogUpdateRequest $request, string $id) : RedirectResponse
     {
-        //
+        $imagePath = $this->uploadImage($request, 'image', $request->old_image);
+
+        $blog = Blog::findOrFail($id);
+        $blog->image = !empty($imagePath) ? $imagePath : $request->old_image;
+        $blog->title = $request->title;
+        $blog->slug = Str::slug($request->title);
+        $blog->category_id = $request->category;
+        $blog->description = $request->description;
+        $blog->seo_title = $request->seo_title;
+        $blog->seo_description = $request->seo_description;
+        $blog->status = $request->status;
+        $blog->save();
+
+        toastr()->success('Created Successfully');
+
+        return to_route('admin.blogs.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id) : Response
     {
-        //
+        try {
+            $blog = Blog::findOrFail($id);
+            $this->removeImage($blog->image);
+            $blog->delete();
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'message' => 'something went wrong!']);
+        }
     }
 }

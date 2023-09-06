@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AppDownloadSection;
 use App\Models\BannerSlider;
 use App\Models\Blog;
+use App\Models\BlogCategory;
 use App\Models\Category;
 use App\Models\Chef;
 use App\Models\Counter;
@@ -88,7 +89,16 @@ class FrontendController extends Controller
 
     function blogDetails(string $slug) : View {
         $blog = Blog::with(['user'])->where('slug', $slug)->where('status', 1)->firstOrFail();
-        return view('frontend.pages.blog-details', compact('blog'));
+
+        $latestBlogs = Blog::select('id', 'title', 'slug', 'created_at', 'image')
+            ->where('status', 1)
+            ->where('id', '!=', $blog->id)
+            ->latest()->take(5)->get();
+        $categories = BlogCategory::withCount(['blogs' => function($query){
+            $query->where('status', 1);
+        }])->where('status', 1)->get();
+
+        return view('frontend.pages.blog-details', compact('blog', 'latestBlogs', 'categories'));
     }
 
     function showProduct(string $slug) : View {

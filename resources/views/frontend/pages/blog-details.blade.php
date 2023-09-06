@@ -40,7 +40,7 @@
                                 <li><i class="far fa-calendar-alt"></i> {{ date('d m Y', strtotime($blog->created_at)) }}</li>
                             </ul>
                             <h2>{!! $blog->title !!}</h2>
-                            
+
                             {!! $blog->description !!}
 
                             <div class="blog_tags_share d-flex flex-wrap justify-content-between align-items-center">
@@ -172,54 +172,28 @@
                         <div class="fp__related_blog blog_sidebar wow fadeInUp" data-wow-duration="1s">
                             <h3>Latest Post</h3>
                             <ul>
+                                @foreach ($latestBlogs as $latestBlog)
                                 <li>
-                                    <img src="images/blog_1.jpg" alt="blog" class="img-fluid w-100">
+                                    <img src="{{ $latestBlog->image }}" alt="{{ $latestBlog->title }}" class="img-fluid w-100">
                                     <div class="text">
-                                        <a href="#">Mechanic at car service tire change the car.</a>
-                                        <p><i class="far fa-calendar-alt"></i> 29 oct 2022</p>
+                                        <a href="{{ route('blogs.details', $latestBlog->slug) }}">{{ truncate($latestBlog->title, 50) }}</a>
+                                        <p><i class="far fa-calendar-alt"></i> {{ date('d m Y', strtotime($latestBlog->created_at)) }}</p>
                                     </div>
                                 </li>
-                                <li>
-                                    <img src="images/blog_2.jpg" alt="blog" class="img-fluid w-100">
-                                    <div class="text">
-                                        <a href="#">Transportation and logistics of container cargo ship.</a>
-                                        <p><i class="far fa-calendar-alt"></i> 29 oct 2022</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="images/blog_3.jpg" alt="blog" class="img-fluid w-100">
-                                    <div class="text">
-                                        <a href="#">Commercial cleaning crew ladies working.</a>
-                                        <p><i class="far fa-calendar-alt"></i> 29 oct 2022</p>
-                                    </div>
-                                </li>
+                                @endforeach
+
                             </ul>
                         </div>
                         <div class="fp__blog_categori blog_sidebar wow fadeInUp" data-wow-duration="1s">
                             <h3>Categories</h3>
                             <ul>
-                                <li><a href="#">Home Cleaning <span>10</span></a></li>
-                                <li><a href="#">Painting & Renovation <span>20</span></a></li>
-                                <li><a href="#">Cleaning & Pest Control <span>14</span></a></li>
-                                <li><a href="#">Emergency Services <span>41</span></a></li>
-                                <li><a href="#">Car Care Services <span>05</span></a></li>
-                                <li><a href="#">Electric & Plumbing <span>35</span></a></li>
-                                <li><a href="#">Home Move <span>48</span></a></li>
+                                @foreach ($categories as $category)
+                                <li><a href="#">{{ $category->name }} <span>{{ $category->blogs_count }}</span></a></li>
+                                @endforeach
+
                             </ul>
                         </div>
-                        <div class="fp__blog_tags blog_sidebar wow fadeInUp" data-wow-duration="1s">
-                            <h3>Popular Tags</h3>
-                            <ul>
-                                <li><a href="#">Cleaning </a></li>
-                                <li><a href="#">Car Repair</a></li>
-                                <li><a href="#">Plumbing</a></li>
-                                <li><a href="#">Painting</a></li>
-                                <li><a href="#">Past Control</a></li>
-                                <li><a href="#">AC Repair</a></li>
-                                <li><a href="#">Home Move</a></li>
-                                <li><a href="#">Disinfection</a></li>
-                            </ul>
-                        </div>
+                      
                     </div>
                 </div>
             </div>

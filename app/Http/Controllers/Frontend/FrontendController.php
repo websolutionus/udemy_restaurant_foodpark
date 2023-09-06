@@ -86,6 +86,11 @@ class FrontendController extends Controller
         return view('frontend.pages.blog', compact('blogs'));
     }
 
+    function blogDetails(string $slug) : View {
+        $blog = Blog::with(['user'])->where('slug', $slug)->where('status', 1)->firstOrFail();
+        return view('frontend.pages.blog-details', compact('blog'));
+    }
+
     function showProduct(string $slug) : View {
         $product = Product::with(['productImages', 'productSizes', 'productOptions'])->where(['slug' => $slug, 'status' => 1])->firstOrFail();
         $relatedProducts = Product::where('category_id', $product->category_id)

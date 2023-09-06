@@ -113,8 +113,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::get('counter', [CounterController::class, 'index'])->name('counter.index');
     Route::put('counter', [CounterController::class, 'update'])->name('counter.update');
 
-    /** Blogs Routes */
+    /** Blogs Category Routes */
     Route::resource('blog-category', BlogCategoryController::class);
+
+    /** Blogs Category Routes */
+    Route::resource('blogs', BlogController::class);
 
 
 

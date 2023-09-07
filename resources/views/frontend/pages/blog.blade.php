@@ -27,19 +27,18 @@
     ==============================-->
     <section class="fp__blog_page fp__blog2 mt_120 xs_mt_65 mb_100 xs_mb_70">
         <div class="container">
-            <form class="fp__search_menu_form mb-4">
+            <form class="fp__search_menu_form mb-4" action="{{ route('blogs') }}" method="GET">
                 <div class="row">
                     <div class="col-xl-6 col-md-5">
-                        <input type="text" placeholder="Search...">
+                        <input type="text" placeholder="Search..." name="search">
                     </div>
                     <div class="col-xl-4 col-md-4">
-                        <select class="nice-select">
-                            <option value="">select country</option>
-                            <option value="">bangladesh</option>
-                            <option value="">nepal</option>
-                            <option value="">japan</option>
-                            <option value="">korea</option>
-                            <option value="">thailand</option>
+                        <select class="nice-select" name="category">
+                            <option value="">All</option>
+                            @foreach ($categories as $category)
+                            <option value="{{ $category->slug }}">{{ $category->name }}</option>
+                            @endforeach
+
                         </select>
                     </div>
                     <div class="col-xl-2 col-md-3">

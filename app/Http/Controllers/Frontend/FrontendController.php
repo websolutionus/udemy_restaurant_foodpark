@@ -7,6 +7,7 @@ use App\Models\AppDownloadSection;
 use App\Models\BannerSlider;
 use App\Models\Blog;
 use App\Models\BlogCategory;
+use App\Models\BlogComment;
 use App\Models\Category;
 use App\Models\Chef;
 use App\Models\Counter;
@@ -18,6 +19,7 @@ use App\Models\Slider;
 use App\Models\Testimonial;
 use App\Models\WhyChooseUs;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
@@ -103,6 +105,23 @@ class FrontendController extends Controller
 
 
         return view('frontend.pages.blog-details', compact('blog', 'latestBlogs', 'categories', 'nextBlog', 'previousBlog'));
+    }
+
+    function blogCommentStore(Request $request, string $blog_id) : RedirectResponse {
+        $request->validate([
+            'comment' => ['required', 'max:500']
+        ]);
+
+        Blog::findOrFail($blog_id);
+
+        $comment = new BlogComment();
+        $comment->blog_id = $blog_id;
+        $comment->user_id = auth()->user()->id;
+        $comment->comment = $request->comment;
+        $comment->save();
+
+        toastr()->success('Comment submitted successfully and waiting to approve.');
+        return redirect()->back();
     }
 
     function showProduct(string $slug) : View {

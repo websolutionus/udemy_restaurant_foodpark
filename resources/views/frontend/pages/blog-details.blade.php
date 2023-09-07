@@ -92,48 +92,27 @@
                     </ul>
 
                     <div class="fp__comment mt_100 xs_mt_70 wow fadeInUp" data-wow-duration="1s">
-                        <h4>03 Comments</h4>
+                        <h4>{{ count($comments) }} Comments</h4>
+                        @foreach ($comments as $comment)
                         <div class="fp__single_comment m-0 border-0">
-                            <img src="images/comment_img_1.png" alt="review" class="img-fluid">
+                            <img src="{{ asset($comment->user->avatar) }}" alt="review" class="img-fluid">
                             <div class="fp__single_comm_text">
-                                <h3>Michel Holder <span>29 oct 2022 </span></h3>
-                                <p>Sure there isn't anything embarrassing hiidden in the
-                                    middles of text. All erators on the Internet
-                                    tend to repeat predefined chunks</p>
-                                <a href="#">Reply <i class="fas fa-reply-all"></i></a>
+                                <h3>{{ $comment->user->name }} <span>{{ date('d M Y', strtotime($comment->created_at)) }} </span></h3>
+                                <p>{{ $comment->comment }}</p>
                             </div>
                         </div>
-                        <div class="fp__single_comment">
-                            <img src="images/chef_1.jpg" alt="review" class="img-fluid">
-                            <div class="fp__single_comm_text">
-                                <h3>salina khan <span>29 oct 2022 </span></h3>
-                                <p>Sure there isn't anything embarrassing hiidden in the
-                                    middles of text. All erators on the Internet
-                                    tend to repeat predefined chunks</p>
-                                <a href="#">Reply <i class="fas fa-reply-all"></i></a>
+                        @endforeach
+
+                        @if ($comments->hasPages())
+                        <div class="fp__pagination mt_60">
+                            <div class="row">
+                                <div class="col-12">
+                                    {{ $comments->links() }}
+                                </div>
                             </div>
                         </div>
-                        <div class="fp__single_comment replay">
-                            <img src="images/comment_img_2.png" alt="review" class="img-fluid">
-                            <div class="fp__single_comm_text">
-                                <h3>Mouna Sthesia <span>29 oct 2022 </span></h3>
-                                <p>Sure there isn't anything embarrassing hiidden in the
-                                    middles of text. All erators on the Internet
-                                    tend to repeat predefined chunks</p>
-                                <a href="#">Reply <i class="fas fa-reply-all"></i></a>
-                            </div>
-                        </div>
-                        <div class="fp__single_comment">
-                            <img src="images/chef_3.jpg" alt="review" class="img-fluid">
-                            <div class="fp__single_comm_text">
-                                <h3>marjan janifar <span>29 oct 2022 </span></h3>
-                                <p>Sure there isn't anything embarrassing hiidden in the
-                                    middles of text. All erators on the Internet
-                                    tend to repeat predefined chunks</p>
-                                <a href="#">Reply <i class="fas fa-reply-all"></i></a>
-                            </div>
-                        </div>
-                        <a href="#" class="load_more">load More</a>
+                        @endif
+
                     </div>
 
                     <div class="comment_input mt_100 xs_mt_70 wow fadeInUp" data-wow-duration="1s">

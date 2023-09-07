@@ -91,6 +91,7 @@ class FrontendController extends Controller
 
     function blogDetails(string $slug) : View {
         $blog = Blog::with(['user'])->where('slug', $slug)->where('status', 1)->firstOrFail();
+        $comments = $blog->comments()->where('status', 1)->orderBy('id', 'DESC')->paginate(20);
 
         $latestBlogs = Blog::select('id', 'title', 'slug', 'created_at', 'image')
             ->where('status', 1)
@@ -104,7 +105,7 @@ class FrontendController extends Controller
         $previousBlog = Blog::select('id', 'title', 'slug', 'image')->where('id', '<', $blog->id)->orderBy('id', 'DESC')->first();
 
 
-        return view('frontend.pages.blog-details', compact('blog', 'latestBlogs', 'categories', 'nextBlog', 'previousBlog'));
+        return view('frontend.pages.blog-details', compact('blog', 'latestBlogs', 'categories', 'nextBlog', 'previousBlog', 'comments'));
     }
 
     function blogCommentStore(Request $request, string $blog_id) : RedirectResponse {

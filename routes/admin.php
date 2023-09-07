@@ -116,7 +116,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     /** Blogs Category Routes */
     Route::resource('blog-category', BlogCategoryController::class);
 
-    /** Blogs Category Routes */
+    /** Blogs Routes */
+    Route::get('blogs/comments', [BlogController::class, 'blogComment'])->name('blogs.comments.index');
     Route::resource('blogs', BlogController::class);
 
 

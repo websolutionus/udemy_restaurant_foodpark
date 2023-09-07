@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\BlogCategoryDataTable;
+use App\DataTables\BlogCommentDataTable;
 use App\DataTables\BlogDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BlogCreateRequest;
@@ -111,5 +112,10 @@ class BlogController extends Controller
         } catch (\Exception $e) {
             return response(['status' => 'error', 'message' => 'something went wrong!']);
         }
+    }
+
+    function blogComment(BlogCommentDataTable $dataTable) : View|JsonResponse
+    {
+        return $dataTable->render('admin.blog.blog-comment.index');
     }
 }

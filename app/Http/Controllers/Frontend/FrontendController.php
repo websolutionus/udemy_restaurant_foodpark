@@ -85,8 +85,9 @@ class FrontendController extends Controller
     }
 
     function blog(Request $request) : View {
-        // $blogs = Blog::with(['category', 'user'])->where('status', 1)->latest()->paginate(9);
-        $blogs = Blog::with(['category', 'user'])->where('status', 1);
+        $blogs = Blog::withCount(['comments'=> function($query){
+            $query->where('status', 1);
+        }])->with(['category', 'user'])->where('status', 1);
 
         if($request->has('search') && $request->filled('search')){
             $blogs->where(function($query) use ($request) {
@@ -102,7 +103,6 @@ class FrontendController extends Controller
         }
 
         $blogs = $blogs->latest()->paginate(9);
-
         $categories = BlogCategory::where('status', 1)->get();
         return view('frontend.pages.blog', compact('blogs', 'categories'));
     }

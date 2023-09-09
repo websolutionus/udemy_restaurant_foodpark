@@ -4,7 +4,7 @@
     <!--=============================
         BREADCRUMB START
     ==============================-->
-    <section class="fp__breadcrumb" style="background: url(images/counter_bg.jpg);">
+    <section class="fp__breadcrumb" style="background: url({{ asset('frontend/images/counter_bg.jpg') }});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
@@ -30,13 +30,13 @@
             <form class="fp__search_menu_form mb-4" action="{{ route('blogs') }}" method="GET">
                 <div class="row">
                     <div class="col-xl-6 col-md-5">
-                        <input type="text" placeholder="Search..." name="search">
+                        <input type="text" placeholder="Search..." name="search" value="{{ @request()->search }}">
                     </div>
                     <div class="col-xl-4 col-md-4">
                         <select class="nice-select" name="category">
                             <option value="">All</option>
                             @foreach ($categories as $category)
-                            <option value="{{ $category->slug }}">{{ $category->name }}</option>
+                            <option @selected(@request()->category == $category->slug) value="{{ $category->slug }}">{{ $category->name }}</option>
                             @endforeach
 
                         </select>
@@ -58,13 +58,16 @@
                             <ul class="d-flex flex-wrap mt_15">
                                 <li><i class="fas fa-user"></i>{{ $blog->user->name }}</li>
                                 <li><i class="fas fa-calendar-alt"></i> {{ date('d m Y', strtotime($blog->created_at)) }}</li>
-                                <li><i class="fas fa-comments"></i> 25 comment</li>
+                                <li><i class="fas fa-comments"></i> {{ $blog->comments_count }} comment</li>
                             </ul>
                             <a class="title" href="{{  route('blogs.details', $blog->slug)  }}">{!! truncate($blog->title, 30) !!}</a>
                         </div>
                     </div>
                 </div>
                 @endforeach
+                @if ($blogs->isEmpty())
+                    <h5 class="text-center">No Blog Found!</h5>
+                @endif
 
             </div>
             @if ($blogs->hasPages())

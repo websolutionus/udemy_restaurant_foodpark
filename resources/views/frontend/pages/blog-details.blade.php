@@ -138,8 +138,8 @@
                     <div id="sticky_sidebar">
                         <div class="fp__blog_search blog_sidebar m-0 wow fadeInUp" data-wow-duration="1s">
                             <h3>Search</h3>
-                            <form>
-                                <input type="text" placeholder="Search">
+                            <form action="{{ route('blogs') }}">
+                                <input type="text" placeholder="Search" name="search">
                                 <button type="submit"><i class="fas fa-search"></i></button>
                             </form>
                         </div>
@@ -162,7 +162,7 @@
                             <h3>Categories</h3>
                             <ul>
                                 @foreach ($categories as $category)
-                                <li><a href="#">{{ $category->name }} <span>{{ $category->blogs_count }}</span></a></li>
+                                <li><a href="{{ route('blogs', ['category' => $category->slug]) }}">{{ $category->name }} <span>{{ $category->blogs_count }}</span></a></li>
                                 @endforeach
 
                             </ul>

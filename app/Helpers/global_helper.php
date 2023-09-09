@@ -128,4 +128,23 @@ if(!function_exists('truncate')){
     }
 }
 
+/** get product discount in percent */
+if(!function_exists('getYtThumbnail')){
+    function getYtThumbnail($link, $size = 'medium')
+    {
+        $videoId = explode("?v=", $link);
+        $videoId = $videoId[1];
+
+        $finalSize = match($size) {
+            'low' => 'sddefault',
+            'medium' => 'mqdefault',
+            'high' => 'hqdefault',
+            'max' => 'maxresdefault'
+        };
+
+        return "https://img.youtube.com/vi/$videoId/$finalSize.jpg";
+
+    }
+}
+
 

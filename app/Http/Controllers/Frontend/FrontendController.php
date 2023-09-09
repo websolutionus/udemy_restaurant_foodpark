@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\About;
 use App\Models\AppDownloadSection;
 use App\Models\BannerSlider;
 use App\Models\Blog;
@@ -90,7 +91,16 @@ class FrontendController extends Controller
     }
 
     function about() : View {
-        return view('frontend.pages.about');
+        $keys = [
+            'why_choose_top_title',
+            'why_choose_main_title',
+            'why_choose_sub_title',
+        ];
+
+        $sectionTitles = SectionTitle::whereIn('key', $keys)->pluck('value','key');;
+        $about = About::first();
+        $whyChooseUs = WhyChooseUs::where('status', 1)->get();
+        return view('frontend.pages.about', compact('about', 'whyChooseUs', 'sectionTitles'));
     }
 
     function blog(Request $request) : View {

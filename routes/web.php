@@ -60,6 +60,8 @@ Route::get('/blogs', [FrontendController::class, 'blog'])->name('blogs');
 Route::get('/blogs/{slug}', [FrontendController::class, 'blogDetails'])->name('blogs.details');
 Route::post('/blogs/comment/{blog_id}', [FrontendController::class, 'blogCommentStore'])->name('blogs.comment.store');
 
+/** About Routes */
+Route::get('/about', [FrontendController::class, 'about'])->name('about');
 
 
 

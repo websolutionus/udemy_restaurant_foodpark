@@ -24,6 +24,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
+use function Ramsey\Uuid\v1;
+
 class FrontendController extends Controller
 {
     function index() : View {
@@ -85,6 +87,10 @@ class FrontendController extends Controller
     function testimonial() : View {
         $testimonials = Testimonial::where(['status' => 1])->paginate(9);
         return view('frontend.pages.testimonial', compact('testimonials'));
+    }
+
+    function about() : View {
+        return view('frontend.pages.about');
     }
 
     function blog(Request $request) : View {

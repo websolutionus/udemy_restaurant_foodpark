@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\AboutUpdateRequest;
 use App\Models\About;
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\RedirectResponse;
@@ -15,17 +16,18 @@ class AboutController extends Controller
 
     function index(): View
     {
-        return view('admin.about.index');
+        $about = About::first();
+        return view('admin.about.index', compact('about'));
     }
 
-    function update(Request $request): RedirectResponse
+    function update(AboutUpdateRequest $request): RedirectResponse
     {
-        $imagePath = $this->uploadImage($request, 'image', $request->old_path);
+        $imagePath = $this->uploadImage($request, 'image', $request->old_image);
 
         About::updateOrCreate(
             ['id' => 1],
             [
-                'image' => $imagePath,
+                'image' => !empty($imagePath) ? $imagePath : $request->old_image,
                 'title' => $request->title,
                 'main_title' => $request->main_title,
                 'description' => $request->description,

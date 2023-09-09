@@ -22,7 +22,7 @@ class AboutUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => ['required', 'image'],
+            'image' => ['nullable', 'image'],
             'title' => ['required', 'max:255'],
             'main_title' => ['required', 'max:255'],
             'description' => ['required'],

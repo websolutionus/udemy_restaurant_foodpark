@@ -19,6 +19,7 @@ use App\Models\Product;
 use App\Models\SectionTitle;
 use App\Models\Slider;
 use App\Models\Testimonial;
+use App\Models\TramsAndCondition;
 use App\Models\WhyChooseUs;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -117,6 +118,11 @@ class FrontendController extends Controller
     function privacyPolicy() : View {
         $privacyPolicy = PrivacyPolicy::first();
         return view('frontend.pages.privacy-policy', compact('privacyPolicy'));
+    }
+
+    function tramsAndConditions() : View {
+        $tramsAndConditions = TramsAndCondition::first();
+        return view('frontend.pages.trams-and-condition', compact('tramsAndConditions'));
     }
 
     function blog(Request $request) : View {

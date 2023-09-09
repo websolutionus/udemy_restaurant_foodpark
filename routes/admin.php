@@ -25,10 +25,13 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\TramsAndConditionController;
+use App\Http\Controllers\Admin\TramsAndCondtionController;
 use App\Http\Controllers\Admin\WhyChooseUsController;
 use App\Models\AppDownloadSection;
 use App\Models\BannerSlider;
 use App\Models\PrivacyPolicy;
+use App\Models\TramsAndCondtion;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
@@ -130,10 +133,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::get('about', [AboutController::class, 'index'])->name('about.index');
     Route::put('about', [AboutController::class, 'update'])->name('about.update');
 
-    /** About Routes */
+    /** privacy policy Routes */
     Route::get('privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy-policy.index');
     Route::put('privacy-policy', [PrivacyPolicyController::class, 'update'])->name('privacy-policy.update');
 
+    /** privacy policy Routes */
+    Route::get('trams-and-conditions', [TramsAndConditionController::class, 'index'])->name('trams-and-conditions.index');
+    Route::put('trams-and-conditions', [TramsAndConditionController::class, 'update'])->name('trams-and-conditions.update');
 
     /** Payment Gateway Setting Routes */
     Route::get('/payment-gateway-setting', [PaymentGatewaySettingController::class, 'index'])->name('payment-setting.index');

@@ -806,6 +806,25 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\TramsAndCondition
+ *
+ * @property int $id
+ * @property string $content
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|TramsAndCondition newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TramsAndCondition newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TramsAndCondition query()
+ * @method static \Illuminate\Database\Eloquent\Builder|TramsAndCondition whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TramsAndCondition whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TramsAndCondition whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TramsAndCondition whereUpdatedAt($value)
+ */
+	class TramsAndCondition extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\User
  *
  * @property int $id

@@ -62,7 +62,8 @@ Route::post('/blogs/comment/{blog_id}', [FrontendController::class, 'blogComment
 
 /** About Routes */
 Route::get('/about', [FrontendController::class, 'about'])->name('about');
-
+/** Privacy Policy Routes */
+Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy-policy.index');
 
 
 

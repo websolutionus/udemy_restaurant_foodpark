@@ -38,7 +38,9 @@ class FrontendController extends Controller
         $appSection = AppDownloadSection::first();
         $testimonials = Testimonial::where(['show_at_home' => 1, 'status' => 1])->get();
         $counter = Counter::first();
-
+        $latestBlogs = Blog::withCount(['comments' => function($query){
+            $query->where('status', 1);
+        }])->with(['category', 'user'])->where('status', 1)->latest()->take(3)->get();
 
         return view('frontend.home.index',
             compact(
@@ -51,7 +53,8 @@ class FrontendController extends Controller
                 'chefs',
                 'appSection',
                 'testimonials',
-                'counter'
+                'counter',
+                'latestBlogs'
             ));
     }
 

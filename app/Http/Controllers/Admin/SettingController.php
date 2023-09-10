@@ -63,4 +63,31 @@ class SettingController extends Controller
 
         return redirect()->back();
     }
+
+    function UpdateMailSetting(Request $request) {
+        $validatedData = $request->validate([
+            'mail_driver' => ['required'],
+            'mail_host' => ['required'],
+            'mail_port' => ['required'],
+            'mail_username' => ['required'],
+            'mail_password' => ['required'],
+            'mail_encryption' => ['required'],
+            'mail_from_address' => ['required'],
+            'mail_receive_address' => ['required'],
+        ]);
+
+        foreach($validatedData as $key => $value){
+            Setting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+        }
+
+        $settingsService = app(SettingsService::class);
+        $settingsService->clearCachedSettings();
+
+        toastr()->success('Updated Successfully!');
+
+        return redirect()->back();
+    }
 }

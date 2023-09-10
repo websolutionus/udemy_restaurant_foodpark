@@ -66,7 +66,8 @@ Route::get('/about', [FrontendController::class, 'about'])->name('about');
 Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy-policy.index');
 /** Trams and Conditions Routes */
 Route::get('/trams-and-conditions', [FrontendController::class, 'tramsAndConditions'])->name('trams-and-conditions');
-
+/** Contact Routes */
+Route::get('/contact', [FrontendController::class, 'contact'])->name('contact.index');
 
 
 /** Show Product details page */

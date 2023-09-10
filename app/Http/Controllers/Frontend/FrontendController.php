@@ -11,6 +11,7 @@ use App\Models\BlogCategory;
 use App\Models\BlogComment;
 use App\Models\Category;
 use App\Models\Chef;
+use App\Models\Contact;
 use App\Models\Counter;
 use App\Models\Coupon;
 use App\Models\DailyOffer;
@@ -123,6 +124,11 @@ class FrontendController extends Controller
     function tramsAndConditions() : View {
         $tramsAndConditions = TramsAndCondition::first();
         return view('frontend.pages.trams-and-condition', compact('tramsAndConditions'));
+    }
+
+    function contact() : View {
+        $contact = Contact::first();
+        return view('frontend.pages.contact', compact('contact'));
     }
 
     function blog(Request $request) : View {

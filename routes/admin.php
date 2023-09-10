@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\ChefController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\DailyOfferController;
@@ -140,6 +141,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     /** privacy policy Routes */
     Route::get('trams-and-conditions', [TramsAndConditionController::class, 'index'])->name('trams-and-conditions.index');
     Route::put('trams-and-conditions', [TramsAndConditionController::class, 'update'])->name('trams-and-conditions.update');
+
+    /** Contact Routes */
+    Route::get('contact', [ContactController::class, 'index'])->name('contact.index');
+    Route::put('contact', [ContactController::class, 'update'])->name('contact.update');
 
     /** Payment Gateway Setting Routes */
     Route::get('/payment-gateway-setting', [PaymentGatewaySettingController::class, 'index'])->name('payment-setting.index');

@@ -170,6 +170,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\SettingsServiceProvider::class,
         App\Providers\PaymentGatewaySettingServiceProvider::class,
+        App\Providers\CustomMailServiceProvider::class,
 
     ])->toArray(),
 

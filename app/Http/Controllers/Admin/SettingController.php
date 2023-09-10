@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Services\SettingsService;
+use Cache;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -85,6 +86,7 @@ class SettingController extends Controller
 
         $settingsService = app(SettingsService::class);
         $settingsService->clearCachedSettings();
+        Cache::forget('mail_settings');
 
         toastr()->success('Updated Successfully!');
 

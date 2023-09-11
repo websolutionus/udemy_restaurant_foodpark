@@ -49,27 +49,32 @@ class ReservationTimeController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id) : View
     {
-        //
+        $time = ReservationTime::findOrFail($id);
+        return view('admin.reservation.reservation-time.edit', compact('time'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id) : RedirectResponse
     {
-        //
+        $request->validate([
+            'start_time' => ['required'],
+            'end_time' => ['required'],
+            'status' => ['required', 'boolean']
+        ]);
+
+        $time = ReservationTime::findOrFail($id);
+        $time->start_time = $request->start_time;
+        $time->end_time = $request->end_time;
+        $time->save();
+        toastr()->success('Created Successfully!');
+
+        return redirect()->route('admin.reservation-time.index');
     }
 
     /**
@@ -77,6 +82,12 @@ class ReservationTimeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $time = ReservationTime::findOrFail($id);
+            $time->delete();
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'message' => 'something went wrong!']);
+        }
     }
 }

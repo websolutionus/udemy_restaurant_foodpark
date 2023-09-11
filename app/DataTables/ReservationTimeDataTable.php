@@ -22,7 +22,21 @@ class ReservationTimeDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'reservationtime.action')
+
+            ->addColumn('action', function($query){
+                $edit = "<a href='".route('admin.reservation-time.edit', $query->id)."' class='btn btn-primary'><i class='fas fa-edit'></i></a>";
+                $delete = "<a href='".route('admin.reservation-time.destroy', $query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
+
+                return $edit.$delete;
+            })
+            ->addColumn('status', function($query){
+                if($query->status === 1){
+                    return '<span class="badge badge-primary">Active</span>';
+                }else {
+                    return '<span class="badge badge-danger">InActive</span>';
+                }
+            })
+            ->rawColumns(['action', 'status'])
             ->setRowId('id');
     }
 
@@ -44,7 +58,7 @@ class ReservationTimeDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -62,15 +76,16 @@ class ReservationTimeDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('start_time'),
+            Column::make('end_time'),
+            Column::make('status'),
+            Column::computed('action')
+            ->exportable(false)
+            ->printable(false)
+            ->width(100)
+            ->addClass('text-center'),
         ];
     }
 

@@ -22,21 +22,25 @@ class ReservationDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'reservation.action')
+            ->addColumn('action', function($query){
+                $delete = "<a href='".route('admin.reservation.destroy', $query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
+
+                return $delete;
+            })
             ->addColumn('created_at', function($query){
                 return date('d-m-y', strtotime($query->created_at));
             })
             ->addColumn('status', function($query){
-                $html ='<select class="form-control reservation_status">
-                <option value="pending">Pending</option>
-                <option value="approved">Approved</option>
-                <option value="complete">Complete</option>
-                <option value="cancel">Cancel</option>
+                $html ='<select class="form-control reservation_status" data-id="'.$query->id.'">
+                <option '.($query->status === 'pending' ? 'selected' : '').' value="pending">Pending</option>
+                <option '.($query->status === 'approved' ? 'selected' : '').' value="approved">Approved</option>
+                <option '.($query->status === 'complete' ? 'selected' : '').' value="complete">Complete</option>
+                <option  '.($query->status === 'cancel' ? 'selected' : '').' value="cancel">Cancel</option>
                 </select>';
 
                 return $html;
             })
-            ->rawColumns(['status'])
+            ->rawColumns(['status', 'action'])
             ->setRowId('id');
     }
 
@@ -58,7 +62,7 @@ class ReservationDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),

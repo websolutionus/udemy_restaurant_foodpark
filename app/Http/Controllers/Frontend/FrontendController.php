@@ -18,6 +18,7 @@ use App\Models\Coupon;
 use App\Models\DailyOffer;
 use App\Models\PrivacyPolicy;
 use App\Models\Product;
+use App\Models\Reservation;
 use App\Models\SectionTitle;
 use App\Models\Slider;
 use App\Models\Testimonial;
@@ -208,11 +209,23 @@ class FrontendController extends Controller
     function reservation(Request $request) {
         $request->validate([
             'name' => ['required', 'max:255'],
-            'phone' => ['required', 'max:50', 'numeric'],
+            'phone' => ['required', 'max:50'],
             'date' => ['required', 'date'],
             'time' => ['required'],
             'persons' => ['required', 'numeric']
         ]);
+
+        $reservation = new Reservation();
+        $reservation->reservation_id = rand(0, 500000);
+        $reservation->name = $request->name;
+        $reservation->phone = $request->phone;
+        $reservation->date = $request->date;
+        $reservation->time = $request->time;
+        $reservation->persons = $request->persons;
+        $reservation->status = 'pending';
+        $reservation->save();
+
+        return response(['status' => 'success', 'message' => 'Request send successfully']);
     }
 
     function showProduct(string $slug) : View {

@@ -166,6 +166,9 @@
                     $('.btn_submit').html(`<span class="spinner-border text-light"> <span>`);
                 },
                 success: function(response){
+                    toastr.success(response.message);
+                    $('.fp__reservation_form').trigger("reset");
+                    $('#staticBackdrop').modal('hide');
 
                 },
                 error: function(xhr, status, error){

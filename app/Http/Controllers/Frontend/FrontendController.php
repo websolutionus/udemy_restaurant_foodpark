@@ -205,8 +205,14 @@ class FrontendController extends Controller
         return redirect()->back();
     }
 
-    function reservation(Request $request) : Response {
-        
+    function reservation(Request $request) {
+        $request->validate([
+            'name' => ['required', 'max:255'],
+            'phone' => ['required', 'max:50', 'numeric'],
+            'date' => ['required', 'date'],
+            'time' => ['required'],
+            'persons' => ['required', 'numeric']
+        ]);
     }
 
     function showProduct(string $slug) : View {

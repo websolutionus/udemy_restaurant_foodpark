@@ -140,14 +140,46 @@
                         <select class="reservation_input nice-select" name="time">
                             <option value="">select time</option>
                             @foreach ($reservationTimes as $time)
-                            <option value="">{{ $time->strat_time }} to {{ $time->end_time }}</option>
+                            <option value="{{ $time->start_time }}-{{ $time->end_time }}">{{ $time->start_time }} to {{ $time->end_time }}</option>
                             @endforeach
                         </select>
                         <input class="reservation_input" type="text" placeholder="Persons" name="persons">
-                        <button type="submit">book table</button>
+                        <button type="submit" class="btn_submit">book table</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    $(document).ready(function(){
+        $('.fp__reservation_form').on('submit', function(e){
+            e.preventDefault();
+            let formData = $(this).serialize();
+            $.ajax({
+                method: 'POST',
+                url: '{{ route("reservation.store") }}',
+                data: formData,
+                beforeSend: function(){
+                    $('.btn_submit').html(`<span class="spinner-border text-light"> <span>`);
+                },
+                success: function(response){
+
+                },
+                error: function(xhr, status, error){
+                    let errors = xhr.responseJSON.errors;
+                    $.each(errors, function(index, value) {
+                        toastr.error(value);
+                        $('.btn_submit').html(`Book Table`);
+                    })
+                },
+                complete: function(){
+                    $('.btn_submit').html(`Book Table`);
+                }
+            })
+        })
+    })
+</script>
+@endpush

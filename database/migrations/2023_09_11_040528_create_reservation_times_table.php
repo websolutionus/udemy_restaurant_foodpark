@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('reservation_times', function (Blueprint $table) {
             $table->id();
+            $table->string('start_time');
+            $table->string('end_time');
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

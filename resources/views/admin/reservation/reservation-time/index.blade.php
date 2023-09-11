@@ -9,7 +9,7 @@
             <div class="card-header">
                 <h4>All Times</h4>
                 <div class="card-header-action">
-                    <a href="{{ route('admin.chefs.create') }}" class="btn btn-primary">
+                    <a href="{{ route('admin.reservation-time.create') }}" class="btn btn-primary">
                         Create new
                     </a>
                 </div>

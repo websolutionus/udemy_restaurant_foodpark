@@ -119,7 +119,9 @@
         <a class="checkout" href="check_out.html">checkout</a>
     </div>
 </div>
-
+@php
+    $reservationTimes = \App\Models\ReservationTime::where('status', 1)->get();
+@endphp
 <div class="fp__reservation">
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -130,26 +132,18 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="fp__reservation_form">
-                        <input class="reservation_input" type="text" placeholder="Name">
-                        <input class="reservation_input" type="text" placeholder="Phone">
-                        <input class="reservation_input" type="date">
-                        <select class="reservation_input" id="select_js">
+                    <form class="fp__reservation_form" action="{{ route('reservation.store') }}" method="POST">
+                        @csrf
+                        <input class="reservation_input" type="text" placeholder="Name" name="name">
+                        <input class="reservation_input" type="text" placeholder="Phone" name="phone">
+                        <input class="reservation_input" type="date" name="date">
+                        <select class="reservation_input nice-select" name="time">
                             <option value="">select time</option>
-                            <option value="">08.00 am to 09.00 am</option>
-                            <option value="">10.00 am to 11.00 am</option>
-                            <option value="">12.00 pm to 01.00 pm</option>
-                            <option value="">02.00 pm to 03.00 pm</option>
-                            <option value="">04.00 pm to 05.00 pm</option>
+                            @foreach ($reservationTimes as $time)
+                            <option value="">{{ $time->strat_time }} to {{ $time->end_time }}</option>
+                            @endforeach
                         </select>
-                        <select class="reservation_input" id="select_js2">
-                            <option value="">select person</option>
-                            <option value="">1 person</option>
-                            <option value="">2 person</option>
-                            <option value="">3 person</option>
-                            <option value="">4 person</option>
-                            <option value="">5 person</option>
-                        </select>
+                        <input class="reservation_input" type="text" placeholder="Persons" name="persons">
                         <button type="submit">book table</button>
                     </form>
                 </div>

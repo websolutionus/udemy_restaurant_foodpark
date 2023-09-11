@@ -140,7 +140,7 @@ class FrontendController extends Controller
             'subject' => ['required', 'max:255'],
             'message' => ['required', 'max: 1000']
         ]);
-        
+
         Mail::send(new ContactMail($request->name, $request->email, $request->subject, $request->message));
 
         return response(['status' => 'success', 'message' => 'Message Sent Successfully!']);
@@ -203,6 +203,10 @@ class FrontendController extends Controller
 
         toastr()->success('Comment submitted successfully and waiting to approve.');
         return redirect()->back();
+    }
+
+    function reservation(Request $request) : Response {
+        
     }
 
     function showProduct(string $slug) : View {

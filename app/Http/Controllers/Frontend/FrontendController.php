@@ -29,6 +29,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Mail;
 
 use function Ramsey\Uuid\v1;
@@ -215,8 +217,13 @@ class FrontendController extends Controller
             'persons' => ['required', 'numeric']
         ]);
 
+        if(!Auth::check()){
+            throw ValidationException::withMessages(['Please Login to Request Reservation']);
+        }
+
         $reservation = new Reservation();
         $reservation->reservation_id = rand(0, 500000);
+        $reservation->user_id = auth()->user()->id;
         $reservation->name = $request->name;
         $reservation->phone = $request->phone;
         $reservation->date = $request->date;

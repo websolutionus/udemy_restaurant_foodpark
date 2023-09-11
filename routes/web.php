@@ -75,6 +75,7 @@ Route::post('/reservation', [FrontendController::class, 'reservation'])->name('r
 
 
 
+
 /** Show Product details page */
 Route::get('/product/{slug}', [FrontendController::class, 'showProduct'])->name('product.show');
 

@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\ProductGalleryController;
 use App\Http\Controllers\Admin\ProductOptionController;
 use App\Http\Controllers\Admin\ProductSizeController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ReservationController;
 use App\Http\Controllers\Admin\ReservationTimeController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
@@ -150,6 +151,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
     /** Reservation Routes */
     Route::resource('reservation-time', ReservationTimeController::class);
+    Route::get('reservation', [ReservationController::class, 'index'])->name('reservation.index');
 
     /** Payment Gateway Setting Routes */
     Route::get('/payment-gateway-setting', [PaymentGatewaySettingController::class, 'index'])->name('payment-setting.index');

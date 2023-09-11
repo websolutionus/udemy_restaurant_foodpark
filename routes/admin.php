@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\ProductGalleryController;
 use App\Http\Controllers\Admin\ProductOptionController;
 use App\Http\Controllers\Admin\ProductSizeController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ReservationTimeController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\TestimonialController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\Admin\WhyChooseUsController;
 use App\Models\AppDownloadSection;
 use App\Models\BannerSlider;
 use App\Models\PrivacyPolicy;
+use App\Models\ReservationTime;
 use App\Models\TramsAndCondtion;
 use Illuminate\Support\Facades\Route;
 
@@ -145,6 +147,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     /** Contact Routes */
     Route::get('contact', [ContactController::class, 'index'])->name('contact.index');
     Route::put('contact', [ContactController::class, 'update'])->name('contact.update');
+
+    /** Reservation Routes */
+    Route::resource('reservation-time', ReservationTimeController::class);
 
     /** Payment Gateway Setting Routes */
     Route::get('/payment-gateway-setting', [PaymentGatewaySettingController::class, 'index'])->name('payment-setting.index');

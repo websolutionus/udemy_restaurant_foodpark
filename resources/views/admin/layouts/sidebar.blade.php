@@ -154,54 +154,51 @@
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('admin.blog-category.index') }}">Categories</a></li>
                     <li><a class="nav-link" href="{{ route('admin.blogs.index') }}">All Blogs</a></li>
-                    </li>
-                    <li><a class="nav-link" href="{{ route('admin.blogs.comments.index') }}">Comments</a></li>
+            </li>
+            <li><a class="nav-link" href="{{ route('admin.blogs.comments.index') }}">Comments</a></li>
+            </li>
+
+        </ul>
+        </li>
+
+        <li class="dropdown">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
+                <span>Sections </span></a>
+            <ul class="dropdown-menu">
+                <li><a class="nav-link" href="{{ route('admin.why-choose-us.index') }}">Why choose us</a></li>
+                <li><a class="nav-link" href="{{ route('admin.banner-slider.index') }}">Banner Slider</a></li>
+                <li><a class="nav-link" href="{{ route('admin.chefs.index') }}">Chefs</a></li>
+                <li><a class="nav-link" href="{{ route('admin.app-download.index') }}">App Download Section</a>
                 </li>
+                <li><a class="nav-link" href="{{ route('admin.testimonial.index') }}">Testimonial</a></li>
+                <li><a class="nav-link" href="{{ route('admin.counter.index') }}">Counter</a></li>
 
-                </ul>
-            </li>
+            </ul>
+        </li>
 
-            <li class="dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fas fa-columns"></i>
-                    <span>Sections </span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{ route('admin.why-choose-us.index') }}">Why choose us</a></li>
-                    <li><a class="nav-link" href="{{ route('admin.banner-slider.index') }}">Banner Slider</a></li>
-                    <li><a class="nav-link" href="{{ route('admin.chefs.index') }}">Chefs</a></li>
-                    <li><a class="nav-link" href="{{ route('admin.app-download.index') }}">App Download Section</a>
-                    </li>
-                    <li><a class="nav-link" href="{{ route('admin.testimonial.index') }}">Testimonial</a></li>
-                    <li><a class="nav-link" href="{{ route('admin.counter.index') }}">Counter</a></li>
+        <li class="dropdown">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
+                <span>Pages </span></a>
+            <ul class="dropdown-menu">
+                <li><a class="nav-link" href="{{ route('admin.about.index') }}">About</a></li>
+                <li><a class="nav-link" href="{{ route('admin.privacy-policy.index') }}">Privacy Policy</a></li>
+                <li><a class="nav-link" href="{{ route('admin.trams-and-conditions.index') }}">Trams and
+                        Conditions</a></li>
+                <li><a class="nav-link" href="{{ route('admin.contact.index') }}">Contact</a></li>
 
-                </ul>
-            </li>
+            </ul>
+        </li>
 
-            <li class="dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fas fa-columns"></i>
-                    <span>Pages </span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{ route('admin.about.index') }}">About</a></li>
-                    <li><a class="nav-link" href="{{ route('admin.privacy-policy.index') }}">Privacy Policy</a></li>
-                    <li><a class="nav-link" href="{{ route('admin.trams-and-conditions.index') }}">Trams and Conditions</a></li>
-                    <li><a class="nav-link" href="{{ route('admin.contact.index') }}">Contact</a></li>
+        <li class="dropdown">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
+                <span>Manage Reservations </span></a>
+            <ul class="dropdown-menu">
+                <li><a class="nav-link" href="{{ route('admin.reservation-time.index') }}">Reservation Times</a></li>
+            </ul>
+        </li>
 
-                </ul>
-            </li>
-
-            <li><a class="nav-link" href="{{ route('admin.setting.index') }}"><i class="far fa-square"></i>
-                    <span>Settings</span></a></li>
-
-            {{-- <li class="dropdown">
-          <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Layout</span></a>
-          <ul class="dropdown-menu">
-            <li><a class="nav-link" href="layout-default.html">Default Layout</a></li>
-            <li><a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a></li>
-            <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
-          </ul>
-        </li> --}}
-            {{-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li> --}}
+        <li><a class="nav-link" href="{{ route('admin.setting.index') }}"><i class="far fa-square"></i>
+                <span>Settings</span></a></li>
 
         </ul>
 

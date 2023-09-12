@@ -15,9 +15,8 @@
                             <h4>Send News Letter..</h4>
                         </div>
                         <div class="accordion-body collapse" id="panel-body-1" data-parent="#accordion" style="">
-                            <form action="{{ route('admin.chefs-title-update') }}" method="POST">
+                            <form action="{{ route('admin.news-letter.send') }}" method="POST">
                                 @csrf
-                                @method('PUT')
                                 <div class="form-group">
                                     <label for="">Subject</label>
                                     <input type="text" class="form-control" name="subject"
@@ -28,7 +27,7 @@
                                     <label for="">Message</label>
                                     <textarea name="message" class="summernote"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="submit" class="btn btn-primary">Send</button>
                             </form>
                         </div>
                     </div>

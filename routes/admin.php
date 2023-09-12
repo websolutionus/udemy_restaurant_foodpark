@@ -158,6 +158,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
     /** News letter Routes */
     Route::get('news-letter', [NewsLetterController::class, 'index'])->name('news-letter.index');
+    Route::post('news-letter', [NewsLetterController::class, 'sendNewsLetter'])->name('news-letter.send');
+
 
 
     /** Payment Gateway Setting Routes */

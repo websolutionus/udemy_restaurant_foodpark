@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\SocialLinkDataTable;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\SocialLinkStoreRequest;
+use App\Models\SocialLink;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -29,9 +32,19 @@ class SocialLinkController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SocialLinkStoreRequest $request) : RedirectResponse
     {
-        //
+        $link = new SocialLink();
+        $link->icon = $request->icon;
+        $link->name = $request->name;
+        $link->link = $request->link;
+        $link->status = $request->status;
+        $link->save();
+
+        toastr()->success('Created Successfully');
+
+        return redirect()->route('admin.social-link.index');
+
     }
 
     /**

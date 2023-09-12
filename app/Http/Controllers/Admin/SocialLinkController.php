@@ -48,27 +48,29 @@ class SocialLinkController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        //
+        $link = SocialLink::findOrFail($id);
+        return view('admin.social-link.edit', compact('link'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SocialLinkStoreRequest $request, string $id)
     {
-        //
+        $link = SocialLink::findOrFail($id);
+        $link->icon = $request->icon;
+        $link->name = $request->name;
+        $link->link = $request->link;
+        $link->status = $request->status;
+        $link->save();
+
+        toastr()->success('Update Successfully');
+
+        return redirect()->route('admin.social-link.index');
     }
 
     /**
@@ -76,6 +78,12 @@ class SocialLinkController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $link = SocialLink::findOrFail($id);
+            $link->delete();
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'message' => 'something went wrong!']);
+        }
     }
 }

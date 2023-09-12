@@ -21,6 +21,7 @@ use App\Models\Product;
 use App\Models\Reservation;
 use App\Models\SectionTitle;
 use App\Models\Slider;
+use App\Models\Subscriber;
 use App\Models\Testimonial;
 use App\Models\TramsAndCondition;
 use App\Models\WhyChooseUs;
@@ -235,9 +236,17 @@ class FrontendController extends Controller
         return response(['status' => 'success', 'message' => 'Request send successfully']);
     }
 
-    function subscribeNewsletter(Request $request)
+    function subscribeNewsletter(Request $request) : Response
     {
-        dd($request->all());
+        $request->validate([
+            'email' => ['required', 'email', 'max:255', 'unique:subscribers,email']
+        ], ['email.unique' => 'Email is already subscribed!']);
+
+        $subscriber = new Subscriber();
+        $subscriber->email = $request->email;
+        $subscriber->save();
+
+        return response(['status' => 'success', 'message' => 'Subscribed Successfully!']);
     }
 
     function showProduct(string $slug) : View {

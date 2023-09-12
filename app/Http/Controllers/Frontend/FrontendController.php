@@ -235,6 +235,11 @@ class FrontendController extends Controller
         return response(['status' => 'success', 'message' => 'Request send successfully']);
     }
 
+    function subscribeNewsletter(Request $request)
+    {
+        dd($request->all());
+    }
+
     function showProduct(string $slug) : View {
         $product = Product::with(['productImages', 'productSizes', 'productOptions'])->where(['slug' => $slug, 'status' => 1])->firstOrFail();
         $relatedProducts = Product::where('category_id', $product->category_id)

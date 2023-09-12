@@ -155,6 +155,7 @@
                     <li><a class="nav-link" href="{{ route('admin.blog-category.index') }}">Categories</a></li>
                     <li><a class="nav-link" href="{{ route('admin.blogs.index') }}">All Blogs</a></li>
             </li>
+
             <li><a class="nav-link" href="{{ route('admin.blogs.comments.index') }}">Comments</a></li>
             </li>
 
@@ -204,10 +205,19 @@
             </ul>
         </li>
 
+        <li class="dropdown">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
+                    class="fas fa-columns"></i>
+                <span> Footer </span></a>
+            <ul class="dropdown-menu">
+                <li><a class="nav-link" href="{{ route('admin.footer-info.index') }}">Footer Info</a></li>
+            </ul>
+        </li>
+
         <li><a class="nav-link" href="{{ route('admin.setting.index') }}"><i class="far fa-square"></i>
                 <span>Settings</span></a></li>
 
-        </ul>
+
 
     </aside>
 </div>

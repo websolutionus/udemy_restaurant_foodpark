@@ -32,3 +32,14 @@
 <script type="text/javascript" src="{{asset('vendor/menu-builder/scripts.js')}}"></script>
 <script type="text/javascript" src="{{asset('vendor/menu-builder/scripts2.js')}}"></script>
 <script type="text/javascript" src="{{asset('vendor/menu-builder/menu.js')}}"></script>
+
+<script>
+    $(document).ready(function(){
+        $('#custom-menu-item-pages').on('change', function(e){
+            let selectedOption = $(this).find('option:selected');
+            let url = selectedOption.data('url');
+            $('#custom-menu-item-url').val(url);
+            $('#custom-menu-item-name').val($(this).val());
+        })
+    })
+</script>

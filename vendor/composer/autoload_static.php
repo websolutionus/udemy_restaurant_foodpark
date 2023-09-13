@@ -191,6 +191,7 @@ class ComposerStaticInit6c0bc1f0024956a45f177d7cf218e95f
         'E' => 
         array (
             'Egulias\\EmailValidator\\' => 23,
+            'Efectn\\Menu\\' => 12,
         ),
         'D' => 
         array (
@@ -604,6 +605,10 @@ class ComposerStaticInit6c0bc1f0024956a45f177d7cf218e95f
         'Egulias\\EmailValidator\\' => 
         array (
             0 => __DIR__ . '/..' . '/egulias/email-validator/src',
+        ),
+        'Efectn\\Menu\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/efectn/laravel-menu-builder/src',
         ),
         'Dotenv\\' => 
         array (
@@ -1621,6 +1626,12 @@ class ComposerStaticInit6c0bc1f0024956a45f177d7cf218e95f
         'Dotenv\\Util\\Regex' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Util/Regex.php',
         'Dotenv\\Util\\Str' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Util/Str.php',
         'Dotenv\\Validator' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Validator.php',
+        'Efectn\\Menu\\Controllers\\MenuController' => __DIR__ . '/..' . '/efectn/laravel-menu-builder/src/Controllers/MenuController.php',
+        'Efectn\\Menu\\Facades\\Menu' => __DIR__ . '/..' . '/efectn/laravel-menu-builder/src/Facades/Menu.php',
+        'Efectn\\Menu\\MenuBuilder' => __DIR__ . '/..' . '/efectn/laravel-menu-builder/src/MenuBuilder.php',
+        'Efectn\\Menu\\MenuServiceProvider' => __DIR__ . '/..' . '/efectn/laravel-menu-builder/src/MenuServiceProvider.php',
+        'Efectn\\Menu\\Models\\MenuItems' => __DIR__ . '/..' . '/efectn/laravel-menu-builder/src/Models/MenuItems.php',
+        'Efectn\\Menu\\Models\\Menus' => __DIR__ . '/..' . '/efectn/laravel-menu-builder/src/Models/Menus.php',
         'Egulias\\EmailValidator\\EmailLexer' => __DIR__ . '/..' . '/egulias/email-validator/src/EmailLexer.php',
         'Egulias\\EmailValidator\\EmailParser' => __DIR__ . '/..' . '/egulias/email-validator/src/EmailParser.php',
         'Egulias\\EmailValidator\\EmailValidator' => __DIR__ . '/..' . '/egulias/email-validator/src/EmailValidator.php',

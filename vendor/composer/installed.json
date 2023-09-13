@@ -1197,6 +1197,76 @@
             "install-path": "../dragonmantank/cron-expression"
         },
         {
+            "name": "efectn/laravel-menu-builder",
+            "version": "v1.5.3",
+            "version_normalized": "1.5.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/efectn/laravel-menu-builder.git",
+                "reference": "72557b2d7976b725eeecf56e793f33ebf785a3ee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/efectn/laravel-menu-builder/zipball/72557b2d7976b725eeecf56e793f33ebf785a3ee",
+                "reference": "72557b2d7976b725eeecf56e793f33ebf785a3ee",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/translation": "~9 || ~10",
+                "php": ">=8.0"
+            },
+            "time": "2023-09-12T11:27:00+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Efectn\\Menu\\MenuServiceProvider"
+                    ],
+                    "aliases": {
+                        "Menu": "Efectn\\Menu\\Facades\\Menu"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Efectn\\Menu\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Muhammed Efe Çetin",
+                    "email": "efectn@protonmail.com",
+                    "homepage": "https://6tel.net",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Rendy Harimayco",
+                    "email": "rendyharimayco@gmail.com",
+                    "role": "Original Developer"
+                },
+                {
+                    "name": "Cristian Garcia",
+                    "email": "informacion@cristiangarcia.co",
+                    "role": "Original Developer"
+                }
+            ],
+            "description": " Wordpress like drag & drop menu builder for Laravel 9.x ",
+            "keywords": [
+                "builder",
+                "drag and drop",
+                "laravel",
+                "menu",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/efectn/laravel-menu-builder/issues",
+                "source": "https://github.com/efectn/laravel-menu-builder/tree/v1.5.3"
+            },
+            "install-path": "../efectn/laravel-menu-builder"
+        },
+        {
             "name": "egulias/email-validator",
             "version": "4.0.1",
             "version_normalized": "4.0.1.0",

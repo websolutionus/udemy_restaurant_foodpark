@@ -1,3 +1,7 @@
+@php
+    $MainMenu = Menu::getByName('main_menu');
+@endphp
+
 <nav class="navbar navbar-expand-lg main_menu">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
@@ -9,43 +13,25 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav m-auto">
+                @if ($MainMenu)
+                @foreach ($MainMenu as $menu)
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about.html">about</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="menu.html">menu</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('chef') }}">chefs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">pages <i class="far fa-angle-down"></i></a>
+                    <a class="nav-link" href="{{ $menu['link'] }}">{{ $menu['label'] }}
+                        @if ($menu['child'])
+                        <i class="far fa-angle-down"></i>
+                        @endif
+                    </a>
+                    @if ($menu['child'])
                     <ul class="droap_menu">
-                        <li><a href="menu_details.html">menu details</a></li>
-                        <li><a href="blog_details.html">blog details</a></li>
-                        <li><a href="cart_view.html">cart view</a></li>
-                        <li><a href="check_out.html">checkout</a></li>
-                        <li><a href="payment.html">payment</a></li>
-                        <li><a href="testimonial.html">testimonial</a></li>
-                        <li><a href="search_menu.html">search result</a></li>
-                        <li><a href="404.html">404/Error</a></li>
-                        <li><a href="faq.html">FAQs</a></li>
-                        <li><a href="sign_in.html">sign in</a></li>
-                        <li><a href="sign_up.html">sign up</a></li>
-                        <li><a href="forgot_password.html">forgot password</a></li>
-                        <li><a href="privacy_policy.html">privacy policy</a></li>
-                        <li><a href="terms_condition.html">terms and condition</a></li>
+                        @foreach ($menu['child'] as $item)
+                            <li><a href="{{ $item['link'] }}">{{ $item['label'] }}</a></li>
+                        @endforeach
                     </ul>
+                    @endif
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="blogs.html">blog</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contact.html">contact</a>
-                </li>
+                @endforeach
+                @endif
+
             </ul>
             <ul class="menu_icon d-flex flex-wrap">
                 <li>

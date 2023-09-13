@@ -1,5 +1,6 @@
 @php
     $footerInfo = \App\Models\FooterInfo::first();
+    $footerMenuOne = Menu::getByName('footer_menu_one');
 @endphp
 
 <footer>
@@ -30,11 +31,10 @@
                     <div class="fp__footer_content">
                         <h3>Short Link</h3>
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Our Service</a></li>
-                            <li><a href="#">gallery</a></li>
+                            @foreach ($footerMenuOne as $menuItem)
+                            <li><a href="{{ $menuItem['link'] }}">{{ $menuItem['label'] }}</a></li>
+                            @endforeach
+
                         </ul>
                     </div>
                 </div>

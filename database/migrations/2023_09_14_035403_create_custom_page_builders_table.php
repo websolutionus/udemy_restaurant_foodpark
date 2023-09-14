@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('custom_page_builders', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('slug');
+            $table->text('Content');
+            $table->boolean('status');
             $table->timestamps();
         });
     }

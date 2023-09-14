@@ -10,7 +10,7 @@
             <div class="card-header">
                 <h4>All Pages</h4>
                 <div class="card-header-action">
-                    <a href="{{ route('admin.coupon.create') }}" class="btn btn-primary">
+                    <a href="{{ route('admin.custom-page-builder.create') }}" class="btn btn-primary">
                         Create new
                     </a>
                 </div>

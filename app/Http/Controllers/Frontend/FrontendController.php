@@ -263,7 +263,23 @@ class FrontendController extends Controller
     }
     
     function productReviewStore(Request $request) {
-        dd($request->all());
+        $request->validate([
+            'rating' => ['required', 'min:1', 'max:5', 'integer'],
+            'review' => ['required', 'max:500'],
+            'product_id' => ['required', 'integer']
+        ]);
+
+        $user = Auth::user();
+
+        $hasPurchased = $user->orders()->whereHas('orderItems', function($query) use ($request){
+            $query->where('product_id', $request->product_id);
+        })
+        ->where('order_status', 'delivered')
+        ->get();
+        
+        if(count($hasPurchased) == 0){
+            throw ValidationException::withMessages(['Please Buy The Product Before Submit a Review!']);
+        }
     }
 
     function applyCoupon(Request $request) {

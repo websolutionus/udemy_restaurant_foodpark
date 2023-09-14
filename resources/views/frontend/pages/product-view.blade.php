@@ -166,77 +166,37 @@
                                 <div class="fp__review_area">
                                     <div class="row">
                                         <div class="col-lg-8">
-                                            <h4>04 reviews</h4>
+                                            <h4>{{ count($reviews) }} reviews</h4>
                                             <div class="fp__comment pt-0 mt_20">
+                                                @foreach ($reviews as $review)        
                                                 <div class="fp__single_comment m-0 border-0">
-                                                    <img src="images/comment_img_1.png" alt="review" class="img-fluid">
+                                                    <img src="{{asset($review->user->avatar)}}" alt="review" class="img-fluid">
                                                     <div class="fp__single_comm_text">
-                                                        <h3>Michel Holder <span>29 oct 2022 </span></h3>
+                                                        <h3>{{ $review->user->name }} <span>{{ date('d m Y', strtotime($review->created_at)) }} </span></h3>
                                                         <span class="rating">
+                                                            @for ($i = 1; $i <= $review->rating; $i++)
                                                             <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fad fa-star-half-alt"></i>
-                                                            <i class="fal fa-star"></i>
-                                                            <b>(120)</b>
+                                                            @endfor
+                                                            
+                                                            
                                                         </span>
-                                                        <p>Sure there isn't anything embarrassing hiidden in the
-                                                            middles of text. All erators on the Internet
-                                                            tend to repeat predefined chunks</p>
+                                                        <p>{{ $review->review }}</p>
                                                     </div>
                                                 </div>
-                                                <div class="fp__single_comment">
-                                                    <img src="images/chef_1.jpg" alt="review" class="img-fluid">
-                                                    <div class="fp__single_comm_text">
-                                                        <h3>salina khan <span>29 oct 2022 </span></h3>
-                                                        <span class="rating">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fad fa-star-half-alt"></i>
-                                                            <i class="fal fa-star"></i>
-                                                            <b>(120)</b>
-                                                        </span>
-                                                        <p>Sure there isn't anything embarrassing hiidden in the
-                                                            middles of text. All erators on the Internet
-                                                            tend to repeat predefined chunks</p>
+                                                @endforeach
+                                                @if ($reviews->hasPages())
+                                                <div class="fp__pagination mt_60">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            {{ $reviews->links() }}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="fp__single_comment">
-                                                    <img src="images/comment_img_2.png" alt="review" class="img-fluid">
-                                                    <div class="fp__single_comm_text">
-                                                        <h3>Mouna Sthesia <span>29 oct 2022 </span></h3>
-                                                        <span class="rating">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fad fa-star-half-alt"></i>
-                                                            <i class="fal fa-star"></i>
-                                                            <b>(120)</b>
-                                                        </span>
-                                                        <p>Sure there isn't anything embarrassing hiidden in the
-                                                            middles of text. All erators on the Internet
-                                                            tend to repeat predefined chunks</p>
-                                                    </div>
-                                                </div>
-                                                <div class="fp__single_comment">
-                                                    <img src="images/chef_3.jpg" alt="review" class="img-fluid">
-                                                    <div class="fp__single_comm_text">
-                                                        <h3>marjan janifar <span>29 oct 2022 </span></h3>
-                                                        <span class="rating">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fad fa-star-half-alt"></i>
-                                                            <i class="fal fa-star"></i>
-                                                            <b>(120)</b>
-                                                        </span>
-                                                        <p>Sure there isn't anything embarrassing hiidden in the
-                                                            middles of text. All erators on the Internet
-                                                            tend to repeat predefined chunks</p>
-                                                    </div>
-                                                </div>
-                                                <a href="#" class="load_more">load More</a>
+                                                @endif
+                                                @if (count($reviews) === 0)
+                                                    <div class="alert alert-warning mt-4">No review found!</div>
+                                                @endif
+                                                
                                             </div>
 
                                         </div>

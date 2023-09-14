@@ -764,18 +764,17 @@ namespace App\Models{
  * @property int $id
  * @property int $user_id
  * @property int $product_id
- * @property int $order_id
  * @property int $rating
  * @property string $review
  * @property int $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|ProductRating newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductRating newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductRating query()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductRating whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductRating whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductRating whereOrderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductRating whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductRating whereRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductRating whereReview($value)

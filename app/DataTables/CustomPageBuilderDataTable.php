@@ -28,6 +28,17 @@ class CustomPageBuilderDataTable extends DataTable
 
                 return $edit.$delete;
             })
+            ->addColumn('page_link', function($query){
+               return '<code style="font-size:15px">'."/page/".$query->slug.'<code>';
+            })
+            ->addColumn('status', function($query){
+                if($query->status === 1){
+                    return '<span class="badge badge-primary">Active</span>';
+                }else {
+                    return '<span class="badge badge-danger">InActive</span>';
+                }
+            })
+            ->rawColumns(['action', 'page_link', 'status'])
             ->setRowId('id');
     }
 
@@ -70,6 +81,8 @@ class CustomPageBuilderDataTable extends DataTable
             Column::make('id'),
             Column::make('name'),
             Column::make('slug'),
+            Column::make('page_link'),
+            Column::make('status'),
             Column::computed('action')
             ->exportable(false)
             ->printable(false)

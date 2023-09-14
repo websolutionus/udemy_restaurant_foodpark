@@ -243,24 +243,22 @@
                                         <div class="col-lg-4">
                                             <div class="fp__post_review">
                                                 <h4>write a Review</h4>
-                                                <form>
-                                                    <p class="rating">
-                                                        <span>select your rating : </span>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                    </p>
+                                                <form action="{{ route('product-review.store') }}" method="POST">
+                                                    @csrf
                                                     <div class="row">
                                                         <div class="col-xl-12">
-                                                            <input type="text" placeholder="Name">
+                                                            <select name="rating" id="rating_input" class="form-control mt-3">
+                                                                <option value="5">5</option>
+                                                                <option value="4">4</option>
+                                                                <option value="3">3</option>
+                                                                <option value="2">2</option>
+                                                                <option value="1">1</option>
+                                                            </select>
+                                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
                                                         </div>
+
                                                         <div class="col-xl-12">
-                                                            <input type="email" placeholder="Email">
-                                                        </div>
-                                                        <div class="col-xl-12">
-                                                            <textarea rows="3" placeholder="Write your review"></textarea>
+                                                            <textarea name="review" rows="3" placeholder="Write your review"></textarea>
                                                         </div>
                                                         <div class="col-12">
                                                             <button class="common_btn" type="submit">submit

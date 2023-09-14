@@ -88,6 +88,8 @@ Route::get('/product/{slug}', [FrontendController::class, 'showProduct'])->name(
 /** Product Modal Route */
 Route::get('/load-product-modal/{productId}', [FrontendController::class, 'loadProductModal'])->name('load-product-modal');
 
+Route::post('product-review', [FrontendController::class, 'productReviewStore'])->name('product-review.store');
+
 /** Add to cart Route */
 Route::post('add-to-cart', [CartController::class, 'addToCart'])->name('add-to-cart');
 Route::get('get-cart-products', [CartController::class, 'getCartProduct'])->name('get-cart-products');

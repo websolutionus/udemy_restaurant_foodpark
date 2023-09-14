@@ -18,6 +18,7 @@ use App\Models\Coupon;
 use App\Models\DailyOffer;
 use App\Models\PrivacyPolicy;
 use App\Models\Product;
+use App\Models\ProductRating;
 use App\Models\Reservation;
 use App\Models\SectionTitle;
 use App\Models\Slider;
@@ -276,10 +277,28 @@ class FrontendController extends Controller
         })
         ->where('order_status', 'delivered')
         ->get();
+
         
         if(count($hasPurchased) == 0){
             throw ValidationException::withMessages(['Please Buy The Product Before Submit a Review!']);
         }
+
+        $alreadyReviewed = ProductRating::where(['user_id' => $user->id, 'product_id' => $request->product_id])->exists();
+        if($alreadyReviewed){
+            throw ValidationException::withMessages(['You already reviewed this product']);
+        }
+
+        $review = new ProductRating();
+        $review->user_id = $user->id;
+        $review->product_id = $request->product_id;
+        $review->rating = $request->rating;
+        $review->review = $request->review;
+        $review->status = 0;
+        $review->save();
+
+        toastr()->success('Review added successfully and waiting to approve');
+
+        return redirect()->back();
     }
 
     function applyCoupon(Request $request) {

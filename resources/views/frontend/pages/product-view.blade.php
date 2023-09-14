@@ -240,14 +240,16 @@
                                             </div>
 
                                         </div>
+                                        @auth    
                                         <div class="col-lg-4">
                                             <div class="fp__post_review">
                                                 <h4>write a Review</h4>
                                                 <form action="{{ route('product-review.store') }}" method="POST">
                                                     @csrf
                                                     <div class="row">
-                                                        <div class="col-xl-12">
-                                                            <select name="rating" id="rating_input" class="form-control mt-3">
+                                                        <div class="col-xl-12 mt-3">
+                                                            <label> Choose a rating</label>
+                                                            <select name="rating" id="rating_input" class="form-control ">
                                                                 <option value="5">5</option>
                                                                 <option value="4">4</option>
                                                                 <option value="3">3</option>
@@ -258,7 +260,8 @@
                                                         </div>
 
                                                         <div class="col-xl-12">
-                                                            <textarea name="review" rows="3" placeholder="Write your review"></textarea>
+                                                            <label for="">Review</label>
+                                                            <textarea style="margin-top: 2px" name="review" rows="3" placeholder="Write your review"></textarea>
                                                         </div>
                                                         <div class="col-12">
                                                             <button class="common_btn" type="submit">submit
@@ -268,6 +271,9 @@
                                                 </form>
                                             </div>
                                         </div>
+                                        @else
+                                        <div class="alert alert-warning">Please login first to add review.</div>
+                                        @endauth
                                     </div>
                                 </div>
                             </div>

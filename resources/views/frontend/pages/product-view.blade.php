@@ -54,14 +54,15 @@
                 <div class="col-lg-7 wow fadeInUp" data-wow-duration="1s">
                     <div class="fp__menu_details_text">
                         <h2>{!! $product->name !!}</h2>
+                        @if ($product->reviews_avg_rating)
                         <p class="rating">
+                            @for ($i = 1; $i <= $product->reviews_avg_rating; $i++)
                             <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <i class="far fa-star"></i>
-                            <span>(201)</span>
+                            @endfor
+
+                            <span>({{ $product->reviews_count }})</span>
                         </p>
+                        @endif
                         <h3 class="price">
                             @if ($product->offer_price > 0)
                                 {{ currencyPosition($product->offer_price) }}
@@ -259,12 +260,15 @@
                                     </div>
                                     <div class="fp__menu_item_text">
                                         <p class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
-                                            <i class="far fa-star"></i>
-                                            <span>74</span>
+                                            @if ($relatedProduct->reviews_avg_rating)
+                                            <p class="rating">
+                                                @for ($i = 1; $i <= $relatedProduct->reviews_avg_rating; $i++)
+                                                <i class="fas fa-star"></i>
+                                                @endfor
+                    
+                                                <span>({{ $relatedProduct->reviews_count }})</span>
+                                            </p>
+                                            @endif
                                         </p>
                                         <a class="title"
                                             href="{{ route('product.show', $relatedProduct->slug) }}">{!! $relatedProduct->name !!}</a>

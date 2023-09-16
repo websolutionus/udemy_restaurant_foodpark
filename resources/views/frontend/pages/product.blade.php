@@ -4,14 +4,14 @@
     <!--=============================
         BREADCRUMB START
     ==============================-->
-    <section class="fp__breadcrumb" style="background: url(images/counter_bg.jpg);">
+    <section class="fp__breadcrumb" style="background: url({{ asset('frontend/images/counter_bg.jpg') }});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
-                    <h1>search result</h1>
+                    <h1>Products</h1>
                     <ul>
-                        <li><a href="index.html">home</a></li>
-                        <li><a href="#">search result</a></li>
+                        <li><a href="{{ url('/') }}">home</a></li>
+                        <li><a href="javascript:;">products</a></li>
                     </ul>
                 </div>
             </div>
@@ -27,16 +27,16 @@
     ==============================-->
     <section class="fp__search_menu mt_120 xs_mt_90 mb_100 xs_mb_70">
         <div class="container">
-            <form class="fp__search_menu_form">
+            <form class="fp__search_menu_form" method="GET" action="{{ route('product.index') }}">
                 <div class="row">
                     <div class="col-xl-6 col-md-5">
-                        <input type="text" placeholder="Search...">
+                        <input type="text" placeholder="Search..." name="search" value="{{ @request()->search }}">
                     </div>
                     <div class="col-xl-4 col-md-4">
-                        <select class="nice-select">
+                        <select class="nice-select" name="category">
                             <option value="">All</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->slug }}">{{ $category->name }}</option>
+                                <option @selected(@request()->category == $category->slug) value="{{ $category->slug }}">{{ $category->name }}</option>
                             @endforeach
 
                         </select>
@@ -83,6 +83,10 @@
                     </div>
                 </div>
                 @endforeach
+
+                @if (count($products) === 0)
+                <h4 class="text-center mt-5">No Product Found!</h4>
+                @endif
 
             </div>
             @if ($products->hasPages())

@@ -80,6 +80,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
     /** Product Reviews Routes */
     Route::get('product-reviews', [ProductReviewController::class, 'index'])->name('product-reviews.index');
+    Route::post('product-reviews', [ProductReviewController::class, 'updateStatus'])->name('product-reviews.update');
+    Route::delete('product-reviews/{id}', [ProductReviewController::class, 'destroy'])->name('product-reviews.destroy');
+
 
     /** Coupon Routes */
     Route::resource('coupon', CouponController::class);

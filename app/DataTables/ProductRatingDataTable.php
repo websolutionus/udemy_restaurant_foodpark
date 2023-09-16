@@ -22,13 +22,26 @@ class ProductRatingDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'productrating.action')
+            ->addColumn('action', function($query){
+                $delete = "<a href='".route('admin.product-reviews.destroy', $query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
+
+                return $delete;
+            })
             ->addColumn('user_name', function($query){
                 return $query->user->name;
             })
             ->addColumn('product', function($query){
                 return $query->product->name;
             })
+            ->addColumn('status', function($query){
+                $html ='<select class="form-control review_status" data-id="'.$query->id.'">
+                <option '.($query->status === 0 ? 'selected' : '').' value="0">Pending</option>
+                <option '.($query->status === 1 ? 'selected' : '').' value="1">Approved</option>
+                </select>';
+
+                return $html;
+            })
+            ->rawColumns(['status', 'action'])
             ->setRowId('id');
     }
 
@@ -74,7 +87,7 @@ class ProductRatingDataTable extends DataTable
             Column::make('product'),
             Column::make('rating'),
             Column::make('review'),
-            Column::make('status'),
+            Column::make('status')->width(100),
 
             Column::computed('action')
             ->exportable(false)

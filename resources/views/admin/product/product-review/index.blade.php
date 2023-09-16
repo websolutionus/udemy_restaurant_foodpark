@@ -19,4 +19,28 @@
 
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+
+    <script>
+        $(document).ready(function(){
+            $('body').on('change', '.review_status', function(){
+                let status = $(this).val();
+                let id = $(this).data('id');
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("admin.product-reviews.update") }}',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        status: status,
+                        id: id
+                    },
+                    success: function(response) {
+                        toastr.success(response.message);
+                    },
+                    error: function(xhr, status, error) {
+
+                    }
+                })
+            })
+        })
+    </script>
 @endpush

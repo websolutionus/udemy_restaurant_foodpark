@@ -305,6 +305,18 @@ class MenuBuilderSeeder extends Seeder
                 "created_at" => "2023-09-13 07:26:58",
                 "updated_at" => "2023-09-13 07:27:32",
             ),
+            array(
+                "id" => 24,
+                "label" => "Product",
+                "link" => "/product",
+                "parent_id" => 0,
+                "sort" => 1,
+                "class" => NULL,
+                "menu_id" => 1,
+                "depth" => 0,
+                "created_at" => "2023-09-13 07:26:58",
+                "updated_at" => "2023-09-13 07:27:32",
+            ),
         );
 
         DB::table('admin_menus')->insert($admin_menus);

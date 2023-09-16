@@ -769,6 +769,7 @@ namespace App\Models{
  * @property int $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Product $product
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|ProductRating newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductRating newQuery()

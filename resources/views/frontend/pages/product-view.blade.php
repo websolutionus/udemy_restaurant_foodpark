@@ -168,7 +168,7 @@
                                         <div class="col-lg-8">
                                             <h4>{{ count($reviews) }} reviews</h4>
                                             <div class="fp__comment pt-0 mt_20">
-                                                @foreach ($reviews as $review)        
+                                                @foreach ($reviews as $review)
                                                 <div class="fp__single_comment m-0 border-0">
                                                     <img src="{{asset($review->user->avatar)}}" alt="review" class="img-fluid">
                                                     <div class="fp__single_comm_text">
@@ -177,8 +177,8 @@
                                                             @for ($i = 1; $i <= $review->rating; $i++)
                                                             <i class="fas fa-star"></i>
                                                             @endfor
-                                                            
-                                                            
+
+
                                                         </span>
                                                         <p>{{ $review->review }}</p>
                                                     </div>
@@ -196,11 +196,11 @@
                                                 @if (count($reviews) === 0)
                                                     <div class="alert alert-warning mt-4">No review found!</div>
                                                 @endif
-                                                
+
                                             </div>
 
                                         </div>
-                                        @auth    
+                                        @auth
                                         <div class="col-lg-4">
                                             <div class="fp__post_review">
                                                 <h4>write a Review</h4>
@@ -232,7 +232,10 @@
                                             </div>
                                         </div>
                                         @else
-                                        <div class="alert alert-warning">Please login first to add review.</div>
+                                        <div class="col-lg-4">
+                                            <h4>write a Review</h4>
+                                            <div class="alert alert-warning mt-4">Please login first to add review.</div>
+                                        </div>
                                         @endauth
                                     </div>
                                 </div>

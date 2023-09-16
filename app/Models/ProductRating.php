@@ -13,4 +13,8 @@ class ProductRating extends Model
     function user() : BelongsTo {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    function product() : BelongsTo {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
 }

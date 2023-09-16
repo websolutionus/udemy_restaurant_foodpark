@@ -80,7 +80,8 @@ Route::post('/subscribe-newsletter', [FrontendController::class, 'subscribeNewsl
 /** Custom Page Routes */
 Route::get('/page/{slug}', CustomPageController::class);
 
-
+/** Product page Route*/
+Route::get('/products', [FrontendController::class, 'products'])->name('product.index');
 
 /** Show Product details page */
 Route::get('/product/{slug}', [FrontendController::class, 'showProduct'])->name('product.show');

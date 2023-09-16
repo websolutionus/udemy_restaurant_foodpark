@@ -250,6 +250,18 @@ class FrontendController extends Controller
         return response(['status' => 'success', 'message' => 'Subscribed Successfully!']);
     }
 
+    function products() : View {
+        $products = Product::where(['status' => 1])
+            ->orderBy('id', 'DESC')
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
+            ->paginate(12);
+
+        $categories = Category::where('status', 1)->get();
+
+        return view('frontend.pages.product', compact('products', 'categories'));
+    }
+
     function showProduct(string $slug) : View {
         $product = Product::with(['productImages', 'productSizes', 'productOptions'])->where(['slug' => $slug, 'status' => 1])
         ->withAvg('reviews', 'rating')
@@ -260,8 +272,8 @@ class FrontendController extends Controller
             ->where('id', '!=', $product->id)->take(8)
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
-            ->latest()->get();   
-        $reviews = ProductRating::where(['product_id' => $product->id, 'status' => 1])->paginate(30);  
+            ->latest()->get();
+        $reviews = ProductRating::where(['product_id' => $product->id, 'status' => 1])->paginate(30);
         return view('frontend.pages.product-view', compact('product', 'relatedProducts', 'reviews'));
     }
 
@@ -270,7 +282,7 @@ class FrontendController extends Controller
 
         return view('frontend.layouts.ajax-files.product-popup-modal', compact('product'))->render();
     }
-    
+
     function productReviewStore(Request $request) {
         $request->validate([
             'rating' => ['required', 'min:1', 'max:5', 'integer'],
@@ -286,7 +298,7 @@ class FrontendController extends Controller
         ->where('order_status', 'delivered')
         ->get();
 
-        
+
         if(count($hasPurchased) == 0){
             throw ValidationException::withMessages(['Please Buy The Product Before Submit a Review!']);
         }

@@ -11,7 +11,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>FoodPark || Restaurant Template</title>
-    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="icon" type="image/png" href="{{ asset(config('settings.favicon')) }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/spacing.css') }}">

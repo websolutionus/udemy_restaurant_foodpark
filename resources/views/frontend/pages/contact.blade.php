@@ -4,7 +4,7 @@
     <!--=============================
         BREADCRUMB START
     ==============================-->
-    <section class="fp__breadcrumb" style="background: url({{ asset('frontend/images/counter_bg.jpg') }});">
+    <section class="fp__breadcrumb" style="background: url({{ asset(config('settings.breadcrumb')) }});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
@@ -135,7 +135,7 @@
                         $('.fp__contact_form').trigger('reset');
                         $('.submit_btn').attr('disabled', false)
                         $('.submit_btn').html(`Send Message`);
-                    }, 
+                    },
                     error: function(xhr, status, error){
                         let errors = xhr.responseJSON.errors;
                         $.each(errors, function(index, value){

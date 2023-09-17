@@ -4,7 +4,7 @@
     <!--=============================
                             BREADCRUMB START
                         ==============================-->
-    <section class="fp__breadcrumb" style="background: url({{ asset('frontend/images/counter_bg.jpg') }});">
+    <section class="fp__breadcrumb" style="background: url({{ asset(config('settings.breadcrumb')) }});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
@@ -265,7 +265,7 @@
                                                 @for ($i = 1; $i <= $relatedProduct->reviews_avg_rating; $i++)
                                                 <i class="fas fa-star"></i>
                                                 @endfor
-                    
+
                                                 <span>({{ $relatedProduct->reviews_count }})</span>
                                             </p>
                                             @endif

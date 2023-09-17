@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Services\SettingsService;
+use App\Traits\FileUploadTrait;
 use Cache;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,6 +13,8 @@ use Illuminate\View\View;
 
 class SettingController extends Controller
 {
+    use FileUploadTrait;
+
     function index(): View
     {
         return view('admin.setting.index');
@@ -82,6 +85,33 @@ class SettingController extends Controller
                 ['key' => $key],
                 ['value' => $value]
             );
+        }
+
+        $settingsService = app(SettingsService::class);
+        $settingsService->clearCachedSettings();
+        Cache::forget('mail_settings');
+
+        toastr()->success('Updated Successfully!');
+
+        return redirect()->back();
+    }
+
+    function UpdateLogoSetting(Request $request) : RedirectResponse {
+        $validatedData = $request->validate([
+            'logo' => ['nullable', 'image', 'max:1000'],
+            'footer_logo' => ['nullable', 'image', 'max:1000'],
+            'favicon' => ['nullable', 'image', 'max:1000'],
+            'breadcrumb' => ['nullable', 'image', 'max:1000'],
+        ]);
+
+        foreach($validatedData as $key => $value){
+            $imagePatch = $this->uploadImage($request, $key);
+            if(!empty($imagePatch)){
+                Setting::updateOrCreate(
+                    ['key' => $key],
+                    ['value' => $imagePatch]
+                );
+            }
         }
 
         $settingsService = app(SettingsService::class);

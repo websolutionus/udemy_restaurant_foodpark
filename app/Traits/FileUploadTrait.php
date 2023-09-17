@@ -9,7 +9,6 @@ use phpDocumentor\Reflection\Types\Void_;
 trait FileUploadTrait
 {
 
-
     function uploadImage(Request $request, $inputName, $oldPath = NULL, $path = "/uploads")
     {
 

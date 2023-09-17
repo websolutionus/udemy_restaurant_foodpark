@@ -1,7 +1,7 @@
 <div class="tab-pane fade show" id="logo-setting" role="tabpanel" aria-labelledby="home-tab4">
     <div class="card">
         <div class="card-body border">
-            <form action="{{ route('admin.general-setting.update') }}" method="POST">
+            <form action="{{ route('admin.logo-setting.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 

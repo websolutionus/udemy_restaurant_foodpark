@@ -24,10 +24,12 @@ class AdminManagementDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
-                $edit = "<a href='".route('admin.admin-management.edit', $query->id)."' class='btn btn-primary'><i class='fas fa-edit'></i></a>";
-                $delete = "<a href='".route('admin.admin-management.destroy', $query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
+                if($query->id != 1){
+                    $edit = "<a href='".route('admin.admin-management.edit', $query->id)."' class='btn btn-primary'><i class='fas fa-edit'></i></a>";
+                    $delete = "<a href='".route('admin.admin-management.destroy', $query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
 
-                return $edit.$delete;
+                    return $edit.$delete;
+                }
             })
             ->addColumn('date', function($query){
                 return date('d M Y', strtotime($query->created_at));

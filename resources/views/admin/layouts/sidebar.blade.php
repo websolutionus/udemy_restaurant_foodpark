@@ -15,12 +15,13 @@
                 ->get();
             $unseenMessages = \App\Models\Chat::where(['receiver_id' => auth()->user()->id, 'seen' => 0])->count();
         @endphp
-
+        @if (auth()->user()->id === 1)
         <li class="dropdown dropdown-list-toggle">
             <a href="{{ route('admin.chat.index') }}" data-toggle="dropdown"
                 class="nav-link nav-link-lg message-envelope {{ $unseenMessages > 0 ? 'beep' : '' }}"><i
                     class="far fa-envelope"></i></a>
         </li>
+        @endif
 
         <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
                 class="nav-link notification-toggle nav-link-lg notification_beep {{ count($notifications) > 0 ? 'beep' : '' }}"><i
@@ -146,9 +147,10 @@
 
                 </ul>
             </li>
-
+            @if (auth()->user()->id === 1)
             <li><a class="nav-link" href="{{ route('admin.chat.index') }}"><i class="far fa-square"></i>
                     <span>Messages</span></a></li>
+            @endif
 
             <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i

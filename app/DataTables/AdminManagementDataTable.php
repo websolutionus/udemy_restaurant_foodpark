@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\AdminManagement;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -22,16 +23,32 @@ class AdminManagementDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'adminmanagement.action')
+            ->addColumn('action', function($query){
+                $edit = "<a href='".route('admin.admin-management.edit', $query->id)."' class='btn btn-primary'><i class='fas fa-edit'></i></a>";
+                $delete = "<a href='".route('admin.admin-management.destroy', $query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
+
+                return $edit.$delete;
+            })
+            ->addColumn('date', function($query){
+                return date('d M Y', strtotime($query->created_at));
+            })
+            ->addColumn('role', function($query){
+                if($query->id === 1){
+                    return 'Super Admin';
+                }else {
+                    return 'Admin';
+                }
+            })
+
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(AdminManagement $model): QueryBuilder
+    public function query(User $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where('role', 'admin')->newQuery();
     }
 
     /**
@@ -44,7 +61,7 @@ class AdminManagementDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0, 'asc')
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -62,15 +79,18 @@ class AdminManagementDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('name'),
+            Column::make('email'),
+            Column::make('role'),
+            Column::make('date'),
+
+            Column::computed('action')
+            ->exportable(false)
+            ->printable(false)
+            ->width(100)
+            ->addClass('text-center'),
         ];
     }
 

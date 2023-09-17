@@ -24,6 +24,8 @@ class SettingController extends Controller
     {
         $validatedData = $request->validate([
             'site_name' => ['required', 'max:255'],
+            'site_email' => ['nullable', 'max:255'],
+            'site_phone' => ['nullable', 'max:255'],
             'site_default_currency' => ['required', 'max:4'],
             'site_currency_icon' => ['required', 'max:4'],
             'site_currency_icon_position' => ['required', 'max:255'],
@@ -110,7 +112,7 @@ class SettingController extends Controller
             if(!empty($imagePatch)){
                 $oldPath = config('settings.'.$key);
                 $this->removeImage($oldPath);
-                
+
                 Setting::updateOrCreate(
                     ['key' => $key],
                     ['value' => $imagePatch]

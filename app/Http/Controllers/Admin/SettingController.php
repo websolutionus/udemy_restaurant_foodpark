@@ -105,8 +105,12 @@ class SettingController extends Controller
         ]);
 
         foreach($validatedData as $key => $value){
+
             $imagePatch = $this->uploadImage($request, $key);
             if(!empty($imagePatch)){
+                $oldPath = config('settings.'.$key);
+                $this->removeImage($oldPath);
+                
                 Setting::updateOrCreate(
                     ['key' => $key],
                     ['value' => $imagePatch]

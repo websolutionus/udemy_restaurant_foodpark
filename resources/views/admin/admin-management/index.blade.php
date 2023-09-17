@@ -10,7 +10,7 @@
             <div class="card-header">
                 <h4>All Admins</h4>
                 <div class="card-header-action">
-                    <a href="{{ route('admin.slider.create') }}" class="btn btn-primary">
+                    <a href="{{ route('admin.admin-management.create') }}" class="btn btn-primary">
                         Create new
                     </a>
                 </div>

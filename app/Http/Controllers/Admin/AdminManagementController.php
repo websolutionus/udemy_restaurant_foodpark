@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\AdminManagementDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class AdminManagementController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(AdminManagementDataTable $dataTable)
+    public function index(AdminManagementDataTable $dataTable) : View|JsonResponse
     {
         return $dataTable->render('admin.admin-management.index');
     }
@@ -19,9 +22,9 @@ class AdminManagementController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create() : View
     {
-        //
+        return view('admin.admin-management.create');
     }
 
     /**
@@ -29,7 +32,23 @@ class AdminManagementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'role' => ['required', 'in:admin'],
+            'password' => ['required', 'confirmed', 'min:5']
+        ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = $request->role;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        toastr()->success('Created Successfully');
+
+        return to_route('admin.admin-management.index');
     }
 
     /**

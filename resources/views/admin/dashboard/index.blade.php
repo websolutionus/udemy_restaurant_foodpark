@@ -201,4 +201,21 @@
         
         </div>
     </section>
+
+    <section class="section">
+
+        <div class="card card-primary">
+            <div class="card-header">
+                <h4>Todays Orders</h4>
+            </div>
+            <div class="card-body">
+                {{ $dataTable->table() }}
+            </div>
+        </div>
+    </section>
+
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+@endpush

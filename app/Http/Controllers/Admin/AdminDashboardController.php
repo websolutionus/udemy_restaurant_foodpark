@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\TodaysOrderDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\Order;
@@ -9,11 +10,13 @@ use App\Models\OrderPlacedNotification;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AdminDashboardController extends Controller
 {
-    function index() : View {
+    function index(TodaysOrderDataTable $dataTable) : View|JsonResponse
+    {
         $todaysOrders = Order::whereDate('created_at', now()->format('Y-m-d'))->count();
         $todaysEarnings = Order::whereDate('created_at', now()->format('Y-m-d'))->where('order_status', 'delivered')->sum('grand_total');
 
@@ -31,10 +34,8 @@ class AdminDashboardController extends Controller
 
         $totalProducts = Product::count();
         $totalBlogs = Blog::count();
-
-
         
-        return view('admin.dashboard.index', compact(
+        return $dataTable->render('admin.dashboard.index', compact(
             'todaysOrders',
             'todaysEarnings',
             'thisMonthsOrders',

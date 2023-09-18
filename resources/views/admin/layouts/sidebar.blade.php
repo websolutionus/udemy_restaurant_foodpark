@@ -96,8 +96,7 @@
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
-            <li class=active><a class="nav-link" href="index-0.html"><i class="fas fa-fire"></i> General
-                    Dashboard</a>
+            <li class=active><a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fas fa-fire"></i> Dashboard</a>
             </li>
 
             <li class="menu-header">Starter</li>

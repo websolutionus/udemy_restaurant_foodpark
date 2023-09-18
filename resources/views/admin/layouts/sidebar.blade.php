@@ -226,6 +226,9 @@
         <li><a class="nav-link" href="{{ route('admin.setting.index') }}"><i class="far fa-square"></i>
                 <span>Settings</span></a></li>
 
+        <li><a class="nav-link" href="{{ route('admin.clear-database.index') }}"><i class="far fa-square"></i>
+            <span>Clear Database</span></a></li>
+
 
 
     </aside>

@@ -31,7 +31,7 @@ class SettingController extends Controller
             'site_currency_icon_position' => ['required', 'max:255'],
         ]);
 
-        foreach($validatedData as $key => $value){
+        foreach ($validatedData as $key => $value) {
             Setting::updateOrCreate(
                 ['key' => $key],
                 ['value' => $value]
@@ -44,10 +44,10 @@ class SettingController extends Controller
         toastr()->success('Updated Successfully!');
 
         return redirect()->back();
-
     }
 
-    function UpdatePusherSetting(Request $request) : RedirectResponse {
+    function UpdatePusherSetting(Request $request): RedirectResponse
+    {
         $validatedData = $request->validate([
             'pusher_app_id' => ['required'],
             'pusher_key' => ['required'],
@@ -55,7 +55,7 @@ class SettingController extends Controller
             'pusher_cluster' => ['required'],
         ]);
 
-        foreach($validatedData as $key => $value){
+        foreach ($validatedData as $key => $value) {
             Setting::updateOrCreate(
                 ['key' => $key],
                 ['value' => $value]
@@ -70,7 +70,8 @@ class SettingController extends Controller
         return redirect()->back();
     }
 
-    function UpdateMailSetting(Request $request) {
+    function UpdateMailSetting(Request $request)
+    {
         $validatedData = $request->validate([
             'mail_driver' => ['required'],
             'mail_host' => ['required'],
@@ -82,7 +83,7 @@ class SettingController extends Controller
             'mail_receive_address' => ['required'],
         ]);
 
-        foreach($validatedData as $key => $value){
+        foreach ($validatedData as $key => $value) {
             Setting::updateOrCreate(
                 ['key' => $key],
                 ['value' => $value]
@@ -98,7 +99,8 @@ class SettingController extends Controller
         return redirect()->back();
     }
 
-    function UpdateLogoSetting(Request $request) : RedirectResponse {
+    function UpdateLogoSetting(Request $request): RedirectResponse
+    {
         $validatedData = $request->validate([
             'logo' => ['nullable', 'image', 'max:1000'],
             'footer_logo' => ['nullable', 'image', 'max:1000'],
@@ -106,11 +108,11 @@ class SettingController extends Controller
             'breadcrumb' => ['nullable', 'image', 'max:1000'],
         ]);
 
-        foreach($validatedData as $key => $value){
+        foreach ($validatedData as $key => $value) {
 
             $imagePatch = $this->uploadImage($request, $key);
-            if(!empty($imagePatch)){
-                $oldPath = config('settings.'.$key);
+            if (!empty($imagePatch)) {
+                $oldPath = config('settings.' . $key);
                 $this->removeImage($oldPath);
 
                 Setting::updateOrCreate(
@@ -118,6 +120,28 @@ class SettingController extends Controller
                     ['value' => $imagePatch]
                 );
             }
+        }
+
+        $settingsService = app(SettingsService::class);
+        $settingsService->clearCachedSettings();
+        Cache::forget('mail_settings');
+
+        toastr()->success('Updated Successfully!');
+
+        return redirect()->back();
+    }
+
+    function UpdateAppearanceSetting(Request $request): RedirectResponse
+    {
+        $validatedData = $request->validate([
+            'site_color' => ['required']
+        ]);
+
+        foreach ($validatedData as $key => $value) {
+            Setting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
         }
 
         $settingsService = app(SettingsService::class);

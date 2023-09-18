@@ -104,34 +104,101 @@
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="card card-statistic-1">
-                    <div class="card-icon bg-warning">
-                        <i class="far fa-file"></i>
+                    <div class="card-icon bg-primary">
+                        <i class="fas fa-cart-plus"></i>
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Reports</h4>
+                            <h4>Total Orders</h4>
                         </div>
                         <div class="card-body">
-                            1,201
+                            {{ $totalOrders }}
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="card card-statistic-1">
-                    <div class="card-icon bg-success">
-                        <i class="fas fa-circle"></i>
+                    <div class="card-icon bg-danger">
+                        <i class="fas fa-dollar-sign"></i>
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Online Users</h4>
+                            <h4>Total Earnings</h4>
                         </div>
                         <div class="card-body">
-                            47
+                            {{ currencyPosition($totalEarnings) }}
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="card card-statistic-1">
+                    <div class="card-icon bg-primary">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Total Users</h4>
+                        </div>
+                        <div class="card-body">
+                            {{ $totalUsers }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="card card-statistic-1">
+                    <div class="card-icon bg-danger">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Total Admins</h4>
+                        </div>
+                        <div class="card-body">
+                            {{ $totalAdmins }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="card card-statistic-1">
+                    <div class="card-icon bg-primary">
+                        <i class="fas fa-th"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Total Products</h4>
+                        </div>
+                        <div class="card-body">
+                            {{ $totalProducts }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="card card-statistic-1">
+                    <div class="card-icon bg-danger">
+                        <i class="fas fa-rss"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Total Blogs</h4>
+                        </div>
+                        <div class="card-body">
+                            {{ $totalBlogs }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        
         </div>
     </section>
 @endsection

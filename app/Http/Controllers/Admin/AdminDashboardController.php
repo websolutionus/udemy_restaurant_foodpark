@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Blog;
 use App\Models\Order;
 use App\Models\OrderPlacedNotification;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -19,6 +22,17 @@ class AdminDashboardController extends Controller
 
         $thisYearOrders = Order::whereYear('created_at', now()->year)->count();
         $thisYearEarnings = Order::whereYear('created_at', now()->year)->where('order_status', 'delivered')->sum('grand_total');
+
+        $totalOrders = Order::count();
+        $totalEarnings = Order::where('order_status', 'delivered')->sum('grand_total');
+
+        $totalUsers = User::where('role', 'user')->count();
+        $totalAdmins = User::where('role', 'admin')->count();
+
+        $totalProducts = Product::count();
+        $totalBlogs = Blog::count();
+
+
         
         return view('admin.dashboard.index', compact(
             'todaysOrders',
@@ -26,7 +40,13 @@ class AdminDashboardController extends Controller
             'thisMonthsOrders',
             'thisMonthsEarnings',
             'thisYearOrders',
-            'thisYearEarnings'
+            'thisYearEarnings',
+            'totalOrders',
+            'totalEarnings',
+            'totalUsers',
+            'totalAdmins',
+            'totalProducts',
+            'totalBlogs'
         ));
     }
 

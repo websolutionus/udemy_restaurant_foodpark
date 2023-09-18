@@ -34,6 +34,10 @@
                                 <a class="nav-link" id="" data-toggle="tab" href="#mail-setting" role="tab"
                                     aria-controls="contact" aria-selected="false">Mail Settings</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="" data-toggle="tab" href="#seo-setting" role="tab"
+                                    aria-controls="contact" aria-selected="false">Seo Settings</a>
+                            </li>
                         </ul>
                     </div>
                     <div class="col-12 col-sm-12 col-md-10">
@@ -48,6 +52,9 @@
                             @include('admin.setting.sections.pusher-setting')
 
                             @include('admin.setting.sections.mail-setting')
+
+                            @include('admin.setting.sections.seo-setting')
+
 
                         </div>
                     </div>

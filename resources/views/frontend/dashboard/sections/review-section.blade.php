@@ -1,5 +1,5 @@
-<div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
-aria-labelledby="v-pills-messages-tab">
+<div class="tab-pane fade" id="v-pills-review" role="tabpanel"
+aria-labelledby="v-pills-review-tab">
 <div class="fp_dashboard_body dashboard_review">
     <h3>review</h3>
     <div class="fp__review_area">

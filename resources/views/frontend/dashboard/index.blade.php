@@ -68,21 +68,19 @@
                                     aria-controls="v-pills-wishlist" aria-selected="false"><span><i
                                             class="far fa-heart"></i></span> wishlist</button>
 
-                                <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
-                                    data-bs-target="#v-pills-messages" type="button" role="tab"
-                                    aria-controls="v-pills-messages" aria-selected="false"><span><i
+                                <button class="nav-link" id="v-pills-review-tab" data-bs-toggle="pill"
+                                    data-bs-target="#v-pills-review" type="button" role="tab"
+                                    aria-controls="v-pills-review" aria-selected="false"><span><i
                                             class="fas fa-star"></i></span> Reviews</button>
                                 @php
                                 $unseenMessages = \App\Models\Chat::where(['sender_id' => 1, 'receiver_id' => auth()->user()->id, 'seen' => 0])->count();
                                 @endphp
-                                <button class="nav-link fp_chat_message" id="v-pills-settings-tab" data-bs-toggle="pill"
-                                data-bs-target="#v-pills-settings" type="button" role="tab"
-                                aria-controls="v-pills-settings" aria-selected="false"><span><i
-                                        class="far fa-comment-dots"></i></span> Message
-
-                                        <b class="sunseen-message-count">{{ $unseenMessages > 0 ? 1 : 0 }}</b>
-
-                                    </button>
+                                <button class="nav-link fp_chat_message" id="v-pills-message-tab" data-bs-toggle="pill"
+                                data-bs-target="#v-pills-message" type="button" role="tab"
+                                aria-controls="v-pills-message" aria-selected="false"><span><i
+                                class="far fa-comment-dots"></i></span> Message
+                                <b class="sunseen-message-count">{{ $unseenMessages > 0 ? 1 : 0 }}</b>
+                                </button>
 
                                 <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
                                     data-bs-target="#v-pills-settings" type="button" role="tab"
@@ -92,7 +90,7 @@
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
 
-                                    <button class="nav-link" onclick="event.preventDefault();
+                                    <button style="width: 100%;" class="nav-link" onclick="event.preventDefault();
                                     this.closest('form').submit();" type="button"><span> <i class="fas fa-sign-out-alt"></i>
                                     </span> Logout</button>
                                 </form>

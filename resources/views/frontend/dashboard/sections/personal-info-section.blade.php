@@ -8,19 +8,19 @@ aria-labelledby="v-pills-home-tab">
             <div class="col-xl-4 col-sm-6 col-md-4">
                 <div class="fp__dsahboard_overview_item">
                     <span class="icon"><i class="far fa-shopping-basket"></i></span>
-                    <h4>total order <span>(76)</span></h4>
+                    <h4>total order <span>({{ $totalOrders }})</span></h4>
                 </div>
             </div>
             <div class="col-xl-4 col-sm-6 col-md-4">
                 <div class="fp__dsahboard_overview_item green">
                     <span class="icon"><i class="far fa-shopping-basket"></i></span>
-                    <h4>Completed <span>(71)</span></h4>
+                    <h4>Completed <span>({{ $totalCompleteOrders }})</span></h4>
                 </div>
             </div>
             <div class="col-xl-4 col-sm-6 col-md-4">
                 <div class="fp__dsahboard_overview_item red">
                     <span class="icon"><i class="far fa-shopping-basket"></i></span>
-                    <h4>cancel <span>(05)</span></h4>
+                    <h4>cancel <span>({{ $totalCancelOrders }})</span></h4>
                 </div>
             </div>
         </div>

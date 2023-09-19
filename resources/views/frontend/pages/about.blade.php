@@ -59,14 +59,14 @@
 
     <section class="fp__about_video mt_100 xs_mt_70">
         <div class="container wow fadeInUp" data-wow-duration="1s">
-            <div class="fp__about_video_bg" style="background: url({{ getYtThumbnail($about->video_link, 'high') }});">
+            <div class="fp__about_video_bg" style="background: url({{ getYtThumbnail(@$about->video_link, 'high') }});">
                 <div class="fp__about_video_overlay">
                     <div class="row">
                         <div class="col-12">
                             <div class="fp__about_video_text">
                                 <p>Watch Videos</p>
                                 <a class="play_btn venobox" data-autoplay="true" data-vbtype="video"
-                                    href="{{ $about->video_link }}">
+                                    href="{{ @$about->video_link }}">
                                     <i class=" fas fa-play"></i>
                                 </a>
                             </div>

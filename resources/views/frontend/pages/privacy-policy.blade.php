@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-xl-12 wow fadeInUp" data-wow-duration="1s">
                     <div class="fp__career_det_text">
-                        {!! $privacyPolicy->content !!}
+                        {!! @$privacyPolicy->content !!}
                         <a href="{{ url('/') }}" class="common_btn">go home</a>
                     </div>
 

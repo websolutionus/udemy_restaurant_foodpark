@@ -99,7 +99,7 @@
                     <div class="col-xl-12 wow fadeInUp" data-wow-duration="1s">
                         <div class="fp__contact_map">
                             <iframe
-                                src="{{ $contact->map_link }}"
+                                src="{{ @$contact->map_link }}"
                                 style="border:0;" allowfullscreen="" loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>

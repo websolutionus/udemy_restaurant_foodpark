@@ -20,7 +20,7 @@
                         <div id="image-preview" class="image-preview">
                             <label for="image-upload" id="image-label">Choose File</label>
                             <input type="file" name="background" id="image-upload" />
-                            <input type="hidden" name="old_background" id="image-upload" value="{{ $counter->background }}" />
+                            <input type="hidden" name="old_background" id="image-upload" value="{{ @$counter->background }}" />
                           </div>
                     </div>
 

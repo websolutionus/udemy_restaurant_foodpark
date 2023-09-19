@@ -18,32 +18,32 @@
 
                     <div class="form-group">
                         <label for="">Phone One</label>
-                        <input type="text" class="form-control" name="phone_one" value="{{ $contact->phone_one }}">
+                        <input type="text" class="form-control" name="phone_one" value="{{ @$contact->phone_one }}">
                     </div>
 
                     <div class="form-group">
                         <label for="">Phone Two</label>
-                        <input type="text" class="form-control" name="phone_two" value="{{ $contact->phone_two }}">
+                        <input type="text" class="form-control" name="phone_two" value="{{ @$contact->phone_two }}">
                     </div>
 
                     <div class="form-group">
                         <label for="">Email One</label>
-                        <input type="text" class="form-control" name="mail_one" value="{{ $contact->mail_one }}">
+                        <input type="text" class="form-control" name="mail_one" value="{{ @$contact->mail_one }}">
                     </div>
 
                     <div class="form-group">
                         <label for="">Email Two</label>
-                        <input type="text" class="form-control" name="mail_two" value="{{ $contact->mail_two }}">
+                        <input type="text" class="form-control" name="mail_two" value="{{ @$contact->mail_two }}">
                     </div>
 
                     <div class="form-group">
                         <label for="">Address</label>
-                        <input type="text" class="form-control" name="address" value="{{ $contact->address }}">
+                        <input type="text" class="form-control" name="address" value="{{ @$contact->address }}">
                     </div>
 
                     <div class="form-group">
                         <label for="">Google Map Link</label>
-                        <input type="text" class="form-control" name="map_link" value="{{ $contact->map_link }}">
+                        <input type="text" class="form-control" name="map_link" value="{{ @$contact->map_link }}">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Update</button>

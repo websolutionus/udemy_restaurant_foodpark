@@ -16,11 +16,11 @@
             $unseenMessages = \App\Models\Chat::where(['receiver_id' => auth()->user()->id, 'seen' => 0])->count();
         @endphp
         @if (auth()->user()->id === 1)
-        <li class="dropdown dropdown-list-toggle">
-            <a href="{{ route('admin.chat.index') }}" data-toggle="dropdown"
-                class="nav-link nav-link-lg message-envelope {{ $unseenMessages > 0 ? 'beep' : '' }}"><i
-                    class="far fa-envelope"></i></a>
-        </li>
+            <li class="dropdown dropdown-list-toggle">
+                <a href="{{ route('admin.chat.index') }}" data-toggle="dropdown"
+                    class="nav-link nav-link-lg message-envelope {{ $unseenMessages > 0 ? 'beep' : '' }}"><i
+                        class="far fa-envelope"></i></a>
+            </li>
         @endif
 
         <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
@@ -96,7 +96,8 @@
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
-            <li class=active><a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fas fa-fire"></i> Dashboard</a>
+            <li class=active><a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fas fa-fire"></i>
+                    Dashboard</a>
             </li>
 
             <li class="menu-header">Starter</li>
@@ -106,9 +107,6 @@
 
             <li><a class="nav-link" href="{{ route('admin.daily-offer.index') }}"><i class="far fa-square"></i>
                     <span>Daily Offer</span></a></li>
-
-            <li><a class="nav-link" href="{{ route('admin.admin-management.index') }}"><i class="far fa-square"></i>
-                <span>Admin Management</span></a></li>
 
             <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
@@ -125,12 +123,14 @@
             </li>
 
             <li class="dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
-                    <span>Manage Restaurant </span></a>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
+                        class="fas fa-columns"></i>
+                    <span>Manage Products </span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('admin.category.index') }}">Product Categories</a></li>
                     <li><a class="nav-link" href="{{ route('admin.product.index') }}">Products</a></li>
-                    <li><a class="nav-link" href="{{ route('admin.product-reviews.index') }}">Product Reviews</a></li>
+                    <li><a class="nav-link" href="{{ route('admin.product-reviews.index') }}">Product Reviews</a>
+                    </li>
                 </ul>
             </li>
 
@@ -146,9 +146,19 @@
 
                 </ul>
             </li>
+
+            <li class="dropdown">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
+                    <span>Manage Reservations </span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{{ route('admin.reservation-time.index') }}">Reservation Times</a></li>
+                    <li><a class="nav-link" href="{{ route('admin.reservation.index') }}">Reservation</a></li>
+                </ul>
+            </li>
+
             @if (auth()->user()->id === 1)
-            <li><a class="nav-link" href="{{ route('admin.chat.index') }}"><i class="far fa-square"></i>
-                    <span>Messages</span></a></li>
+                <li><a class="nav-link" href="{{ route('admin.chat.index') }}"><i class="far fa-square"></i>
+                        <span>Messages</span></a></li>
             @endif
 
             <li class="dropdown">
@@ -158,22 +168,11 @@
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('admin.blog-category.index') }}">Categories</a></li>
                     <li><a class="nav-link" href="{{ route('admin.blogs.index') }}">All Blogs</a></li>
+                    <li><a class="nav-link" href="{{ route('admin.blogs.comments.index') }}">Comments</a></li>
+                    </li>
+                </ul>
             </li>
 
-            <li><a class="nav-link" href="{{ route('admin.blogs.comments.index') }}">Comments</a></li>
-            </li>
-
-        </ul>
-        </li>
-
-        <li><a class="nav-link" href="{{ route('admin.news-letter.index') }}"><i class="far fa-square"></i>
-            <span>News Letter</span></a></li>
-
-        <li><a class="nav-link" href="{{ route('admin.social-link.index') }}"><i class="far fa-square"></i>
-            <span>Social Links</span></a></li>
-
-        <li><a class="nav-link" href="{{ route('admin.menu-builder.index') }}"><i class="far fa-square"></i>
-                <span>Menu Builder</span></a></li>
 
         <li class="dropdown">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
@@ -205,31 +204,24 @@
             </ul>
         </li>
 
-        <li class="dropdown">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
-                <span>Manage Reservations </span></a>
-            <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{{ route('admin.reservation-time.index') }}">Reservation Times</a></li>
-                <li><a class="nav-link" href="{{ route('admin.reservation.index') }}">Reservation</a></li>
-            </ul>
-        </li>
+        <li><a class="nav-link" href="{{ route('admin.news-letter.index') }}"><i class="far fa-square"></i>
+                <span>News Letter</span></a></li>
 
-        <li class="dropdown">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                    class="fas fa-columns"></i>
-                <span> Footer </span></a>
-            <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{{ route('admin.footer-info.index') }}">Footer Info</a></li>
-            </ul>
-        </li>
+        <li><a class="nav-link" href="{{ route('admin.social-link.index') }}"><i class="far fa-square"></i>
+                <span>Social Links</span></a></li>
+
+        <li><a class="nav-link" href="{{ route('admin.footer-info.index') }}"> <i class="far fa-square"></i> <span>Footer Info</span></a></li>
+
+        <li><a class="nav-link" href="{{ route('admin.menu-builder.index') }}"><i class="far fa-square"></i>
+            <span>Menu Builder</span></a></li>
+
+        <li><a class="nav-link" href="{{ route('admin.admin-management.index') }}"><i class="far fa-square"></i>
+            <span>Admin Management</span></a></li>
 
         <li><a class="nav-link" href="{{ route('admin.setting.index') }}"><i class="far fa-square"></i>
                 <span>Settings</span></a></li>
 
         <li><a class="nav-link" href="{{ route('admin.clear-database.index') }}"><i class="far fa-square"></i>
-            <span>Clear Database</span></a></li>
-
-
-
+                <span>Clear Database</span></a></li>
     </aside>
 </div>

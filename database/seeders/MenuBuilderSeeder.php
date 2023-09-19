@@ -236,7 +236,7 @@ class MenuBuilderSeeder extends Seeder
             array(
                 "id" => 18,
                 "label" => "Blogs",
-                "link" => "/chef",
+                "link" => "/blogs",
                 "parent_id" => 0,
                 "sort" => 2,
                 "class" => NULL,
@@ -307,8 +307,8 @@ class MenuBuilderSeeder extends Seeder
             ),
             array(
                 "id" => 24,
-                "label" => "Product",
-                "link" => "/product",
+                "label" => "Products",
+                "link" => "/products",
                 "parent_id" => 0,
                 "sort" => 1,
                 "class" => NULL,

@@ -102,14 +102,14 @@
 
             <li class="menu-header">Starter</li>
 
-            <li><a class="nav-link" href="{{ route('admin.slider.index') }}"><i class="far fa-square"></i>
+            <li><a class="nav-link" href="{{ route('admin.slider.index') }}"><i class="fas fa-images"></i>
                     <span>Slider</span></a></li>
 
-            <li><a class="nav-link" href="{{ route('admin.daily-offer.index') }}"><i class="far fa-square"></i>
+            <li><a class="nav-link" href="{{ route('admin.daily-offer.index') }}"><i class="far fa-clock"></i>
                     <span>Daily Offer</span></a></li>
 
             <li class="dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
                     <span>Orders </span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('admin.orders.index') }}">All Orders</a></li>
@@ -117,14 +117,11 @@
                     <li><a class="nav-link" href="{{ route('admin.inprocess-orders') }}">In Process Orders</a></li>
                     <li><a class="nav-link" href="{{ route('admin.delivered-orders') }}">Delivered Orders</a></li>
                     <li><a class="nav-link" href="{{ route('admin.declined-orders') }}">Decliend Orders</a></li>
-
-
                 </ul>
             </li>
 
             <li class="dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fas fa-columns"></i>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-shopping-cart"></i>
                     <span>Manage Products </span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('admin.category.index') }}">Product Categories</a></li>
@@ -135,8 +132,7 @@
             </li>
 
             <li class="dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fas fa-columns"></i>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-store"></i>
                     <span> Manage Ecommerce </span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('admin.coupon.index') }}">Coupon</a></li>
@@ -148,7 +144,7 @@
             </li>
 
             <li class="dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-chair"></i>
                     <span>Manage Reservations </span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('admin.reservation-time.index') }}">Reservation Times</a></li>
@@ -157,13 +153,12 @@
             </li>
 
             @if (auth()->user()->id === 1)
-                <li><a class="nav-link" href="{{ route('admin.chat.index') }}"><i class="far fa-square"></i>
+                <li><a class="nav-link" href="{{ route('admin.chat.index') }}"><i class="fas fa-comment-dots"></i>
                         <span>Messages</span></a></li>
             @endif
 
             <li class="dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fas fa-columns"></i>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-rss"></i>
                     <span> Blog </span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('admin.blog-category.index') }}">Categories</a></li>
@@ -175,7 +170,7 @@
 
 
         <li class="dropdown">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-stream"></i>
                 <span>Sections </span></a>
             <ul class="dropdown-menu">
                 <li><a class="nav-link" href="{{ route('admin.why-choose-us.index') }}">Why choose us</a></li>
@@ -190,7 +185,7 @@
         </li>
 
         <li class="dropdown">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-file-alt"></i>
                 <span>Pages </span></a>
             <ul class="dropdown-menu">
                 <li><a class="nav-link" href="{{ route('admin.custom-page-builder.index') }}">Custom Page</a></li>
@@ -204,24 +199,24 @@
             </ul>
         </li>
 
-        <li><a class="nav-link" href="{{ route('admin.news-letter.index') }}"><i class="far fa-square"></i>
+        <li><a class="nav-link" href="{{ route('admin.news-letter.index') }}"><i class="fas fa-newspaper"></i>
                 <span>News Letter</span></a></li>
 
-        <li><a class="nav-link" href="{{ route('admin.social-link.index') }}"><i class="far fa-square"></i>
+        <li><a class="nav-link" href="{{ route('admin.social-link.index') }}"><i class="fas fa-link"></i>
                 <span>Social Links</span></a></li>
 
-        <li><a class="nav-link" href="{{ route('admin.footer-info.index') }}"> <i class="far fa-square"></i> <span>Footer Info</span></a></li>
+        <li><a class="nav-link" href="{{ route('admin.footer-info.index') }}"> <i class="fas fa-info-circle"></i> <span>Footer Info</span></a></li>
 
-        <li><a class="nav-link" href="{{ route('admin.menu-builder.index') }}"><i class="far fa-square"></i>
+        <li><a class="nav-link" href="{{ route('admin.menu-builder.index') }}"><i class="fas fa-list-alt"></i>
             <span>Menu Builder</span></a></li>
 
-        <li><a class="nav-link" href="{{ route('admin.admin-management.index') }}"><i class="far fa-square"></i>
+        <li><a class="nav-link" href="{{ route('admin.admin-management.index') }}"><i class="fas fa-user-shield"></i>
             <span>Admin Management</span></a></li>
 
-        <li><a class="nav-link" href="{{ route('admin.setting.index') }}"><i class="far fa-square"></i>
+        <li><a class="nav-link" href="{{ route('admin.setting.index') }}"><i class="fas fa-cogs"></i>
                 <span>Settings</span></a></li>
 
-        <li><a class="nav-link" href="{{ route('admin.clear-database.index') }}"><i class="far fa-square"></i>
+        <li><a class="nav-link" href="{{ route('admin.clear-database.index') }}"><i class="fas fa-exclamation-triangle"></i>
                 <span>Clear Database</span></a></li>
     </aside>
 </div>

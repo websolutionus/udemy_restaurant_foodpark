@@ -13,6 +13,9 @@ use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductOption;
+use App\Models\ProductSize;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -135,10 +138,6 @@ Route::group(['middleware' => 'auth'], function(){
     /** Stripe Routes */
     Route::get('razorpay-redirect', [PaymentController::class, 'razorpayRedirect'])->name('razorpay-redirect');
     Route::post('razorpay/payment', [PaymentController::class, 'payWithRazorpay'])->name('razorpay.payment');
-
-
 });
-
-
 
 

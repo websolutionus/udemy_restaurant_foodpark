@@ -25,19 +25,19 @@ class CounterUpdateRequest extends FormRequest
             'background' => ['nullable', 'image'],
 
             'counter_icon_one' => ['required', 'max:255'],
-            'counter_count_one' => ['required', 'max:255', 'numeric'],
+            'counter_count_one' => ['required', 'numeric'],
             'counter_name_one' => ['required', 'max:255'],
 
             'counter_icon_two' => ['required', 'max:255'],
-            'counter_count_two' => ['required', 'max:255', 'numeric'],
+            'counter_count_two' => ['required', 'numeric'],
             'counter_name_two' => ['required', 'max:255'],
 
             'counter_icon_three' => ['required', 'max:255'],
-            'counter_count_three' => ['required', 'max:255', 'numeric'],
+            'counter_count_three' => ['required', 'numeric'],
             'counter_name_three' => ['required', 'max:255'],
 
             'counter_icon_four' => ['required', 'max:255'],
-            'counter_count_four' => ['required', 'max:255', 'numeric'],
+            'counter_count_four' => ['required', 'numeric'],
             'counter_name_four' => ['required', 'max:255'],
 
 

@@ -416,7 +416,7 @@ table.dataTable.no-footer {
   float: left;
 }
 
-div.dataTables_wrapper div.dataTables_processing {
+/* div.dataTables_wrapper div.dataTables_processing {
   font-size: 0 !important;
   background-image: url("../img/spinner.svg") !important;
   background-color: #fff;
@@ -431,7 +431,7 @@ div.dataTables_wrapper div.dataTables_processing {
   transform: translate(-50%, -50%) !important;
   margin: 0 !important;
   opacity: 1 !important;
-}
+} */
 
 /* 1.9 Date Range Picker */
 .daterangepicker.dropdown-menu {
@@ -1156,57 +1156,6 @@ tr:first-child > td > .fc-day-grid-event {
   margin-left: 0 !important;
 }
 
-/* 1.28 Toast */
-#toast-container > div {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
-  padding: 20px 20px 20px 50px;
-  opacity: 1;
-}
-#toast-container > .toast {
-  background-image: none !important;
-}
-#toast-container > .toast:before {
-  position: absolute;
-  left: 17px;
-  top: 25px;
-  font-family: "Ionicons";
-  font-size: 24px;
-  line-height: 18px;
-  color: #fff;
-}
-#toast-container > .toast-warning:before {
-  content: "";
-}
-#toast-container > .toast-error:before {
-  content: "";
-}
-#toast-container > .toast-info:before {
-  content: "";
-  color: #000;
-}
-#toast-container > .toast-success:before {
-  content: "";
-}
-
-.toast.toast-error {
-  background-color: #fc544b;
-}
-.toast.toast-warning {
-  background-color: #ffa426;
-}
-.toast.toast-success {
-  background-color: #63ed7a;
-}
-.toast.toast-info {
-  background-color: #fff;
-}
-.toast.toast-info .toast-title {
-  color: #000;
-}
-.toast.toast-info .toast-message {
-  color: #000;
-  margin-top: 5px;
-}
 
 /* 1.29 User Item */
 .user-item {

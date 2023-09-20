@@ -5,14 +5,14 @@
     <!--=============================
         BREADCRUMB START
     ==============================-->
-    <section class="fp__breadcrumb" style="background: url(images/counter_bg.jpg);">
+    <section class="fp__breadcrumb" style="background: url({{ config('settings.breadcrumb') }});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
                     <h1>user dashboard</h1>
                     <ul>
-                        <li><a href="index.html">home</a></li>
-                        <li><a href="#">dashboard</a></li>
+                        <li><a href="{{ url('/') }}">home</a></li>
+                        <li><a href="javascript:;">dashboard</a></li>
                     </ul>
                 </div>
             </div>

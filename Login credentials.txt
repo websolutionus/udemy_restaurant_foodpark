@@ -1,0 +1,11 @@
+Admin Panel:
+---------------------
+url: {YOUR_DOMAIN}/admin/login
+email: admin@gmail.com
+password: password
+
+User Panel:
+-------------------------------
+url: {YOUR_DOMAIN}/login
+email: user@gmail.com
+password: 12345678

@@ -9,25 +9,137 @@ trait Identity
     private function mockShowProfileInfoResponse(): array
     {
         return Utils::jsonDecode('{
-  "user_id": "https://www.paypal.com/webapps/auth/identity/user/mWq6_1sU85v5EG9yHdPxJRrhGHrnMJ-1PQKtX6pcsmA",
-  "name": "identity test",
-  "given_name": "identity",
-  "family_name": "test",
-  "payer_id": "WDJJHEBZ4X2LY",
   "address": {
-    "street_address": "1 Main St",
-    "locality": "San Jose",
+    "street_address": "7917394 Annursnac Hill Road Unit 0C",
+    "locality": "Ventura",
     "region": "CA",
-    "postal_code": "95131",
+    "postal_code": "93003",
     "country": "US"
-  },
-  "verified_account": "true",
-  "emails": [
+  }
+}', true);
+    }
+
+    private function mocklistUsersResponse(): array
     {
-      "value": "user1@example.com",
-      "primary": true
+        return Utils::jsonDecode('{
+  "schemas": [
+    "http://example.com"
+  ],
+  "startIndex": 1,
+  "itemsPerPage": 1,
+  "totalResults": 5000,
+  "Resources": [
+    {
+      "schemas": [
+        "http://example.com"
+      ],
+      "externalId": "string",
+      "userName": "string",
+      "name": {
+        "familyName": "string",
+        "givenName": "string",
+        "middleName": "string",
+        "honorificPrefix": "string",
+        "honorificSuffix": "string"
+      },
+      "active": true,
+      "emails": [
+        {
+          "type": "work",
+          "primary": true,
+          "value": "string"
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "value": "string",
+          "type": "work",
+          "primary": true
+        }
+      ],
+      "addresses": [
+        {
+          "streetAddress": "string",
+          "locality": "string",
+          "region": "string",
+          "postalCode": "string",
+          "type": "work",
+          "country": "string"
+        }
+      ],
+      "entitlements": [
+        {
+          "value": "string"
+        }
+      ],
+      "id": "string",
+      "meta": {
+        "resourceType": "User",
+        "location": "http://example.com",
+        "created": "string",
+        "lastModified": "string"
+      },
+      "preferredLanguage": "string",
+      "timezone": "string"
     }
   ]
+}', true);
+    }
+
+    private function mocklistUserResponse(): array
+    {
+        return Utils::jsonDecode('{
+  "schemas": [
+    "http://example.com"
+  ],
+  "externalId": "string",
+  "userName": "string",
+  "name": {
+    "familyName": "string",
+    "givenName": "string",
+    "middleName": "string",
+    "honorificPrefix": "string",
+    "honorificSuffix": "string"
+  },
+  "active": true,
+  "emails": [
+    {
+      "type": "work",
+      "primary": true,
+      "value": "string"
+    }
+  ],
+  "phoneNumbers": [
+    {
+      "value": "string",
+      "type": "work",
+      "primary": true
+    }
+  ],
+  "addresses": [
+    {
+      "streetAddress": "string",
+      "locality": "string",
+      "region": "string",
+      "postalCode": "string",
+      "type": "work",
+      "country": "string"
+    }
+  ],
+  "entitlements": [
+    {
+      "value": "string"
+    }
+  ],
+  "id": "string",
+  "meta": {
+    "resourceType": "User",
+    "location": "http://example.com",
+    "created": "string",
+    "lastModified": "string"
+  },
+  "preferredLanguage": "string",
+  "timezone": "string"
 }', true);
     }
 

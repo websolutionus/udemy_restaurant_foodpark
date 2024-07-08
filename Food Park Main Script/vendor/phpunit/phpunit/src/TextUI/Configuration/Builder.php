@@ -18,6 +18,8 @@ use PHPUnit\TextUI\XmlConfiguration\Loader;
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @codeCoverageIgnore
  */
 final class Builder
 {
@@ -31,7 +33,7 @@ final class Builder
             $configurationFile = (new XmlConfigurationFileFinder)->find($cliConfiguration);
             $xmlConfiguration  = DefaultConfiguration::create();
 
-            if ($configurationFile) {
+            if ($configurationFile !== false) {
                 $xmlConfiguration = (new Loader)->load($configurationFile);
             }
 

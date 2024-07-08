@@ -21,6 +21,16 @@ use PHPUnit\TextUI\Configuration\Configuration;
  */
 interface Emitter
 {
+    /**
+     * @deprecated
+     */
+    public function exportObjects(): void;
+
+    /**
+     * @deprecated
+     */
+    public function exportsObjects(): bool;
+
     public function applicationStarted(): void;
 
     public function testRunnerStarted(): void;
@@ -51,46 +61,52 @@ interface Emitter
 
     public function testRunnerExecutionStarted(TestSuite $testSuite): void;
 
+    public function testRunnerDisabledGarbageCollection(): void;
+
+    public function testRunnerTriggeredGarbageCollection(): void;
+
     public function testSuiteSkipped(TestSuite $testSuite, string $message): void;
 
     public function testSuiteStarted(TestSuite $testSuite): void;
 
     public function testPreparationStarted(Code\Test $test): void;
 
-    /**
-     * @psalm-param class-string $testClassName
-     */
-    public function testBeforeFirstTestMethodCalled(string $testClassName, Code\ClassMethod $calledMethod): void;
+    public function testPreparationFailed(Code\Test $test): void;
 
     /**
      * @psalm-param class-string $testClassName
      */
-    public function testBeforeFirstTestMethodErrored(string $testClassName, Code\ClassMethod $calledMethod, Throwable $throwable): void;
+    public function testBeforeFirstTestMethodCalled(string $testClassName, ClassMethod $calledMethod): void;
 
     /**
      * @psalm-param class-string $testClassName
      */
-    public function testBeforeFirstTestMethodFinished(string $testClassName, Code\ClassMethod ...$calledMethods): void;
+    public function testBeforeFirstTestMethodErrored(string $testClassName, ClassMethod $calledMethod, Throwable $throwable): void;
 
     /**
      * @psalm-param class-string $testClassName
      */
-    public function testBeforeTestMethodCalled(string $testClassName, Code\ClassMethod $calledMethod): void;
+    public function testBeforeFirstTestMethodFinished(string $testClassName, ClassMethod ...$calledMethods): void;
 
     /**
      * @psalm-param class-string $testClassName
      */
-    public function testBeforeTestMethodFinished(string $testClassName, Code\ClassMethod ...$calledMethods): void;
+    public function testBeforeTestMethodCalled(string $testClassName, ClassMethod $calledMethod): void;
 
     /**
      * @psalm-param class-string $testClassName
      */
-    public function testPreConditionCalled(string $testClassName, Code\ClassMethod $calledMethod): void;
+    public function testBeforeTestMethodFinished(string $testClassName, ClassMethod ...$calledMethods): void;
 
     /**
      * @psalm-param class-string $testClassName
      */
-    public function testPreConditionFinished(string $testClassName, Code\ClassMethod ...$calledMethods): void;
+    public function testPreConditionCalled(string $testClassName, ClassMethod $calledMethod): void;
+
+    /**
+     * @psalm-param class-string $testClassName
+     */
+    public function testPreConditionFinished(string $testClassName, ClassMethod ...$calledMethods): void;
 
     public function testPrepared(Code\Test $test): void;
 
@@ -99,8 +115,14 @@ interface Emitter
      */
     public function testRegisteredComparator(string $className): void;
 
+    /**
+     * @deprecated
+     */
     public function testAssertionSucceeded(mixed $value, Constraint\Constraint $constraint, string $message): void;
 
+    /**
+     * @deprecated
+     */
     public function testAssertionFailed(mixed $value, Constraint\Constraint $constraint, string $message): void;
 
     /**
@@ -155,30 +177,80 @@ interface Emitter
 
     public function testPassed(Code\Test $test): void;
 
+    /**
+     * @psalm-param non-empty-string $message
+     */
     public function testConsideredRisky(Code\Test $test, string $message): void;
 
     public function testMarkedAsIncomplete(Code\Test $test, Throwable $throwable): void;
 
+    /**
+     * @psalm-param non-empty-string $message
+     */
     public function testSkipped(Code\Test $test, string $message): void;
 
+    /**
+     * @psalm-param non-empty-string $message
+     */
     public function testTriggeredPhpunitDeprecation(Code\Test $test, string $message): void;
 
-    public function testTriggeredPhpDeprecation(Code\Test $test, string $message, string $file, int $line, bool $suppressed): void;
+    /**
+     * @psalm-param non-empty-string $message
+     * @psalm-param non-empty-string $file
+     * @psalm-param positive-int $line
+     */
+    public function testTriggeredPhpDeprecation(Code\Test $test, string $message, string $file, int $line, bool $suppressed, bool $ignoredByBaseline, bool $ignoredByTest): void;
 
-    public function testTriggeredDeprecation(Code\Test $test, string $message, string $file, int $line, bool $suppressed): void;
+    /**
+     * @psalm-param non-empty-string $message
+     * @psalm-param non-empty-string $file
+     * @psalm-param positive-int $line
+     */
+    public function testTriggeredDeprecation(Code\Test $test, string $message, string $file, int $line, bool $suppressed, bool $ignoredByBaseline, bool $ignoredByTest): void;
 
+    /**
+     * @psalm-param non-empty-string $message
+     * @psalm-param non-empty-string $file
+     * @psalm-param positive-int $line
+     */
     public function testTriggeredError(Code\Test $test, string $message, string $file, int $line, bool $suppressed): void;
 
-    public function testTriggeredNotice(Code\Test $test, string $message, string $file, int $line, bool $suppressed): void;
+    /**
+     * @psalm-param non-empty-string $message
+     * @psalm-param non-empty-string $file
+     * @psalm-param positive-int $line
+     */
+    public function testTriggeredNotice(Code\Test $test, string $message, string $file, int $line, bool $suppressed, bool $ignoredByBaseline): void;
 
-    public function testTriggeredPhpNotice(Code\Test $test, string $message, string $file, int $line, bool $suppressed): void;
+    /**
+     * @psalm-param non-empty-string $message
+     * @psalm-param non-empty-string $file
+     * @psalm-param positive-int $line
+     */
+    public function testTriggeredPhpNotice(Code\Test $test, string $message, string $file, int $line, bool $suppressed, bool $ignoredByBaseline): void;
 
-    public function testTriggeredWarning(Code\Test $test, string $message, string $file, int $line, bool $suppressed): void;
+    /**
+     * @psalm-param non-empty-string $message
+     * @psalm-param non-empty-string $file
+     * @psalm-param positive-int $line
+     */
+    public function testTriggeredWarning(Code\Test $test, string $message, string $file, int $line, bool $suppressed, bool $ignoredByBaseline): void;
 
-    public function testTriggeredPhpWarning(Code\Test $test, string $message, string $file, int $line, bool $suppressed): void;
+    /**
+     * @psalm-param non-empty-string $message
+     * @psalm-param non-empty-string $file
+     * @psalm-param positive-int $line
+     */
+    public function testTriggeredPhpWarning(Code\Test $test, string $message, string $file, int $line, bool $suppressed, bool $ignoredByBaseline): void;
 
+    /**
+     * @psalm-param non-empty-string $message
+     */
     public function testTriggeredPhpunitError(Code\Test $test, string $message): void;
 
+    /**
+     * @psalm-param non-empty-string $message
+     */
     public function testTriggeredPhpunitWarning(Code\Test $test, string $message): void;
 
     /**
@@ -191,38 +263,40 @@ interface Emitter
     /**
      * @psalm-param class-string $testClassName
      */
-    public function testPostConditionCalled(string $testClassName, Code\ClassMethod $calledMethod): void;
+    public function testPostConditionCalled(string $testClassName, ClassMethod $calledMethod): void;
 
     /**
      * @psalm-param class-string $testClassName
      */
-    public function testPostConditionFinished(string $testClassName, Code\ClassMethod ...$calledMethods): void;
+    public function testPostConditionFinished(string $testClassName, ClassMethod ...$calledMethods): void;
 
     /**
      * @psalm-param class-string $testClassName
      */
-    public function testAfterTestMethodCalled(string $testClassName, Code\ClassMethod $calledMethod): void;
+    public function testAfterTestMethodCalled(string $testClassName, ClassMethod $calledMethod): void;
 
     /**
      * @psalm-param class-string $testClassName
      */
-    public function testAfterTestMethodFinished(string $testClassName, Code\ClassMethod ...$calledMethods): void;
+    public function testAfterTestMethodFinished(string $testClassName, ClassMethod ...$calledMethods): void;
 
     /**
      * @psalm-param class-string $testClassName
      */
-    public function testAfterLastTestMethodCalled(string $testClassName, Code\ClassMethod $calledMethod): void;
+    public function testAfterLastTestMethodCalled(string $testClassName, ClassMethod $calledMethod): void;
 
     /**
      * @psalm-param class-string $testClassName
      */
-    public function testAfterLastTestMethodFinished(string $testClassName, Code\ClassMethod ...$calledMethods): void;
+    public function testAfterLastTestMethodFinished(string $testClassName, ClassMethod ...$calledMethods): void;
 
     public function testSuiteFinished(TestSuite $testSuite): void;
 
     public function testRunnerTriggeredDeprecation(string $message): void;
 
     public function testRunnerTriggeredWarning(string $message): void;
+
+    public function testRunnerEnabledGarbageCollection(): void;
 
     public function testRunnerExecutionAborted(): void;
 

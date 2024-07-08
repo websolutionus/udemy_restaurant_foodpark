@@ -2,9 +2,14 @@
 
 namespace Illuminate\Console\Concerns;
 
+use Closure;
 use Illuminate\Contracts\Console\PromptsForMissingInput as PromptsForMissingInputContract;
+use Illuminate\Support\Arr;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+
+use function Laravel\Prompts\text;
 
 trait PromptsForMissingInput
 {
@@ -34,15 +39,31 @@ trait PromptsForMissingInput
     protected function promptForMissingArguments(InputInterface $input, OutputInterface $output)
     {
         $prompted = collect($this->getDefinition()->getArguments())
-            ->filter(fn ($argument) => $argument->isRequired() && is_null($input->getArgument($argument->getName())))
-            ->filter(fn ($argument) => $argument->getName() !== 'command')
-            ->each(fn ($argument) => $input->setArgument(
-                $argument->getName(),
-                $this->askPersistently(
-                    $this->promptForMissingArgumentsUsing()[$argument->getName()] ??
-                    'What is '.lcfirst($argument->getDescription()).'?'
-                )
-            ))
+            ->reject(fn (InputArgument $argument) => $argument->getName() === 'command')
+            ->filter(fn (InputArgument $argument) => $argument->isRequired() && match (true) {
+                $argument->isArray() => empty($input->getArgument($argument->getName())),
+                default => is_null($input->getArgument($argument->getName())),
+            })
+            ->each(function (InputArgument $argument) use ($input) {
+                $label = $this->promptForMissingArgumentsUsing()[$argument->getName()] ??
+                    'What is '.lcfirst($argument->getDescription() ?: ('the '.$argument->getName())).'?';
+
+                if ($label instanceof Closure) {
+                    return $input->setArgument($argument->getName(), $argument->isArray() ? Arr::wrap($label()) : $label());
+                }
+
+                if (is_array($label)) {
+                    [$label, $placeholder] = $label;
+                }
+
+                $answer = text(
+                    label: $label,
+                    placeholder: $placeholder ?? '',
+                    validate: fn ($value) => empty($value) ? "The {$argument->getName()} is required." : null,
+                );
+
+                $input->setArgument($argument->getName(), $argument->isArray() ? [$answer] : $answer);
+            })
             ->isNotEmpty();
 
         if ($prompted) {
@@ -83,26 +104,5 @@ trait PromptsForMissingInput
         return collect($this->getDefinition()->getOptions())
             ->reject(fn ($option) => $input->getOption($option->getName()) === $option->getDefault())
             ->isNotEmpty();
-    }
-
-    /**
-     * Continue asking a question until an answer is provided.
-     *
-     * @param  string  $question
-     * @return string
-     */
-    private function askPersistently($question)
-    {
-        $answer = null;
-
-        while ($answer === null) {
-            $answer = $this->components->ask($question);
-
-            if ($answer === null) {
-                $this->components->error('The answer is required.');
-            }
-        }
-
-        return $answer;
     }
 }

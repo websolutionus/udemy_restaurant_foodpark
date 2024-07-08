@@ -4,8 +4,10 @@ namespace Laravel\Sail\Console;
 
 use Illuminate\Console\Command;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Process\Process;
 
+#[AsCommand(name: 'sail:install')]
 class InstallCommand extends Command
 {
     use Concerns\InteractsWithDockerComposeServices;
@@ -38,11 +40,11 @@ class InstallCommand extends Command
         } elseif ($this->option('no-interaction')) {
             $services = $this->defaultServices;
         } else {
-            $services = $this->gatherServicesWithSymfonyMenu();
+            $services = $this->gatherServicesInteractively();
         }
 
         if ($invalidServices = array_diff($services, $this->services)) {
-            $this->error('Invalid services ['.implode(',', $invalidServices).'].');
+            $this->components->error('Invalid services ['.implode(',', $invalidServices).'].');
 
             return 1;
         }
@@ -55,8 +57,22 @@ class InstallCommand extends Command
             $this->installDevContainer();
         }
 
-        $this->info('Sail scaffolding installed successfully.');
-
         $this->prepareInstallation($services);
+
+        $this->output->writeln('');
+        $this->components->info('Sail scaffolding installed successfully. You may run your Docker containers using Sail\'s "up" command.');
+
+        $this->output->writeln('<fg=gray>➜</> <options=bold>./vendor/bin/sail up</>');
+
+        if (in_array('mysql', $services) ||
+            in_array('mariadb10', $services) ||
+            in_array('mariadb11', $services) ||
+            in_array('pgsql', $services)) {
+            $this->components->warn('A database service was installed. Run "artisan migrate" to prepare your database:');
+
+            $this->output->writeln('<fg=gray>➜</> <options=bold>./vendor/bin/sail artisan migrate</>');
+        }
+
+        $this->output->writeln('');
     }
 }

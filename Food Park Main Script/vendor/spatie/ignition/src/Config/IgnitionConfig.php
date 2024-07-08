@@ -150,6 +150,11 @@ class IgnitionConfig implements Arrayable
             'theme' => 'light',
             'editor' => 'vscode',
             'editor_options' => [
+                'clipboard' => [
+                    'label' => 'Clipboard',
+                    'url' => '%path:%line',
+                    'clipboard' => true,
+                ],
                 'sublime' => [
                     'label' => 'Sublime',
                     'url' => 'subl://open?url=file://%path&line=%line',
@@ -197,6 +202,10 @@ class IgnitionConfig implements Arrayable
                 'vscodium' => [
                     'label' => 'VS Codium',
                     'url' => 'vscodium://file/%path:%line',
+                ],
+                'cursor' => [
+                    'label' => 'Cursor',
+                    'url' => 'cursor://file/%path:%line',
                 ],
                 'atom' => [
                     'label' => 'Atom',

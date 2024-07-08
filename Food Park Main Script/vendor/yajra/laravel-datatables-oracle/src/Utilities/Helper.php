@@ -14,12 +14,8 @@ class Helper
 {
     /**
      * Places item of extra columns into results by care of their order.
-     *
-     * @param  array  $item
-     * @param  array  $array
-     * @return array
      */
-    public static function includeInArray($item, $array)
+    public static function includeInArray(array $item, array $array): array
     {
         if (self::isItemOrderInvalid($item, $array)) {
             return array_merge($array, [$item['name'] => $item['content']]);
@@ -44,12 +40,8 @@ class Helper
 
     /**
      * Check if item order is valid.
-     *
-     * @param  array  $item
-     * @param  array  $array
-     * @return bool
      */
-    protected static function isItemOrderInvalid($item, $array)
+    protected static function isItemOrderInvalid(array $item, array $array): bool
     {
         return $item['order'] === false || $item['order'] >= count($array);
     }
@@ -94,7 +86,7 @@ class Helper
      *
      * @throws \ReflectionException
      */
-    public static function compileContent($content, array $data, array|object $param)
+    public static function compileContent(mixed $content, array $data, array|object $param)
     {
         if (is_string($content)) {
             return static::compileBlade($content, static::getMixedValue($data, $param));
@@ -110,17 +102,22 @@ class Helper
             return $content($param);
         }
 
+        if (is_array($content)) {
+            [$view, $viewData] = $content;
+
+            return static::compileBlade($view, static::getMixedValue($data, $param) + $viewData);
+        }
+
         return $content;
     }
 
     /**
      * Parses and compiles strings by using Blade Template System.
      *
-     * @param  string  $str
-     * @param  array  $data
-     * @return false|string
+     *
+     * @throws \Throwable
      */
-    public static function compileBlade($str, $data = [])
+    public static function compileBlade(string $str, array $data = []): false|string
     {
         if (view()->exists($str)) {
             /** @var view-string $str */
@@ -137,12 +134,8 @@ class Helper
 
     /**
      * Get a mixed value of custom data and the parameters.
-     *
-     * @param  array  $data
-     * @param  array|object  $param
-     * @return array
      */
-    public static function getMixedValue(array $data, array|object $param)
+    public static function getMixedValue(array $data, array|object $param): array
     {
         $casted = self::castToArray($param);
 
@@ -159,9 +152,6 @@ class Helper
 
     /**
      * Cast the parameter into an array.
-     *
-     * @param  array|object  $param
-     * @return array
      */
     public static function castToArray(array|object $param): array
     {
@@ -174,11 +164,8 @@ class Helper
 
     /**
      * Get equivalent or method of query builder.
-     *
-     * @param  string  $method
-     * @return string
      */
-    public static function getOrMethod($method)
+    public static function getOrMethod(string $method): string
     {
         if (! Str::contains(Str::lower($method), 'or')) {
             return 'or'.ucfirst($method);
@@ -189,19 +176,32 @@ class Helper
 
     /**
      * Converts array object values to associative array.
-     *
-     * @param  mixed  $row
-     * @param  array  $filters
-     * @return array
      */
-    public static function convertToArray($row, $filters = [])
+    public static function convertToArray(mixed $row, array $filters = []): array
     {
+        if (Arr::get($filters, 'ignore_getters') && is_object($row) && method_exists($row, 'getAttributes')) {
+            $data = $row->getAttributes();
+            if (method_exists($row, 'getRelations')) {
+                foreach ($row->getRelations() as $relationName => $relation) {
+                    if (is_iterable($relation)) {
+                        foreach ($relation as $relationItem) {
+                            $data[$relationName][] = self::convertToArray($relationItem, ['ignore_getters' => true]);
+                        }
+                    } else {
+                        $data[$relationName] = self::convertToArray($relation, ['ignore_getters' => true]);
+                    }
+                }
+            }
+
+            return $data;
+        }
+
         $row = is_object($row) && method_exists($row, 'makeHidden') ? $row->makeHidden(Arr::get($filters, 'hidden',
             [])) : $row;
         $row = is_object($row) && method_exists($row, 'makeVisible') ? $row->makeVisible(Arr::get($filters, 'visible',
             [])) : $row;
-        $data = $row instanceof Arrayable ? $row->toArray() : (array) $row;
 
+        $data = $row instanceof Arrayable ? $row->toArray() : (array) $row;
         foreach ($data as &$value) {
             if (is_object($value) || is_array($value)) {
                 $value = self::convertToArray($value);
@@ -213,24 +213,17 @@ class Helper
         return $data;
     }
 
-    /**
-     * @param  array  $data
-     * @return array
-     */
-    public static function transform(array $data)
+    public static function transform(array $data): array
     {
-        return array_map(function ($row) {
-            return self::transformRow($row);
-        }, $data);
+        return array_map(fn ($row) => self::transformRow($row), $data);
     }
 
     /**
      * Transform row data into an array.
      *
      * @param  array  $row
-     * @return array
      */
-    protected static function transformRow($row)
+    protected static function transformRow($row): array
     {
         foreach ($row as $key => $value) {
             if ($value instanceof DateTime) {
@@ -249,11 +242,8 @@ class Helper
 
     /**
      * Build parameters depending on # of arguments passed.
-     *
-     * @param  array  $args
-     * @return array
      */
-    public static function buildParameters(array $args)
+    public static function buildParameters(array $args): array
     {
         $parameters = [];
 
@@ -273,20 +263,15 @@ class Helper
 
     /**
      * Replace all pattern occurrences with keyword.
-     *
-     * @param  array  $subject
-     * @param  string  $keyword
-     * @param  string  $pattern
-     * @return array
      */
-    public static function replacePatternWithKeyword(array $subject, $keyword, $pattern = '$1')
+    public static function replacePatternWithKeyword(array $subject, string $keyword, string $pattern = '$1'): array
     {
         $parameters = [];
         foreach ($subject as $param) {
             if (is_array($param)) {
                 $parameters[] = self::replacePatternWithKeyword($param, $keyword, $pattern);
             } else {
-                $parameters[] = str_replace($pattern, $keyword, $param);
+                $parameters[] = str_replace($pattern, $keyword, (string) $param);
             }
         }
 
@@ -295,12 +280,8 @@ class Helper
 
     /**
      * Get column name from string.
-     *
-     * @param  string  $str
-     * @param  bool  $wantsAlias
-     * @return string
      */
-    public static function extractColumnName($str, $wantsAlias)
+    public static function extractColumnName(string $str, bool $wantsAlias): string
     {
         $matches = explode(' as ', Str::lower($str));
 
@@ -321,25 +302,16 @@ class Helper
 
     /**
      * Adds % wildcards to the given string.
-     *
-     * @param  string  $str
-     * @param  bool  $lowercase
-     * @return string
      */
-    public static function wildcardLikeString($str, $lowercase = true)
+    public static function wildcardLikeString(string $str, bool $lowercase = true): string
     {
         return static::wildcardString($str, '%', $lowercase);
     }
 
     /**
      * Adds wildcards to the given string.
-     *
-     * @param  string  $str
-     * @param  string  $wildcard
-     * @param  bool  $lowercase
-     * @return string
      */
-    public static function wildcardString($str, $wildcard, $lowercase = true)
+    public static function wildcardString(string $str, string $wildcard, bool $lowercase = true): string
     {
         $wild = $wildcard;
         $chars = (array) preg_split('//u', $str, -1, PREG_SPLIT_NO_EMPTY);
@@ -364,7 +336,7 @@ class Helper
 
         foreach (Arr::dot($parameters) as $key => $value) {
             if (self::isJavascript($value, $key)) {
-                $values[] = trim($value);
+                $values[] = trim((string) $value);
                 Arr::set($parameters, $key, '%'.$key.'%');
                 $replacements[] = '"%'.$key.'%"';
             }

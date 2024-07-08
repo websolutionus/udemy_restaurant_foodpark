@@ -76,10 +76,10 @@ final class Writer
      * Creates an instance of the writer.
      */
     public function __construct(
-        SolutionsRepository $solutionsRepository = null,
-        OutputInterface $output = null,
-        ArgumentFormatter $argumentFormatter = null,
-        Highlighter $highlighter = null
+        ?SolutionsRepository $solutionsRepository = null,
+        ?OutputInterface $output = null,
+        ?ArgumentFormatter $argumentFormatter = null,
+        ?Highlighter $highlighter = null
     ) {
         $this->solutionsRepository = $solutionsRepository ?: new NullSolutionsRepository();
         $this->output = $output ?: new ConsoleOutput();
@@ -230,9 +230,9 @@ final class Writer
 
         foreach ($solutions as $solution) {
             /** @var \Spatie\Ignition\Contracts\Solution $solution */
-            $title = $solution->getSolutionTitle();
-            $description = $solution->getSolutionDescription();
-            $links = $solution->getDocumentationLinks();
+            $title = $solution->getSolutionTitle();  // @phpstan-ignore-line
+            $description = $solution->getSolutionDescription();  // @phpstan-ignore-line
+            $links = $solution->getDocumentationLinks();  // @phpstan-ignore-line
 
             $description = trim((string) preg_replace("/\n/", "\n    ", $description));
 

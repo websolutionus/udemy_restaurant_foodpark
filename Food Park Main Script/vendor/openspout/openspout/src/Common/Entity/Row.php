@@ -41,9 +41,22 @@ final class Row
      */
     public static function fromValues(array $cellValues = [], ?Style $rowStyle = null): self
     {
-        $cells = array_map(static function (null|bool|string|int|float|DateTimeInterface|DateInterval $cellValue): Cell {
+        $cells = array_map(static function (null|bool|DateInterval|DateTimeInterface|float|int|string $cellValue): Cell {
             return Cell::fromValue($cellValue);
         }, $cellValues);
+
+        return new self($cells, $rowStyle);
+    }
+
+    /**
+     * @param array<array-key, null|bool|DateInterval|DateTimeInterface|float|int|string> $cellValues
+     * @param array<array-key, Style>                                                     $columnStyles
+     */
+    public static function fromValuesWithStyles(array $cellValues = [], ?Style $rowStyle = null, array $columnStyles = []): self
+    {
+        $cells = array_map(static function (null|bool|DateInterval|DateTimeInterface|float|int|string $cellValue, int|string $key) use ($columnStyles): Cell {
+            return Cell::fromValue($cellValue, $columnStyles[$key] ?? null);
+        }, $cellValues, array_keys($cellValues));
 
         return new self($cells, $rowStyle);
     }
@@ -134,7 +147,7 @@ final class Row
      */
     public function toArray(): array
     {
-        return array_map(static function (Cell $cell): null|bool|string|int|float|DateTimeInterface|DateInterval {
+        return array_map(static function (Cell $cell): null|bool|DateInterval|DateTimeInterface|float|int|string {
             return $cell->getValue();
         }, $this->cells);
     }

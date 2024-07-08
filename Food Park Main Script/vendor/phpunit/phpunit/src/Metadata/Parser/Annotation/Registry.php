@@ -40,10 +40,6 @@ final class Registry
         return self::$instance ?? self::$instance = new self;
     }
 
-    private function __construct()
-    {
-    }
-
     /**
      * @psalm-param class-string $class
      *
@@ -58,6 +54,7 @@ final class Registry
 
         try {
             $reflection = new ReflectionClass($class);
+            // @codeCoverageIgnoreStart
         } catch (\ReflectionException $e) {
             throw new ReflectionException(
                 $e->getMessage(),
@@ -65,6 +62,7 @@ final class Registry
                 $e,
             );
         }
+        // @codeCoverageIgnoreEnd
 
         return $this->classDocBlocks[$class] = DocBlock::ofClass($reflection);
     }
@@ -83,6 +81,7 @@ final class Registry
 
         try {
             $reflection = new ReflectionMethod($classInHierarchy, $method);
+            // @codeCoverageIgnoreStart
         } catch (\ReflectionException $e) {
             throw new ReflectionException(
                 $e->getMessage(),
@@ -90,6 +89,7 @@ final class Registry
                 $e,
             );
         }
+        // @codeCoverageIgnoreEnd
 
         return $this->methodDocBlocks[$classInHierarchy][$method] = DocBlock::ofMethod($reflection);
     }

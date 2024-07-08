@@ -9,19 +9,19 @@
  */
 namespace PHPUnit\Util\PHP;
 
-use const DIRECTORY_SEPARATOR;
+use const PHP_BINARY;
 use const PHP_SAPI;
 use function array_keys;
 use function array_merge;
 use function assert;
-use function escapeshellarg;
+use function explode;
+use function file_exists;
+use function file_get_contents;
 use function ini_get_all;
 use function restore_error_handler;
 use function set_error_handler;
-use function str_replace;
-use function str_starts_with;
-use function substr;
 use function trim;
+use function unlink;
 use function unserialize;
 use ErrorException;
 use PHPUnit\Event\Code\TestMethodBuilder;
@@ -42,7 +42,6 @@ use SebastianBergmann\Environment\Runtime;
  */
 abstract class AbstractPhpProcess
 {
-    protected Runtime $runtime;
     protected bool $stderrRedirection = false;
     protected string $stdin           = '';
     protected string $arguments       = '';
@@ -50,21 +49,11 @@ abstract class AbstractPhpProcess
     /**
      * @psalm-var array<string, string>
      */
-    protected array $env   = [];
-    protected int $timeout = 0;
+    protected array $env = [];
 
     public static function factory(): self
     {
-        if (DIRECTORY_SEPARATOR === '\\') {
-            return new WindowsPhpProcess;
-        }
-
         return new DefaultPhpProcess;
-    }
-
-    public function __construct()
-    {
-        $this->runtime = new Runtime;
     }
 
     /**
@@ -136,22 +125,6 @@ abstract class AbstractPhpProcess
     }
 
     /**
-     * Sets the amount of seconds to wait before timing out.
-     */
-    public function setTimeout(int $timeout): void
-    {
-        $this->timeout = $timeout;
-    }
-
-    /**
-     * Returns the amount of seconds to wait before timing out.
-     */
-    public function getTimeout(): int
-    {
-        return $this->timeout;
-    }
-
-    /**
      * Runs a single test in a separate PHP process.
      *
      * @throws \PHPUnit\Runner\Exception
@@ -159,63 +132,76 @@ abstract class AbstractPhpProcess
      * @throws MoreThanOneDataSetFromDataProviderException
      * @throws NoPreviousThrowableException
      */
-    public function runTestJob(string $job, Test $test): void
+    public function runTestJob(string $job, Test $test, string $processResultFile): void
     {
         $_result = $this->runJob($job);
 
+        $processResult = '';
+
+        if (file_exists($processResultFile)) {
+            $processResult = file_get_contents($processResultFile);
+
+            @unlink($processResultFile);
+        }
+
         $this->processChildResult(
             $test,
-            $_result['stdout'],
+            $processResult,
             $_result['stderr'],
         );
     }
 
     /**
      * Returns the command based into the configurations.
+     *
+     * @return string[]
      */
-    public function getCommand(array $settings, string $file = null): string
+    public function getCommand(array $settings, ?string $file = null): array
     {
-        $command = $this->runtime->getBinary();
+        $runtime = new Runtime;
 
-        if ($this->runtime->hasPCOV()) {
+        $command   = [];
+        $command[] = PHP_BINARY;
+
+        if ($runtime->hasPCOV()) {
             $settings = array_merge(
                 $settings,
-                $this->runtime->getCurrentSettings(
+                $runtime->getCurrentSettings(
                     array_keys(ini_get_all('pcov')),
                 ),
             );
-        } elseif ($this->runtime->hasXdebug()) {
+        } elseif ($runtime->hasXdebug()) {
             $settings = array_merge(
                 $settings,
-                $this->runtime->getCurrentSettings(
+                $runtime->getCurrentSettings(
                     array_keys(ini_get_all('xdebug')),
                 ),
             );
         }
 
-        $command .= $this->settingsToParameters($settings);
+        $command = array_merge($command, $this->settingsToParameters($settings));
 
         if (PHP_SAPI === 'phpdbg') {
-            $command .= ' -qrr';
+            $command[] = '-qrr';
 
             if (!$file) {
-                $command .= 's=';
+                $command[] = 's=';
             }
         }
 
         if ($file) {
-            $command .= ' ' . escapeshellarg($file);
+            $command[] = '-f';
+            $command[] = $file;
         }
 
         if ($this->arguments) {
             if (!$file) {
-                $command .= ' --';
+                $command[] = '--';
             }
-            $command .= ' ' . $this->arguments;
-        }
 
-        if ($this->stderrRedirection) {
-            $command .= ' 2>&1';
+            foreach (explode(' ', $this->arguments) as $arg) {
+                $command[] = trim($arg);
+            }
         }
 
         return $command;
@@ -226,12 +212,16 @@ abstract class AbstractPhpProcess
      */
     abstract public function runJob(string $job, array $settings = []): array;
 
-    protected function settingsToParameters(array $settings): string
+    /**
+     * @return list<string>
+     */
+    protected function settingsToParameters(array $settings): array
     {
-        $buffer = '';
+        $buffer = [];
 
         foreach ($settings as $setting) {
-            $buffer .= ' -d ' . escapeshellarg($setting);
+            $buffer[] = '-d';
+            $buffer[] = $setting;
         }
 
         return $buffer;
@@ -269,11 +259,8 @@ abstract class AbstractPhpProcess
         );
 
         try {
-            if (str_starts_with($stdout, "#!/usr/bin/env php\n")) {
-                $stdout = substr($stdout, 19);
-            }
+            $childResult = unserialize($stdout);
 
-            $childResult = unserialize(str_replace("#!/usr/bin/env php\n", '', $stdout));
             restore_error_handler();
 
             if ($childResult === false) {
@@ -293,6 +280,7 @@ abstract class AbstractPhpProcess
             }
         } catch (ErrorException $e) {
             restore_error_handler();
+
             $childResult = false;
 
             $exception = new Exception(trim($stdout), 0, $e);

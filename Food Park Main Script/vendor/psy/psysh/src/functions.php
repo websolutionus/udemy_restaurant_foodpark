@@ -128,7 +128,7 @@ if (!\function_exists('Psy\\info')) {
      *
      * @return array|null
      */
-    function info(Configuration $config = null)
+    function info(?Configuration $config = null)
     {
         static $lastConfig;
         if ($config !== null) {
@@ -168,6 +168,7 @@ if (!\function_exists('Psy\\info')) {
             'OS'                  => \PHP_OS,
             'default includes'    => $config->getDefaultIncludes(),
             'require semicolons'  => $config->requireSemicolons(),
+            'strict types'        => $config->strictTypes(),
             'error logging level' => $config->errorLoggingLevel(),
             'config file'         => [
                 'default config file' => $prettyPath($config->getConfigFile()),
@@ -232,7 +233,7 @@ if (!\function_exists('Psy\\info')) {
         ];
 
         $theme = $config->theme();
-        // TODO: show styles (but only if they're different than default?)
+        // @todo show styles (but only if they're different than default?)
         $output['theme'] = [
             'compact'      => $theme->compact(),
             'prompt'       => $theme->prompt(),
@@ -350,8 +351,8 @@ if (!\function_exists('Psy\\bin')) {
                     exit(1);
                 }
 
-                if (\PHP_VERSION_ID < 70000) {
-                    \fwrite(\STDERR, 'PHP 7.0.0 or higher is required. You can set the environment variable PSYSH_IGNORE_ENV=1 to override this restriction and proceed anyway.'.\PHP_EOL);
+                if (\PHP_VERSION_ID < 70400) {
+                    \fwrite(\STDERR, 'PHP 7.4.0 or higher is required. You can set the environment variable PSYSH_IGNORE_ENV=1 to override this restriction and proceed anyway.'.\PHP_EOL);
                     exit(1);
                 }
 
@@ -394,7 +395,7 @@ if (!\function_exists('Psy\\bin')) {
             }
 
             // Handle --help
-            if ($usageException !== null || $input->getOption('help')) {
+            if (!isset($config) || $usageException !== null || $input->getOption('help')) {
                 if ($usageException !== null) {
                     echo $usageException->getMessage().\PHP_EOL.\PHP_EOL;
                 }

@@ -11,10 +11,7 @@ class DataArrayTransformer
     /**
      * Transform row data by column's definition.
      *
-     * @param  array  $row
      * @param  array|Collection<array-key, Column>  $columns
-     * @param  string  $type
-     * @return array
      */
     public function transform(array $row, array|Collection $columns, string $type = 'printable'): array
     {
@@ -28,10 +25,7 @@ class DataArrayTransformer
     /**
      * Transform row column by collection.
      *
-     * @param  array  $row
      * @param  Collection<array-key, Column>  $columns
-     * @param  string  $type
-     * @return array
      */
     protected function buildColumnByCollection(array $row, Collection $columns, string $type = 'printable'): array
     {
@@ -49,10 +43,15 @@ class DataArrayTransformer
 
                 if ($type == 'exportable') {
                     $title = $this->decodeContent($title);
-                    $data = is_array($data) ? json_encode($data) : $this->decodeContent($data);
+                    $data = is_array($data) ? json_encode($data, JSON_THROW_ON_ERROR) : $this->decodeContent($data);
                 }
 
-                $results[$title] = $data;
+                if (isset($column->exportRender)) {
+                    $callback = $column->exportRender;
+                    $results[$title] = $callback($row, $data);
+                } else {
+                    $results[$title] = $data;
+                }
             }
         });
 
@@ -61,9 +60,6 @@ class DataArrayTransformer
 
     /**
      * Decode content to a readable text value.
-     *
-     * @param  mixed  $data
-     * @return mixed
      */
     protected function decodeContent(mixed $data): mixed
     {

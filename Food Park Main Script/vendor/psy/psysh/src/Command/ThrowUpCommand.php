@@ -13,23 +13,21 @@ namespace Psy\Command;
 
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Expr\Throw_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name\FullyQualified as FullyQualifiedName;
 use PhpParser\Node\Scalar\String_;
-use PhpParser\Node\Stmt\Throw_;
+use PhpParser\Node\Stmt\Expression;
 use PhpParser\PrettyPrinter\Standard as Printer;
-use Psy\Context;
-use Psy\ContextAware;
 use Psy\Exception\ThrowUpException;
 use Psy\Input\CodeArgument;
-use Psy\ParserFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Throw an exception or error out of the Psy Shell.
  */
-class ThrowUpCommand extends Command implements ContextAware
+class ThrowUpCommand extends Command
 {
     private $parser;
     private $printer;
@@ -39,22 +37,10 @@ class ThrowUpCommand extends Command implements ContextAware
      */
     public function __construct($name = null)
     {
-        $parserFactory = new ParserFactory();
-
-        $this->parser = $parserFactory->createParser();
+        $this->parser = new CodeArgumentParser();
         $this->printer = new Printer();
 
         parent::__construct($name);
-    }
-
-    /**
-     * @deprecated throwUp no longer needs to be ContextAware
-     *
-     * @param Context $context
-     */
-    public function setContext(Context $context)
-    {
-        // Do nothing
     }
 
     /**
@@ -90,10 +76,10 @@ HELP
      *
      * @throws \InvalidArgumentException if there is no exception to throw
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $args = $this->prepareArgs($input->getArgument('exception'));
-        $throwStmt = new Throw_(new New_(new FullyQualifiedName(ThrowUpException::class), $args));
+        $throwStmt = new Expression(new Throw_(new New_(new FullyQualifiedName(ThrowUpException::class), $args)));
         $throwCode = $this->printer->prettyPrint([$throwStmt]);
 
         $shell = $this->getApplication();
@@ -113,26 +99,20 @@ HELP
      *
      * @return Arg[]
      */
-    private function prepareArgs(string $code = null): array
+    private function prepareArgs(?string $code = null): array
     {
         if (!$code) {
             // Default to last exception if nothing else was supplied
             return [new Arg(new Variable('_e'))];
         }
 
-        if (\strpos($code, '<?') === false) {
-            $code = '<?php '.$code;
-        }
-
-        $nodes = $this->parse($code);
+        $nodes = $this->parser->parse($code);
         if (\count($nodes) !== 1) {
             throw new \InvalidArgumentException('No idea how to throw this');
         }
 
         $node = $nodes[0];
-
-        // Make this work for PHP Parser v3.x
-        $expr = isset($node->expr) ? $node->expr : $node;
+        $expr = $node->expr;
 
         $args = [new Arg($expr, false, false, $node->getAttributes())];
 
@@ -142,26 +122,5 @@ HELP
         }
 
         return $args;
-    }
-
-    /**
-     * Lex and parse a string of code into statements.
-     *
-     * @param string $code
-     *
-     * @return array Statements
-     */
-    private function parse(string $code): array
-    {
-        try {
-            return $this->parser->parse($code);
-        } catch (\PhpParser\Error $e) {
-            if (\strpos($e->getMessage(), 'unexpected EOF') === false) {
-                throw $e;
-            }
-
-            // If we got an unexpected EOF, let's try it again with a semicolon.
-            return $this->parser->parse($code.';');
-        }
     }
 }

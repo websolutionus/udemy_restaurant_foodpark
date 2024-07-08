@@ -14,12 +14,12 @@ namespace Symfony\Component\Uid;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  */
-abstract class AbstractUid implements \JsonSerializable
+abstract class AbstractUid implements \JsonSerializable, \Stringable
 {
     /**
      * The identifier in its canonic representation.
      */
-    protected $uid;
+    protected string $uid;
 
     /**
      * Whether the passed value is valid for the constructor of the current class.
@@ -87,7 +87,9 @@ abstract class AbstractUid implements \JsonSerializable
     abstract public function toBinary(): string;
 
     /**
-     * Returns the identifier as a base58 case sensitive string.
+     * Returns the identifier as a base58 case-sensitive string.
+     *
+     * @example 2AifFTC3zXgZzK5fPrrprL (len=22)
      */
     public function toBase58(): string
     {
@@ -95,7 +97,11 @@ abstract class AbstractUid implements \JsonSerializable
     }
 
     /**
-     * Returns the identifier as a base32 case insensitive string.
+     * Returns the identifier as a base32 case-insensitive string.
+     *
+     * @see https://tools.ietf.org/html/rfc4648#section-6
+     *
+     * @example 09EJ0S614A9FXVG9C5537Q9ZE1 (len=26)
      */
     public function toBase32(): string
     {
@@ -114,7 +120,11 @@ abstract class AbstractUid implements \JsonSerializable
     }
 
     /**
-     * Returns the identifier as a RFC4122 case insensitive string.
+     * Returns the identifier as a RFC4122 case-insensitive string.
+     *
+     * @see https://tools.ietf.org/html/rfc4122#section-3
+     *
+     * @example 09748193-048a-4bfb-b825-8528cf74fdc1 (len=36)
      */
     public function toRfc4122(): string
     {
@@ -129,6 +139,8 @@ abstract class AbstractUid implements \JsonSerializable
 
     /**
      * Returns the identifier as a prefixed hexadecimal case insensitive string.
+     *
+     * @example 0x09748193048a4bfbb8258528cf74fdc1 (len=34)
      */
     public function toHex(): string
     {
@@ -150,6 +162,11 @@ abstract class AbstractUid implements \JsonSerializable
     public function compare(self $other): int
     {
         return (\strlen($this->uid) - \strlen($other->uid)) ?: ($this->uid <=> $other->uid);
+    }
+
+    final public function toString(): string
+    {
+        return $this->__toString();
     }
 
     public function __toString(): string

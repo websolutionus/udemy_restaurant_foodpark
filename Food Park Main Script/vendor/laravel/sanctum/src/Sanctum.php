@@ -28,13 +28,6 @@ class Sanctum
     public static $accessTokenAuthenticationCallback;
 
     /**
-     * Indicates if Sanctum's migrations will be run.
-     *
-     * @var bool
-     */
-    public static $runsMigrations = true;
-
-    /**
      * Get the current application URL from the "APP_URL" environment variable - with port.
      *
      * @return string
@@ -93,10 +86,10 @@ class Sanctum
     /**
      * Specify a callback that should be used to fetch the access token from the request.
      *
-     * @param  callable  $callback
+     * @param  callable|null  $callback
      * @return void
      */
-    public static function getAccessTokenFromRequestUsing(callable $callback)
+    public static function getAccessTokenFromRequestUsing(?callable $callback)
     {
         static::$accessTokenRetrievalCallback = $callback;
     }
@@ -110,28 +103,6 @@ class Sanctum
     public static function authenticateAccessTokensUsing(callable $callback)
     {
         static::$accessTokenAuthenticationCallback = $callback;
-    }
-
-    /**
-     * Determine if Sanctum's migrations should be run.
-     *
-     * @return bool
-     */
-    public static function shouldRunMigrations()
-    {
-        return static::$runsMigrations;
-    }
-
-    /**
-     * Configure Sanctum to not register its migrations.
-     *
-     * @return static
-     */
-    public static function ignoreMigrations()
-    {
-        static::$runsMigrations = false;
-
-        return new static;
     }
 
     /**

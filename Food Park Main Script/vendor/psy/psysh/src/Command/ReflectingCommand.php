@@ -19,9 +19,7 @@ use Psy\ContextAware;
 use Psy\Exception\ErrorException;
 use Psy\Exception\RuntimeException;
 use Psy\Exception\UnexpectedTargetException;
-use Psy\ParserFactory;
-use Psy\Reflection\ReflectionClassConstant;
-use Psy\Reflection\ReflectionConstant_;
+use Psy\Reflection\ReflectionConstant;
 use Psy\Sudo\SudoVisitor;
 use Psy\Util\Mirror;
 
@@ -51,9 +49,9 @@ abstract class ReflectingCommand extends Command implements ContextAware
      */
     public function __construct($name = null)
     {
-        $parserFactory = new ParserFactory();
-        $this->parser = $parserFactory->createParser();
+        $this->parser = new CodeArgumentParser();
 
+        // @todo Pass visitor directly to once we drop support for PHP-Parser 4.x
         $this->traverser = new NodeTraverser();
         $this->traverser->addVisitor(new SudoVisitor());
 
@@ -195,7 +193,7 @@ abstract class ReflectingCommand extends Command implements ContextAware
     {
         try {
             // Add an implicit `sudo` to target resolution.
-            $nodes = $this->traverser->traverse($this->parse($code));
+            $nodes = $this->traverser->traverse($this->parser->parse($code));
             $sudoCode = $this->printer->prettyPrint($nodes);
             $value = $this->getApplication()->execute($sudoCode, true);
         } catch (\Throwable $e) {
@@ -207,29 +205,6 @@ abstract class ReflectingCommand extends Command implements ContextAware
         }
 
         return $value;
-    }
-
-    /**
-     * Lex and parse a string of code into statements.
-     *
-     * @param string $code
-     *
-     * @return array Statements
-     */
-    private function parse($code)
-    {
-        $code = '<?php '.$code;
-
-        try {
-            return $this->parser->parse($code);
-        } catch (\PhpParser\Error $e) {
-            if (\strpos($e->getMessage(), 'unexpected EOF') === false) {
-                throw $e;
-            }
-
-            // If we got an unexpected EOF, let's try it again with a semicolon.
-            return $this->parser->parse($code.';');
-        }
     }
 
     /**
@@ -250,20 +225,6 @@ abstract class ReflectingCommand extends Command implements ContextAware
         }
 
         return $value;
-    }
-
-    /**
-     * @deprecated Use `resolveCode` instead
-     *
-     * @param string $name
-     *
-     * @return mixed Variable instance
-     */
-    protected function resolveInstance(string $name)
-    {
-        @\trigger_error('`resolveInstance` is deprecated; use `resolveCode` instead.', \E_USER_DEPRECATED);
-
-        return $this->resolveCode($name);
     }
 
     /**
@@ -339,7 +300,6 @@ abstract class ReflectingCommand extends Command implements ContextAware
 
             case \ReflectionProperty::class:
             case \ReflectionClassConstant::class:
-            case ReflectionClassConstant::class:
                 $classReflector = $reflector->getDeclaringClass();
                 $vars['__class'] = $classReflector->name;
                 if ($classReflector->inNamespace()) {
@@ -352,7 +312,7 @@ abstract class ReflectingCommand extends Command implements ContextAware
                 }
                 break;
 
-            case ReflectionConstant_::class:
+            case ReflectionConstant::class:
                 if ($reflector->inNamespace()) {
                     $vars['__namespace'] = $reflector->getNamespaceName();
                 }

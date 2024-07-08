@@ -48,7 +48,7 @@ return [
     'ago' => ':time yang lepas',
     'from_now' => ':time dari sekarang',
     'after' => ':time kemudian',
-    'before' => ':time lepas',
+    'before' => ':time sebelum',
     'diff_now' => 'sekarang',
     'diff_today' => 'Hari',
     'diff_today_regexp' => 'Hari(?:\\s+ini)?(?:\\s+pukul)?',
@@ -74,7 +74,7 @@ return [
         'lastWeek' => 'dddd [lepas pukul] LT',
         'sameElse' => 'L',
     ],
-    'meridiem' => function ($hour) {
+    'meridiem' => static function ($hour) {
         if ($hour < 1) {
             return 'tengah malam';
         }

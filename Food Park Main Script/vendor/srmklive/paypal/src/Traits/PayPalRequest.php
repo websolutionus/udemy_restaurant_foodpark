@@ -8,6 +8,7 @@ trait PayPalRequest
 {
     use PayPalHttpClient;
     use PayPalAPI;
+    use PayPalExperienceContext;
 
     /**
      * PayPal API mode to be used.
@@ -43,6 +44,27 @@ trait PayPalRequest
      * @var array
      */
     protected $options;
+
+    /**
+     * Set limit to total records per API call.
+     *
+     * @var int
+     */
+    protected $page_size = 20;
+
+    /**
+     * Set the current page for list resources API calls.
+     *
+     * @var bool
+     */
+    protected $current_page = 1;
+
+    /**
+     * Toggle whether totals for list resources are returned after every API call.
+     *
+     * @var string
+     */
+    protected string $show_totals;
 
     /**
      * Set PayPal API Credentials.
@@ -117,6 +139,22 @@ trait PayPalRequest
     }
 
     /**
+     * Function to add multiple request headers.
+     *
+     * @param array $headers
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function setRequestHeaders(array $headers): \Srmklive\PayPal\Services\PayPal
+    {
+        foreach ($headers as $key=>$value) {
+            $this->setRequestHeader($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
      * Return request options header.
      *
      * @param string $key
@@ -143,11 +181,8 @@ trait PayPalRequest
      */
     private function setConfig(array $config): void
     {
-        if (empty($config) && function_exists('config') && !empty(config('paypal'))) {
-            $api_config = config('paypal');
-        } else {
-            $api_config = $config;
-        }
+        $api_config = empty($config) && function_exists('config') && !empty(config('paypal')) ?
+            config('paypal') : $config;
 
         // Set Api Credentials
         $this->setApiCredentials($api_config);
@@ -208,6 +243,7 @@ trait PayPalRequest
         $this->paymentAction = $credentials['payment_action'];
 
         $this->locale = $credentials['locale'];
+        $this->setRequestHeader('Accept-Language', $this->locale);
 
         $this->validateSSL = $credentials['validate_ssl'];
 
@@ -220,5 +256,17 @@ trait PayPalRequest
     private function throwConfigurationException()
     {
         throw new RuntimeException('Invalid configuration provided. Please provide valid configuration for PayPal API. You can also refer to the documentation at https://srmklive.github.io/laravel-paypal/docs.html to setup correct configuration.');
+    }
+
+    /**
+     * @throws RuntimeException
+     */
+    private function throwInvalidEvidenceFileException()
+    {
+        throw new RuntimeException('Invalid evidence file type provided.
+        1. The party can upload up to 50 MB of files per request.
+        2. Individual files must be smaller than 10 MB.
+        3. The supported file formats are JPG, JPEG, GIF, PNG, and PDF.
+        ');
     }
 }

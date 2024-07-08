@@ -69,6 +69,7 @@ export default function ResetPassword({ token, email }) {
 
                     <TextInput
                         type="password"
+                        id="password_confirmation"
                         name="password_confirmation"
                         value={data.password_confirmation}
                         className="mt-1 block w-full"
@@ -80,7 +81,7 @@ export default function ResetPassword({ token, email }) {
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
-                    <PrimaryButton className="ml-4" disabled={processing}>
+                    <PrimaryButton className="ms-4" disabled={processing}>
                         Reset Password
                     </PrimaryButton>
                 </div>

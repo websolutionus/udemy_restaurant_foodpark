@@ -1,4 +1,4 @@
-# Drag and Drop Menu Builder for Laravel 9.x
+# Drag and Drop Menu Builder for Laravel 9.x, 10.x and 11.x
 
 [![Latest Stable Version](https://poser.pugx.org/efectn/laravel-menu-builder/v/stable)](https://packagist.org/packages/efectn/laravel-menu-builder) [![Latest Unstable Version](https://poser.pugx.org/efectn/laravel-menu-builder/v/unstable)](https://packagist.org/packages/efectn/laravel-menu-builder) [![Total Downloads](https://poser.pugx.org/efectn/laravel-menu-builder/downloads)](https://packagist.org/packages/efectn/laravel-menu-builder) [![Monthly Downloads](https://poser.pugx.org/efectn/laravel-menu-builder/d/monthly)](https://packagist.org/packages/efectn/laravel-menu-builder)
 

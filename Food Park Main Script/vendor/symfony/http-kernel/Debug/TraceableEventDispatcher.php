@@ -23,14 +23,11 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class TraceableEventDispatcher extends BaseTraceableEventDispatcher
 {
-    /**
-     * @return void
-     */
-    protected function beforeDispatch(string $eventName, object $event)
+    protected function beforeDispatch(string $eventName, object $event): void
     {
         switch ($eventName) {
             case KernelEvents::REQUEST:
-                $event->getRequest()->attributes->set('_stopwatch_token', substr(hash('sha256', uniqid(mt_rand(), true)), 0, 6));
+                $event->getRequest()->attributes->set('_stopwatch_token', substr(hash('xxh128', uniqid(mt_rand(), true)), 0, 6));
                 $this->stopwatch->openSection();
                 break;
             case KernelEvents::VIEW:
@@ -58,10 +55,7 @@ class TraceableEventDispatcher extends BaseTraceableEventDispatcher
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function afterDispatch(string $eventName, object $event)
+    protected function afterDispatch(string $eventName, object $event): void
     {
         switch ($eventName) {
             case KernelEvents::CONTROLLER_ARGUMENTS:

@@ -71,7 +71,7 @@ class Gate implements GateContract
     /**
      * The default denial response for gates and policies.
      *
-     * @var Illuminate\Auth\Access\Response|null
+     * @var \Illuminate\Auth\Access\Response|null
      */
     protected $defaultDenialResponse;
 
@@ -100,7 +100,7 @@ class Gate implements GateContract
         array $policies = [],
         array $beforeCallbacks = [],
         array $afterCallbacks = [],
-        callable $guessPolicyNamesUsingCallback = null)
+        ?callable $guessPolicyNamesUsingCallback = null)
     {
         $this->policies = $policies;
         $this->container = $container;
@@ -224,7 +224,7 @@ class Gate implements GateContract
      * @param  array|null  $abilities
      * @return $this
      */
-    public function resource($name, $class, array $abilities = null)
+    public function resource($name, $class, ?array $abilities = null)
     {
         $abilities = $abilities ?: [
             'viewAny' => 'viewAny',
@@ -318,9 +318,9 @@ class Gate implements GateContract
     }
 
     /**
-     * Determine if the given ability should be granted for the current user.
+     * Determine if all of the given abilities should be granted for the current user.
      *
-     * @param  string  $ability
+     * @param  iterable|string  $ability
      * @param  array|mixed  $arguments
      * @return bool
      */
@@ -330,9 +330,9 @@ class Gate implements GateContract
     }
 
     /**
-     * Determine if the given ability should be denied for the current user.
+     * Determine if any of the given abilities should be denied for the current user.
      *
-     * @param  string  $ability
+     * @param  iterable|string  $ability
      * @param  array|mixed  $arguments
      * @return bool
      */

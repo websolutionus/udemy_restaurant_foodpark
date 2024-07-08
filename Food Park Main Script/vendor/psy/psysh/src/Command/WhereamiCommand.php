@@ -25,10 +25,7 @@ class WhereamiCommand extends Command
 {
     private $backtrace;
 
-    /**
-     * @param string|null $colorMode (deprecated and ignored)
-     */
-    public function __construct($colorMode = null)
+    public function __construct()
     {
         $this->backtrace = \debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
 
@@ -112,7 +109,7 @@ HELP
      *
      * @return int 0 if everything went fine, or an exit code
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $info = $this->fileInfo();
         $num = $input->getOption('num');

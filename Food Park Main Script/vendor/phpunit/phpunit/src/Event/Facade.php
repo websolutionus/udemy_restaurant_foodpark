@@ -22,7 +22,6 @@ final class Facade
     private static ?self $instance = null;
     private Emitter $emitter;
     private ?TypeMap $typeMap                         = null;
-    private ?Emitter $suspended                       = null;
     private ?DeferringDispatcher $deferringDispatcher = null;
     private bool $sealed                              = false;
 
@@ -81,8 +80,12 @@ final class Facade
         $this->deferredDispatcher()->registerTracer($tracer);
     }
 
-    /** @noinspection PhpUnused */
-    public function initForIsolation(HRTime $offset): CollectingDispatcher
+    /**
+     * @codeCoverageIgnore
+     *
+     * @noinspection PhpUnused
+     */
+    public function initForIsolation(HRTime $offset, bool $exportObjects): CollectingDispatcher
     {
         $dispatcher = new CollectingDispatcher;
 
@@ -95,6 +98,10 @@ final class Facade
             ),
         );
 
+        if ($exportObjects) {
+            $this->emitter->exportObjects();
+        }
+
         $this->sealed = true;
 
         return $dispatcher;
@@ -102,10 +109,6 @@ final class Facade
 
     public function forward(EventCollection $events): void
     {
-        if ($this->suspended !== null) {
-            return;
-        }
-
         $dispatcher = $this->deferredDispatcher();
 
         foreach ($events as $event) {
@@ -204,6 +207,7 @@ final class Facade
             Test\PreConditionFinished::class,
             Test\PreparationStarted::class,
             Test\Prepared::class,
+            Test\PreparationFailed::class,
             Test\PrintedUnexpectedOutput::class,
             Test\Skipped::class,
             Test\WarningTriggered::class,
@@ -230,6 +234,9 @@ final class Facade
             TestRunner\Started::class,
             TestRunner\DeprecationTriggered::class,
             TestRunner\WarningTriggered::class,
+            TestRunner\GarbageCollectionDisabled::class,
+            TestRunner\GarbageCollectionTriggered::class,
+            TestRunner\GarbageCollectionEnabled::class,
 
             TestSuite\Filtered::class,
             TestSuite\Finished::class,
@@ -250,7 +257,9 @@ final class Facade
     private function garbageCollectorStatusProvider(): Telemetry\GarbageCollectorStatusProvider
     {
         if (!isset(gc_status()['running'])) {
+            // @codeCoverageIgnoreStart
             return new Php81GarbageCollectorStatusProvider;
+            // @codeCoverageIgnoreEnd
         }
 
         return new Php83GarbageCollectorStatusProvider;

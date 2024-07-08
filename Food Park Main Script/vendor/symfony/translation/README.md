@@ -6,8 +6,8 @@ The Translation component provides tools to internationalize your application.
 Getting Started
 ---------------
 
-```
-$ composer require symfony/translation
+```bash
+composer require symfony/translation
 ```
 
 ```php
@@ -26,7 +26,7 @@ echo $translator->trans('Hello World!'); // outputs « Bonjour ! »
 Sponsor
 -------
 
-The Translation component for Symfony 6.3 is [backed][1] by:
+The Translation component for Symfony 7.1 is [backed][1] by:
 
  * [Crowdin][2], a cloud-based localization management software helping teams to go global and stay agile.
 

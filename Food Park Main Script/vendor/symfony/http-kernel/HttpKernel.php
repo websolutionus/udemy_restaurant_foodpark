@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Exception\RequestExceptionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
@@ -50,19 +51,19 @@ class_exists(KernelEvents::class);
  */
 class HttpKernel implements HttpKernelInterface, TerminableInterface
 {
-    protected $dispatcher;
-    protected $resolver;
-    protected $requestStack;
+    protected RequestStack $requestStack;
     private ArgumentResolverInterface $argumentResolver;
-    private bool $handleAllThrowables;
+    private bool $terminating = false;
 
-    public function __construct(EventDispatcherInterface $dispatcher, ControllerResolverInterface $resolver, RequestStack $requestStack = null, ArgumentResolverInterface $argumentResolver = null, bool $handleAllThrowables = false)
-    {
-        $this->dispatcher = $dispatcher;
-        $this->resolver = $resolver;
+    public function __construct(
+        protected EventDispatcherInterface $dispatcher,
+        protected ControllerResolverInterface $resolver,
+        ?RequestStack $requestStack = null,
+        ?ArgumentResolverInterface $argumentResolver = null,
+        private bool $handleAllThrowables = false,
+    ) {
         $this->requestStack = $requestStack ?? new RequestStack();
         $this->argumentResolver = $argumentResolver ?? new ArgumentResolver();
-        $this->handleAllThrowables = $handleAllThrowables;
     }
 
     public function handle(Request $request, int $type = HttpKernelInterface::MAIN_REQUEST, bool $catch = true): Response
@@ -70,8 +71,9 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
         $request->headers->set('X-Php-Ob-Level', (string) ob_get_level());
 
         $this->requestStack->push($request);
+        $response = null;
         try {
-            return $this->handleRaw($request, $type);
+            return $response = $this->handleRaw($request, $type);
         } catch (\Throwable $e) {
             if ($e instanceof \Error && !$this->handleAllThrowables) {
                 throw $e;
@@ -86,24 +88,39 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
                 throw $e;
             }
 
-            return $this->handleThrowable($e, $request, $type);
+            return $response = $this->handleThrowable($e, $request, $type);
         } finally {
             $this->requestStack->pop();
+
+            if ($response instanceof StreamedResponse && $callback = $response->getCallback()) {
+                $requestStack = $this->requestStack;
+
+                $response->setCallback(static function () use ($request, $callback, $requestStack) {
+                    $requestStack->push($request);
+                    try {
+                        $callback();
+                    } finally {
+                        $requestStack->pop();
+                    }
+                });
+            }
         }
     }
 
-    /**
-     * @return void
-     */
-    public function terminate(Request $request, Response $response)
+    public function terminate(Request $request, Response $response): void
     {
-        $this->dispatcher->dispatch(new TerminateEvent($this, $request, $response), KernelEvents::TERMINATE);
+        try {
+            $this->terminating = true;
+            $this->dispatcher->dispatch(new TerminateEvent($this, $request, $response), KernelEvents::TERMINATE);
+        } finally {
+            $this->terminating = false;
+        }
     }
 
     /**
      * @internal
      */
-    public function terminateWithException(\Throwable $exception, Request $request = null): void
+    public function terminateWithException(\Throwable $exception, ?Request $request = null): void
     {
         if (!$request ??= $this->requestStack->getMainRequest()) {
             throw $exception;
@@ -220,7 +237,7 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
      */
     private function handleThrowable(\Throwable $e, Request $request, int $type): Response
     {
-        $event = new ExceptionEvent($this, $request, $type, $e);
+        $event = new ExceptionEvent($this, $request, $type, $e, isKernelTerminating: $this->terminating);
         $this->dispatcher->dispatch($event, KernelEvents::EXCEPTION);
 
         // a listener might have replaced the exception

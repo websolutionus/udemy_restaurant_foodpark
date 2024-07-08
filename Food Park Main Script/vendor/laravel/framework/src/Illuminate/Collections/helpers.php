@@ -74,6 +74,15 @@ if (! function_exists('data_get')) {
                 return in_array('*', $key) ? Arr::collapse($result) : $result;
             }
 
+            $segment = match ($segment) {
+                '\*' => '*',
+                '\{first}' => '{first}',
+                '{first}' => array_key_first(is_array($target) ? $target : collect($target)->all()),
+                '\{last}' => '{last}',
+                '{last}' => array_key_last(is_array($target) ? $target : collect($target)->all()),
+                default => $segment,
+            };
+
             if (Arr::accessible($target) && Arr::exists($target, $segment)) {
                 $target = $target[$segment];
             } elseif (is_object($target) && isset($target->{$segment})) {
@@ -149,6 +158,42 @@ if (! function_exists('data_set')) {
     }
 }
 
+if (! function_exists('data_forget')) {
+    /**
+     * Remove / unset an item from an array or object using "dot" notation.
+     *
+     * @param  mixed  $target
+     * @param  string|array|int|null  $key
+     * @return mixed
+     */
+    function data_forget(&$target, $key)
+    {
+        $segments = is_array($key) ? $key : explode('.', $key);
+
+        if (($segment = array_shift($segments)) === '*' && Arr::accessible($target)) {
+            if ($segments) {
+                foreach ($target as &$inner) {
+                    data_forget($inner, $segments);
+                }
+            }
+        } elseif (Arr::accessible($target)) {
+            if ($segments && Arr::exists($target, $segment)) {
+                data_forget($target[$segment], $segments);
+            } else {
+                Arr::forget($target, $segment);
+            }
+        } elseif (is_object($target)) {
+            if ($segments && isset($target->{$segment})) {
+                data_forget($target->{$segment}, $segments);
+            } elseif (isset($target->{$segment})) {
+                unset($target->{$segment});
+            }
+        }
+
+        return $target;
+    }
+}
+
 if (! function_exists('head')) {
     /**
      * Get the first element of an array. Useful for method chaining.
@@ -179,9 +224,12 @@ if (! function_exists('value')) {
     /**
      * Return the default value of the given value.
      *
-     * @param  mixed  $value
-     * @param  mixed  ...$args
-     * @return mixed
+     * @template TValue
+     * @template TArgs
+     *
+     * @param  TValue|\Closure(TArgs): TValue  $value
+     * @param  TArgs  ...$args
+     * @return TValue
      */
     function value($value, ...$args)
     {

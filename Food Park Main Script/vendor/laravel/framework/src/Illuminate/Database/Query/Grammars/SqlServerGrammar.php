@@ -3,6 +3,7 @@
 namespace Illuminate\Database\Query\Grammars;
 
 use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Query\JoinLateralClause;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -267,38 +268,6 @@ class SqlServerGrammar extends Grammar
     }
 
     /**
-     * Move the order bindings to be after the "select" statement to account for an order by subquery.
-     *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @return array
-     */
-    protected function sortBindingsForSubqueryOrderBy($query)
-    {
-        return Arr::sort($query->bindings, function ($bindings, $key) {
-            return array_search($key, ['select', 'order', 'from', 'join', 'where', 'groupBy', 'having', 'union', 'unionOrder']);
-        });
-    }
-
-    /**
-     * Compile the limit / offset row constraint for a query.
-     *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @return string
-     */
-    protected function compileRowConstraint($query)
-    {
-        $start = (int) $query->offset + 1;
-
-        if ($query->limit > 0) {
-            $finish = (int) $query->offset + (int) $query->limit;
-
-            return "between {$start} and {$finish}";
-        }
-
-        return ">= {$start}";
-    }
-
-    /**
      * Compile a delete statement without joins into SQL.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
@@ -342,6 +311,22 @@ class SqlServerGrammar extends Grammar
         }
 
         return '';
+    }
+
+    /**
+     * Compile a row number clause.
+     *
+     * @param  string  $partition
+     * @param  string  $orders
+     * @return string
+     */
+    protected function compileRowNumber($partition, $orders)
+    {
+        if (empty($orders)) {
+            $orders = 'order by (select 0)';
+        }
+
+        return parent::compileRowNumber($partition, $orders);
     }
 
     /**
@@ -474,6 +459,20 @@ class SqlServerGrammar extends Grammar
         return array_values(
             array_merge($values, Arr::flatten($cleanBindings))
         );
+    }
+
+    /**
+     * Compile a "lateral join" clause.
+     *
+     * @param  \Illuminate\Database\Query\JoinLateralClause  $join
+     * @param  string  $expression
+     * @return string
+     */
+    public function compileJoinLateral(JoinLateralClause $join, string $expression): string
+    {
+        $type = $join->type == 'left' ? 'outer' : 'cross';
+
+        return trim("{$type} apply {$expression}");
     }
 
     /**

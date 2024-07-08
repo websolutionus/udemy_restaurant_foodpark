@@ -6,7 +6,9 @@ use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Database\Migrations\MigrationCreator;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand(name: 'make:migration')]
 class MigrateMakeCommand extends BaseCommand implements PromptsForMissingInput
 {
     /**
@@ -138,7 +140,7 @@ class MigrateMakeCommand extends BaseCommand implements PromptsForMissingInput
     protected function promptForMissingArgumentsUsing()
     {
         return [
-            'name' => 'What should the migration be named?',
+            'name' => ['What should the migration be named?', 'E.g. create_flights_table'],
         ];
     }
 }

@@ -20,6 +20,7 @@ use Illuminate\Support\Env;
 use Illuminate\Support\InteractsWithTime;
 use Illuminate\Support\Str;
 use ReflectionClass;
+use SplFileInfo;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
@@ -67,11 +68,32 @@ class Kernel implements KernelContract
     protected $commands = [];
 
     /**
+     * The paths where Artisan commands should be automatically discovered.
+     *
+     * @var array
+     */
+    protected $commandPaths = [];
+
+    /**
+     * The paths where Artisan "routes" should be automatically discovered.
+     *
+     * @var array
+     */
+    protected $commandRoutePaths = [];
+
+    /**
      * Indicates if the Closure commands have been loaded.
      *
      * @var bool
      */
     protected $commandsLoaded = false;
+
+    /**
+     * The commands paths that have been "loaded".
+     *
+     * @var array
+     */
+    protected $loadedPaths = [];
 
     /**
      * All of the registered command duration handlers.
@@ -122,8 +144,6 @@ class Kernel implements KernelContract
             if (! $this->app->runningUnitTests()) {
                 $this->rerouteSymfonyCommandEvents();
             }
-
-            $this->defineConsoleSchedule();
         });
     }
 
@@ -153,30 +173,6 @@ class Kernel implements KernelContract
         }
 
         return $this;
-    }
-
-    /**
-     * Define the application's command schedule.
-     *
-     * @return void
-     */
-    protected function defineConsoleSchedule()
-    {
-        $this->app->singleton(Schedule::class, function ($app) {
-            return tap(new Schedule($this->scheduleTimezone()), function ($schedule) {
-                $this->schedule($schedule->useCache($this->scheduleCache()));
-            });
-        });
-    }
-
-    /**
-     * Get the name of the cache store that should manage scheduling mutexes.
-     *
-     * @return string
-     */
-    protected function scheduleCache()
-    {
-        return $this->app['config']->get('cache.schedule_store', Env::get('SCHEDULE_CACHE_DRIVER'));
     }
 
     /**
@@ -280,6 +276,18 @@ class Kernel implements KernelContract
     }
 
     /**
+     * Resolve a console schedule instance.
+     *
+     * @return \Illuminate\Console\Scheduling\Schedule
+     */
+    public function resolveConsoleSchedule()
+    {
+        return tap(new Schedule($this->scheduleTimezone()), function ($schedule) {
+            $this->schedule($schedule->useCache($this->scheduleCache()));
+        });
+    }
+
+    /**
      * Get the timezone that should be used by default for scheduled events.
      *
      * @return \DateTimeZone|string|null
@@ -289,6 +297,18 @@ class Kernel implements KernelContract
         $config = $this->app['config'];
 
         return $config->get('app.schedule_timezone', $config->get('app.timezone'));
+    }
+
+    /**
+     * Get the name of the cache store that should manage scheduling mutexes.
+     *
+     * @return string|null
+     */
+    protected function scheduleCache()
+    {
+        return $this->app['config']->get('cache.schedule_store', Env::get('SCHEDULE_CACHE_DRIVER', function () {
+            return Env::get('SCHEDULE_CACHE_STORE');
+        }));
     }
 
     /**
@@ -337,14 +357,14 @@ class Kernel implements KernelContract
             return;
         }
 
+        $this->loadedPaths = array_values(
+            array_unique(array_merge($this->loadedPaths, $paths))
+        );
+
         $namespace = $this->app->getNamespace();
 
-        foreach ((new Finder)->in($paths)->files() as $command) {
-            $command = $namespace.str_replace(
-                ['/', '.php'],
-                ['\\', ''],
-                Str::after($command->getRealPath(), realpath(app_path()).DIRECTORY_SEPARATOR)
-            );
+        foreach (Finder::create()->in($paths)->files() as $file) {
+            $command = $this->commandClassFromFile($file, $namespace);
 
             if (is_subclass_of($command, Command::class) &&
                 ! (new ReflectionClass($command))->isAbstract()) {
@@ -353,6 +373,22 @@ class Kernel implements KernelContract
                 });
             }
         }
+    }
+
+    /**
+     * Extract the command class name from the given file path.
+     *
+     * @param  \SplFileInfo  $file
+     * @param  string  $namespace
+     * @return string
+     */
+    protected function commandClassFromFile(SplFileInfo $file, string $namespace): string
+    {
+        return $namespace.str_replace(
+            ['/', '.php'],
+            ['\\', ''],
+            Str::after($file->getRealPath(), realpath(app_path()).DIRECTORY_SEPARATOR)
+        );
     }
 
     /**
@@ -439,7 +475,29 @@ class Kernel implements KernelContract
         if (! $this->commandsLoaded) {
             $this->commands();
 
+            if ($this->shouldDiscoverCommands()) {
+                $this->discoverCommands();
+            }
+
             $this->commandsLoaded = true;
+        }
+    }
+
+    /**
+     * Discover the commands that should be automatically loaded.
+     *
+     * @return void
+     */
+    protected function discoverCommands()
+    {
+        foreach ($this->commandPaths as $path) {
+            $this->load($path);
+        }
+
+        foreach ($this->commandRoutePaths as $path) {
+            if (file_exists($path)) {
+                require $path;
+            }
         }
     }
 
@@ -458,6 +516,16 @@ class Kernel implements KernelContract
     }
 
     /**
+     * Determine if the kernel should discover commands.
+     *
+     * @return bool
+     */
+    protected function shouldDiscoverCommands()
+    {
+        return get_class($this) === __CLASS__;
+    }
+
+    /**
      * Get the Artisan application instance.
      *
      * @return \Illuminate\Console\Application
@@ -471,6 +539,7 @@ class Kernel implements KernelContract
 
             if ($this->symfonyDispatcher instanceof EventDispatcher) {
                 $this->artisan->setDispatcher($this->symfonyDispatcher);
+                $this->artisan->setSignalsToDispatchEvent();
             }
         }
 
@@ -486,6 +555,45 @@ class Kernel implements KernelContract
     public function setArtisan($artisan)
     {
         $this->artisan = $artisan;
+    }
+
+    /**
+     * Set the Artisan commands provided by the application.
+     *
+     * @param  array  $commands
+     * @return $this
+     */
+    public function addCommands(array $commands)
+    {
+        $this->commands = array_values(array_unique(array_merge($this->commands, $commands)));
+
+        return $this;
+    }
+
+    /**
+     * Set the paths that should have their Artisan commands automatically discovered.
+     *
+     * @param  array  $paths
+     * @return $this
+     */
+    public function addCommandPaths(array $paths)
+    {
+        $this->commandPaths = array_values(array_unique(array_merge($this->commandPaths, $paths)));
+
+        return $this;
+    }
+
+    /**
+     * Set the paths that should have their Artisan "routes" automatically discovered.
+     *
+     * @param  array  $paths
+     * @return $this
+     */
+    public function addCommandRoutePaths(array $paths)
+    {
+        $this->commandRoutePaths = array_values(array_unique(array_merge($this->commandRoutePaths, $paths)));
+
+        return $this;
     }
 
     /**

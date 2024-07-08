@@ -13,10 +13,8 @@ use function assert;
 use function file_get_contents;
 use function substr_count;
 use PhpParser\Error;
-use PhpParser\Lexer;
 use PhpParser\Node;
 use PhpParser\NodeTraverser;
-use PhpParser\Parser;
 use PhpParser\ParserFactory;
 
 final class Counter
@@ -40,8 +38,10 @@ final class Counter
             $linesOfCode = 1;
         }
 
+        assert($linesOfCode >= 0);
+
         try {
-            $nodes = $this->parser()->parse($source);
+            $nodes = (new ParserFactory)->createForHostVersion()->parse($source);
 
             assert($nodes !== null);
 
@@ -52,13 +52,15 @@ final class Counter
             throw new RuntimeException(
                 $error->getMessage(),
                 $error->getCode(),
-                $error
+                $error,
             );
         }
         // @codeCoverageIgnoreEnd
     }
 
     /**
+     * @psalm-param non-negative-int $linesOfCode
+     *
      * @param Node[] $nodes
      *
      * @throws RuntimeException
@@ -78,16 +80,11 @@ final class Counter
             throw new RuntimeException(
                 $error->getMessage(),
                 $error->getCode(),
-                $error
+                $error,
             );
         }
         // @codeCoverageIgnoreEnd
 
         return $visitor->result();
-    }
-
-    private function parser(): Parser
-    {
-        return (new ParserFactory)->create(ParserFactory::PREFER_PHP7, new Lexer);
     }
 }

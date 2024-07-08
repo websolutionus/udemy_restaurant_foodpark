@@ -5,11 +5,14 @@ namespace Illuminate\Database\Schema;
 use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Database\Connection;
+use Illuminate\Support\Traits\Macroable;
 use InvalidArgumentException;
 use LogicException;
 
 class Builder
 {
+    use Macroable;
+
     /**
      * The database connection instance.
      *
@@ -44,13 +47,6 @@ class Builder
      * @var string
      */
     public static $defaultMorphKeyType = 'int';
-
-    /**
-     * Indicates whether Doctrine DBAL usage will be prevented if possible when dropping, renaming, and modifying columns.
-     *
-     * @var bool
-     */
-    public static $alwaysUsesNativeSchemaOperationsIfPossible = false;
 
     /**
      * Create a new database Schema manager.
@@ -113,17 +109,6 @@ class Builder
     }
 
     /**
-     * Attempt to use native schema operations for dropping, renaming, and modifying columns, even if Doctrine DBAL is installed.
-     *
-     * @param  bool  $value
-     * @return void
-     */
-    public static function useNativeSchemaOperationsIfPossible(bool $value = true)
-    {
-        static::$alwaysUsesNativeSchemaOperationsIfPossible = $value;
-    }
-
-    /**
      * Create a database in the schema.
      *
      * @param  string  $name
@@ -159,9 +144,76 @@ class Builder
     {
         $table = $this->connection->getTablePrefix().$table;
 
-        return count($this->connection->selectFromWriteConnection(
-            $this->grammar->compileTableExists(), [$table]
-        )) > 0;
+        foreach ($this->getTables(false) as $value) {
+            if (strtolower($table) === strtolower($value['name'])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine if the given view exists.
+     *
+     * @param  string  $view
+     * @return bool
+     */
+    public function hasView($view)
+    {
+        $view = $this->connection->getTablePrefix().$view;
+
+        foreach ($this->getViews() as $value) {
+            if (strtolower($view) === strtolower($value['name'])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the tables that belong to the database.
+     *
+     * @return array
+     */
+    public function getTables()
+    {
+        return $this->connection->getPostProcessor()->processTables(
+            $this->connection->selectFromWriteConnection($this->grammar->compileTables())
+        );
+    }
+
+    /**
+     * Get the names of the tables that belong to the database.
+     *
+     * @return array
+     */
+    public function getTableListing()
+    {
+        return array_column($this->getTables(), 'name');
+    }
+
+    /**
+     * Get the views that belong to the database.
+     *
+     * @return array
+     */
+    public function getViews()
+    {
+        return $this->connection->getPostProcessor()->processViews(
+            $this->connection->selectFromWriteConnection($this->grammar->compileViews())
+        );
+    }
+
+    /**
+     * Get the user-defined types that belong to the database.
+     *
+     * @return array
+     */
+    public function getTypes()
+    {
+        throw new LogicException('This database driver does not support user-defined types.');
     }
 
     /**
@@ -233,13 +285,20 @@ class Builder
      *
      * @param  string  $table
      * @param  string  $column
+     * @param  bool  $fullDefinition
      * @return string
      */
-    public function getColumnType($table, $column)
+    public function getColumnType($table, $column, $fullDefinition = false)
     {
-        $table = $this->connection->getTablePrefix().$table;
+        $columns = $this->getColumns($table);
 
-        return $this->connection->getDoctrineColumn($table, $column)->getType()->getName();
+        foreach ($columns as $value) {
+            if (strtolower($value['name']) === strtolower($column)) {
+                return $fullDefinition ? $value['type'] : $value['type_name'];
+            }
+        }
+
+        throw new InvalidArgumentException("There is no column with name '$column' on table '$table'.");
     }
 
     /**
@@ -250,11 +309,89 @@ class Builder
      */
     public function getColumnListing($table)
     {
-        $results = $this->connection->selectFromWriteConnection($this->grammar->compileColumnListing(
-            $this->connection->getTablePrefix().$table
-        ));
+        return array_column($this->getColumns($table), 'name');
+    }
 
-        return $this->connection->getPostProcessor()->processColumnListing($results);
+    /**
+     * Get the columns for a given table.
+     *
+     * @param  string  $table
+     * @return array
+     */
+    public function getColumns($table)
+    {
+        $table = $this->connection->getTablePrefix().$table;
+
+        return $this->connection->getPostProcessor()->processColumns(
+            $this->connection->selectFromWriteConnection($this->grammar->compileColumns($table))
+        );
+    }
+
+    /**
+     * Get the indexes for a given table.
+     *
+     * @param  string  $table
+     * @return array
+     */
+    public function getIndexes($table)
+    {
+        $table = $this->connection->getTablePrefix().$table;
+
+        return $this->connection->getPostProcessor()->processIndexes(
+            $this->connection->selectFromWriteConnection($this->grammar->compileIndexes($table))
+        );
+    }
+
+    /**
+     * Get the names of the indexes for a given table.
+     *
+     * @param  string  $table
+     * @return array
+     */
+    public function getIndexListing($table)
+    {
+        return array_column($this->getIndexes($table), 'name');
+    }
+
+    /**
+     * Determine if the given table has a given index.
+     *
+     * @param  string  $table
+     * @param  string|array  $index
+     * @param  string|null  $type
+     * @return bool
+     */
+    public function hasIndex($table, $index, $type = null)
+    {
+        $type = is_null($type) ? $type : strtolower($type);
+
+        foreach ($this->getIndexes($table) as $value) {
+            $typeMatches = is_null($type)
+                || ($type === 'primary' && $value['primary'])
+                || ($type === 'unique' && $value['unique'])
+                || $type === $value['type'];
+
+            if (($value['name'] === $index || $value['columns'] === $index) && $typeMatches) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the foreign keys for a given table.
+     *
+     * @param  string  $table
+     * @return array
+     */
+    public function getForeignKeys($table)
+    {
+        $table = $this->connection->getTablePrefix().$table;
+
+        return $this->connection->getPostProcessor()->processForeignKeys(
+            $this->connection->selectFromWriteConnection($this->grammar->compileForeignKeys($table))
+        );
     }
 
     /**
@@ -362,18 +499,6 @@ class Builder
     }
 
     /**
-     * Get all of the table names for the database.
-     *
-     * @return array
-     *
-     * @throws \LogicException
-     */
-    public function getAllTables()
-    {
-        throw new LogicException('This database driver does not support getting all tables.');
-    }
-
-    /**
      * Rename a table on the schema.
      *
      * @param  string  $from
@@ -446,7 +571,7 @@ class Builder
      * @param  \Closure|null  $callback
      * @return \Illuminate\Database\Schema\Blueprint
      */
-    protected function createBlueprint($table, Closure $callback = null)
+    protected function createBlueprint($table, ?Closure $callback = null)
     {
         $prefix = $this->connection->getConfig('prefix_indexes')
                     ? $this->connection->getConfig('prefix')

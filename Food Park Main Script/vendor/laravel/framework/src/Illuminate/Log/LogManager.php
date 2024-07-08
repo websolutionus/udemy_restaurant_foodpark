@@ -3,6 +3,7 @@
 namespace Illuminate\Log;
 
 use Closure;
+use Illuminate\Log\Context\Repository as ContextRepository;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Monolog\Formatter\LineFormatter;
@@ -135,7 +136,18 @@ class LogManager implements LoggerInterface
     {
         try {
             return $this->channels[$name] ?? with($this->resolve($name, $config), function ($logger) use ($name) {
-                return $this->channels[$name] = $this->tap($name, new Logger($logger, $this->app['events']))->withContext($this->sharedContext);
+                return $this->channels[$name] = tap($this->tap($name, new Logger($logger, $this->app['events']))
+                    ->withContext($this->sharedContext))
+                    ->pushProcessor(function ($record) {
+                        if (! $this->app->bound(ContextRepository::class)) {
+                            return $record;
+                        }
+
+                        return $record->with(extra: [
+                            ...$record->extra,
+                            ...$this->app[ContextRepository::class]->all(),
+                        ]);
+                    });
             });
         } catch (Throwable $e) {
             return tap($this->createEmergencyLogger(), function ($logger) use ($e) {
@@ -471,9 +483,7 @@ class LogManager implements LoggerInterface
      */
     protected function formatter()
     {
-        return tap(new LineFormatter(null, $this->dateFormat, true, true), function ($formatter) {
-            $formatter->includeStacktraces();
-        });
+        return new LineFormatter(null, $this->dateFormat, true, true, true);
     }
 
     /**
@@ -501,6 +511,22 @@ class LogManager implements LoggerInterface
     public function sharedContext()
     {
         return $this->sharedContext;
+    }
+
+    /**
+     * Flush the log context on all currently resolved channels.
+     *
+     * @return $this
+     */
+    public function withoutContext()
+    {
+        foreach ($this->channels as $channel) {
+            if (method_exists($channel, 'withoutContext')) {
+                $channel->withoutContext();
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -616,7 +642,7 @@ class LogManager implements LoggerInterface
     /**
      * System is unusable.
      *
-     * @param  string  $message
+     * @param  string|\Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -631,7 +657,7 @@ class LogManager implements LoggerInterface
      * Example: Entire website down, database unavailable, etc. This should
      * trigger the SMS alerts and wake you up.
      *
-     * @param  string  $message
+     * @param  string|\Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -645,7 +671,7 @@ class LogManager implements LoggerInterface
      *
      * Example: Application component unavailable, unexpected exception.
      *
-     * @param  string  $message
+     * @param  string|\Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -658,7 +684,7 @@ class LogManager implements LoggerInterface
      * Runtime errors that do not require immediate action but should typically
      * be logged and monitored.
      *
-     * @param  string  $message
+     * @param  string|\Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -673,7 +699,7 @@ class LogManager implements LoggerInterface
      * Example: Use of deprecated APIs, poor use of an API, undesirable things
      * that are not necessarily wrong.
      *
-     * @param  string  $message
+     * @param  string|\Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -685,7 +711,7 @@ class LogManager implements LoggerInterface
     /**
      * Normal but significant events.
      *
-     * @param  string  $message
+     * @param  string|\Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -699,7 +725,7 @@ class LogManager implements LoggerInterface
      *
      * Example: User logs in, SQL logs.
      *
-     * @param  string  $message
+     * @param  string|\Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -711,7 +737,7 @@ class LogManager implements LoggerInterface
     /**
      * Detailed debug information.
      *
-     * @param  string  $message
+     * @param  string|\Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -724,13 +750,26 @@ class LogManager implements LoggerInterface
      * Logs with an arbitrary level.
      *
      * @param  mixed  $level
-     * @param  string  $message
+     * @param  string|\Stringable  $message
      * @param  array  $context
      * @return void
      */
     public function log($level, $message, array $context = []): void
     {
         $this->driver()->log($level, $message, $context);
+    }
+
+    /**
+     * Set the application instance used by the manager.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return $this
+     */
+    public function setApplication($app)
+    {
+        $this->app = $app;
+
+        return $this;
     }
 
     /**

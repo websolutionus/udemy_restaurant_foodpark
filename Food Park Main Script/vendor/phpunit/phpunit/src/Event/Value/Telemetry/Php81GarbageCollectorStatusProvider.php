@@ -13,6 +13,8 @@ use function gc_status;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ *
+ * @codeCoverageIgnore
  */
 final class Php81GarbageCollectorStatusProvider implements GarbageCollectorStatusProvider
 {
@@ -25,6 +27,10 @@ final class Php81GarbageCollectorStatusProvider implements GarbageCollectorStatu
             $status['collected'],
             $status['threshold'],
             $status['roots'],
+            null,
+            null,
+            null,
+            null,
             null,
             null,
             null,

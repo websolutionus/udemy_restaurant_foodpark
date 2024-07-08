@@ -9,13 +9,6 @@ use Yajra\DataTables\Utilities\Helper;
 
 class DataProcessor
 {
-    /**
-     * @var int
-     */
-    protected int $start;
-    /**
-     * @var array
-     */
     protected array $output = [];
 
     /**
@@ -28,14 +21,6 @@ class DataProcessor
      */
     protected array $editColumns = [];
 
-    /**
-     * @var array
-     */
-    protected array $templates = [];
-
-    /**
-     * @var array
-     */
     protected array $rawColumns = [];
 
     /**
@@ -43,24 +28,12 @@ class DataProcessor
      */
     protected array $exceptions = ['DT_RowId', 'DT_RowClass', 'DT_RowData', 'DT_RowAttr'];
 
-    /**
-     * @var array
-     */
     protected array $onlyColumns = [];
 
-    /**
-     * @var array
-     */
     protected array $makeHidden = [];
 
-    /**
-     * @var array
-     */
     protected array $makeVisible = [];
 
-    /**
-     * @var array
-     */
     protected array $excessColumns = [];
 
     /**
@@ -68,25 +41,12 @@ class DataProcessor
      */
     protected mixed $escapeColumns = [];
 
-    /**
-     * @var iterable
-     */
-    protected iterable $results;
-
-    /**
-     * @var bool
-     */
     protected bool $includeIndex = false;
 
-    /**
-     * @param  iterable  $results
-     * @param  array  $columnDef
-     * @param  array  $templates
-     * @param  int  $start
-     */
-    public function __construct($results, array $columnDef, array $templates, int $start = 0)
+    protected bool $ignoreGetters = false;
+
+    public function __construct(protected iterable $results, array $columnDef, protected array $templates, protected int $start = 0)
     {
-        $this->results = $results;
         $this->appendColumns = $columnDef['append'] ?? [];
         $this->editColumns = $columnDef['edit'] ?? [];
         $this->excessColumns = $columnDef['excess'] ?? [];
@@ -96,15 +56,13 @@ class DataProcessor
         $this->rawColumns = $columnDef['raw'] ?? [];
         $this->makeHidden = $columnDef['hidden'] ?? [];
         $this->makeVisible = $columnDef['visible'] ?? [];
-        $this->templates = $templates;
-        $this->start = $start;
+        $this->ignoreGetters = $columnDef['ignore_getters'] ?? false;
     }
 
     /**
      * Process data to output on browser.
      *
      * @param  bool  $object
-     * @return array
      */
     public function process($object = false): array
     {
@@ -112,7 +70,7 @@ class DataProcessor
         $indexColumn = config('datatables.index_column', 'DT_RowIndex');
 
         foreach ($this->results as $row) {
-            $data = Helper::convertToArray($row, ['hidden' => $this->makeHidden, 'visible' => $this->makeVisible]);
+            $data = Helper::convertToArray($row, ['hidden' => $this->makeHidden, 'visible' => $this->makeVisible, 'ignore_getters' => $this->ignoreGetters]);
             $value = $this->addColumns($data, $row);
             $value = $this->editColumns($value, $row);
             $value = $this->setupRowVariables($value, $row);
@@ -132,9 +90,7 @@ class DataProcessor
     /**
      * Process add columns.
      *
-     * @param  array  $data
      * @param  array|object|\Illuminate\Database\Eloquent\Model  $row
-     * @return array
      */
     protected function addColumns(array $data, $row): array
     {
@@ -159,10 +115,6 @@ class DataProcessor
 
     /**
      * Process edit columns.
-     *
-     * @param  array  $data
-     * @param  array|object  $row
-     * @return array
      */
     protected function editColumns(array $data, object|array $row): array
     {
@@ -176,10 +128,6 @@ class DataProcessor
 
     /**
      * Setup additional DT row variables.
-     *
-     * @param  array  $data
-     * @param  array|object  $row
-     * @return array
      */
     protected function setupRowVariables(array $data, object|array $row): array
     {
@@ -195,9 +143,6 @@ class DataProcessor
 
     /**
      * Get only needed columns.
-     *
-     * @param  array  $data
-     * @return array
      */
     protected function selectOnlyNeededColumns(array $data): array
     {
@@ -220,9 +165,6 @@ class DataProcessor
 
     /**
      * Remove declared hidden columns.
-     *
-     * @param  array  $data
-     * @return array
      */
     protected function removeExcessColumns(array $data): array
     {
@@ -235,9 +177,6 @@ class DataProcessor
 
     /**
      * Flatten array with exceptions.
-     *
-     * @param  array  $array
-     * @return array
      */
     public function flatten(array $array): array
     {
@@ -255,9 +194,6 @@ class DataProcessor
 
     /**
      * Escape column values as declared.
-     *
-     * @param  array  $output
-     * @return array
      */
     protected function escapeColumns(array $output): array
     {
@@ -279,9 +215,6 @@ class DataProcessor
 
     /**
      * Escape all string or Htmlable values of row.
-     *
-     * @param  array  $row
-     * @return array
      */
     protected function escapeRow(array $row): array
     {

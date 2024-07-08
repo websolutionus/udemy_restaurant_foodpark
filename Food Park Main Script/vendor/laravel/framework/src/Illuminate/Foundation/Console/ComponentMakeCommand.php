@@ -2,6 +2,7 @@
 
 namespace Illuminate\Foundation\Console;
 
+use Illuminate\Console\Concerns\CreatesMatchingTest;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Str;
@@ -11,6 +12,8 @@ use Symfony\Component\Console\Input\InputOption;
 #[AsCommand(name: 'make:component')]
 class ComponentMakeCommand extends GeneratorCommand
 {
+    use CreatesMatchingTest;
+
     /**
      * The console command name.
      *
@@ -40,11 +43,7 @@ class ComponentMakeCommand extends GeneratorCommand
     public function handle()
     {
         if ($this->option('view')) {
-            $this->writeView(function () {
-                $this->components->info($this->type.' created successfully.');
-            });
-
-            return;
+            return $this->writeView();
         }
 
         if (parent::handle() === false && ! $this->option('force')) {
@@ -59,10 +58,9 @@ class ComponentMakeCommand extends GeneratorCommand
     /**
      * Write the view for the component.
      *
-     * @param  callable|null  $onSuccess
      * @return void
      */
-    protected function writeView($onSuccess = null)
+    protected function writeView()
     {
         $path = $this->viewPath(
             str_replace('.', '/', 'components.'.$this->getView()).'.blade.php'
@@ -85,9 +83,7 @@ class ComponentMakeCommand extends GeneratorCommand
 </div>'
         );
 
-        if ($onSuccess) {
-            $onSuccess();
-        }
+        $this->components->info(sprintf('%s [%s] created successfully.', 'View', $path));
     }
 
     /**

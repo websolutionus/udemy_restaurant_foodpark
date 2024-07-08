@@ -6,8 +6,9 @@ use ArrayAccess;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 use LogicException;
+use Stringable;
 
-class Response implements ArrayAccess
+class Response implements ArrayAccess, Stringable
 {
     use Concerns\DeterminesStatusCode, Macroable {
         __call as macroCall;
@@ -276,7 +277,6 @@ class Response implements ArrayAccess
     /**
      * Throw an exception if a server or client error occurred.
      *
-     * @param  \Closure|null  $callback
      * @return $this
      *
      * @throws \Illuminate\Http\Client\RequestException
@@ -300,7 +300,6 @@ class Response implements ArrayAccess
      * Throw an exception if a server or client error occurred and the given condition evaluates to true.
      *
      * @param  \Closure|bool  $condition
-     * @param  \Closure|null  $throwCallback
      * @return $this
      *
      * @throws \Illuminate\Http\Client\RequestException
@@ -338,9 +337,8 @@ class Response implements ArrayAccess
      */
     public function throwUnlessStatus($statusCode)
     {
-        if (is_callable($statusCode) &&
-            ! $statusCode($this->status(), $this)) {
-            return $this->throw();
+        if (is_callable($statusCode)) {
+            return $statusCode($this->status(), $this) ? $this : $this->throw();
         }
 
         return $this->status() === $statusCode ? $this : $this->throw();

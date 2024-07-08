@@ -71,6 +71,13 @@ class Schedule
     protected $dispatcher;
 
     /**
+     * The cache of mutex results.
+     *
+     * @var array<string, bool>
+     */
+    protected $mutexCache = [];
+
+    /**
      * Create a new schedule instance.
      *
      * @param  \DateTimeZone|string|null  $timezone
@@ -147,6 +154,14 @@ class Schedule
      */
     public function job($job, $queue = null, $connection = null)
     {
+        $jobName = $job;
+
+        if (! is_string($job)) {
+            $jobName = method_exists($job, 'displayName')
+                ? $job->displayName()
+                : $job::class;
+        }
+
         return $this->call(function () use ($job, $queue, $connection) {
             $job = is_string($job) ? Container::getInstance()->make($job) : $job;
 
@@ -155,7 +170,7 @@ class Schedule
             } else {
                 $this->dispatchNow($job);
             }
-        })->name(is_string($job) ? $job : get_class($job));
+        })->name($jobName);
     }
 
     /**
@@ -299,7 +314,7 @@ class Schedule
      */
     public function serverShouldRun(Event $event, DateTimeInterface $time)
     {
-        return $this->schedulingMutex->create($event, $time);
+        return $this->mutexCache[$event->mutexName()] ??= $this->schedulingMutex->create($event, $time);
     }
 
     /**

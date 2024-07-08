@@ -36,6 +36,8 @@ final class DefaultConfiguration extends Configuration
         return new self(
             ExtensionBootstrapCollection::fromArray([]),
             new Source(
+                null,
+                false,
                 CodeCoverageFilterDirectoryCollection::fromArray([]),
                 FileCollection::fromArray([]),
                 CodeCoverageFilterDirectoryCollection::fromArray([]),
@@ -143,6 +145,8 @@ final class DefaultConfiguration extends Configuration
                 false,
                 false,
                 false,
+                false,
+                100,
             ),
             TestSuiteCollection::fromArray([]),
         );

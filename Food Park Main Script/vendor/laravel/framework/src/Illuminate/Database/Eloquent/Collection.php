@@ -475,6 +475,10 @@ class Collection extends BaseCollection implements QueueableCollection
      */
     public function except($keys)
     {
+        if (is_null($keys)) {
+            return new static($this->items);
+        }
+
         $dictionary = Arr::except($this->getDictionary(), array_map($this->getDictionaryKey(...), (array) $keys));
 
         return new static(array_values($dictionary));
@@ -627,7 +631,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Get an array with the values of a given key.
      *
-     * @param  string|array<array-key, string>  $value
+     * @param  string|array<array-key, string>|null  $value
      * @param  string|null  $key
      * @return \Illuminate\Support\Collection<array-key, mixed>
      */

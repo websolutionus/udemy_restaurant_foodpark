@@ -97,8 +97,10 @@ use function str_ends_with;
 use function str_replace;
 use function token_get_all;
 use function trim;
+use SebastianBergmann\CodeCoverage\FileCouldNotBeWrittenException;
 use SebastianBergmann\CodeCoverage\Node\File as FileNode;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
+use SebastianBergmann\Template\Exception;
 use SebastianBergmann\Template\Template;
 
 /**
@@ -194,10 +196,18 @@ final class File extends Renderer
                 'lines'     => $this->renderSourceWithLineCoverage($node),
                 'legend'    => '<p><span class="legend covered-by-small-tests">Covered by small (and larger) tests</span><span class="legend covered-by-medium-tests">Covered by medium (and large) tests</span><span class="legend covered-by-large-tests">Covered by large tests (and tests of unknown size)</span><span class="legend not-covered">Not covered</span><span class="legend not-coverable">Not coverable</span></p>',
                 'structure' => '',
-            ]
+            ],
         );
 
-        $template->renderTo($file . '.html');
+        try {
+            $template->renderTo($file . '.html');
+        } catch (Exception $e) {
+            throw new FileCouldNotBeWrittenException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
 
         if ($this->hasBranchCoverage) {
             $template->setVar(
@@ -206,10 +216,18 @@ final class File extends Renderer
                     'lines'     => $this->renderSourceWithBranchCoverage($node),
                     'legend'    => '<p><span class="success"><strong>Fully covered</strong></span><span class="warning"><strong>Partially covered</strong></span><span class="danger"><strong>Not covered</strong></span></p>',
                     'structure' => $this->renderBranchStructure($node),
-                ]
+                ],
             );
 
-            $template->renderTo($file . '_branch.html');
+            try {
+                $template->renderTo($file . '_branch.html');
+            } catch (Exception $e) {
+                throw new FileCouldNotBeWrittenException(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    $e,
+                );
+            }
 
             $template->setVar(
                 [
@@ -217,10 +235,18 @@ final class File extends Renderer
                     'lines'     => $this->renderSourceWithPathCoverage($node),
                     'legend'    => '<p><span class="success"><strong>Fully covered</strong></span><span class="warning"><strong>Partially covered</strong></span><span class="danger"><strong>Not covered</strong></span></p>',
                     'structure' => $this->renderPathStructure($node),
-                ]
+                ],
             );
 
-            $template->renderTo($file . '_path.html');
+            try {
+                $template->renderTo($file . '_path.html');
+            } catch (Exception $e) {
+                throw new FileCouldNotBeWrittenException(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    $e,
+                );
+            }
         }
     }
 
@@ -233,7 +259,7 @@ final class File extends Renderer
         $methodItemTemplate = new Template(
             $methodTemplateName,
             '{{',
-            '}}'
+            '}}',
         );
 
         $items = $this->renderItemTemplate(
@@ -261,24 +287,24 @@ final class File extends Renderer
                 'testedClassesPercent'            => $node->percentageOfTestedClassesAndTraits()->asFloat(),
                 'testedClassesPercentAsString'    => $node->percentageOfTestedClassesAndTraits()->asString(),
                 'crap'                            => '<abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr>',
-            ]
+            ],
         );
 
         $items .= $this->renderFunctionItems(
             $node->functions(),
-            $methodItemTemplate
+            $methodItemTemplate,
         );
 
         $items .= $this->renderTraitOrClassItems(
             $node->traits(),
             $template,
-            $methodItemTemplate
+            $methodItemTemplate,
         );
 
         $items .= $this->renderTraitOrClassItems(
             $node->classes(),
             $template,
-            $methodItemTemplate
+            $methodItemTemplate,
         );
 
         return $items;
@@ -311,15 +337,15 @@ final class File extends Renderer
                 $numTestedClasses             = $numTestedMethods === $numMethods ? 1 : 0;
                 $linesExecutedPercentAsString = Percentage::fromFractionAndTotal(
                     $item['executedLines'],
-                    $item['executableLines']
+                    $item['executableLines'],
                 )->asString();
                 $branchesExecutedPercentAsString = Percentage::fromFractionAndTotal(
                     $item['executedBranches'],
-                    $item['executableBranches']
+                    $item['executableBranches'],
                 )->asString();
                 $pathsExecutedPercentAsString = Percentage::fromFractionAndTotal(
                     $item['executedPaths'],
-                    $item['executablePaths']
+                    $item['executablePaths'],
                 )->asString();
             } else {
                 $numClasses                      = 0;
@@ -331,12 +357,12 @@ final class File extends Renderer
 
             $testedMethodsPercentage = Percentage::fromFractionAndTotal(
                 $numTestedMethods,
-                $numMethods
+                $numMethods,
             );
 
             $testedClassesPercentage = Percentage::fromFractionAndTotal(
                 $numTestedMethods === $numMethods ? 1 : 0,
-                1
+                1,
             );
 
             $buffer .= $this->renderItemTemplate(
@@ -363,7 +389,7 @@ final class File extends Renderer
                     'numExecutableBranches'           => $item['executableBranches'],
                     'pathsExecutedPercent'            => Percentage::fromFractionAndTotal(
                         $item['executedPaths'],
-                        $item['executablePaths']
+                        $item['executablePaths'],
                     )->asFloat(),
                     'pathsExecutedPercentAsString' => $pathsExecutedPercentAsString,
                     'numExecutedPaths'             => $item['executedPaths'],
@@ -373,14 +399,14 @@ final class File extends Renderer
                     'testedClassesPercent'         => $testedClassesPercentage->asFloat(),
                     'testedClassesPercentAsString' => $testedClassesPercentage->asString(),
                     'crap'                         => $item['crap'],
-                ]
+                ],
             );
 
             foreach ($item['methods'] as $method) {
                 $buffer .= $this->renderFunctionOrMethodItem(
                     $methodItemTemplate,
                     $method,
-                    '&nbsp;'
+                    '&nbsp;',
                 );
             }
         }
@@ -399,7 +425,7 @@ final class File extends Renderer
         foreach ($functions as $function) {
             $buffer .= $this->renderFunctionOrMethodItem(
                 $template,
-                $function
+                $function,
             );
         }
 
@@ -421,22 +447,22 @@ final class File extends Renderer
 
         $executedLinesPercentage = Percentage::fromFractionAndTotal(
             $item['executedLines'],
-            $item['executableLines']
+            $item['executableLines'],
         );
 
         $executedBranchesPercentage = Percentage::fromFractionAndTotal(
             $item['executedBranches'],
-            $item['executableBranches']
+            $item['executableBranches'],
         );
 
         $executedPathsPercentage = Percentage::fromFractionAndTotal(
             $item['executedPaths'],
-            $item['executablePaths']
+            $item['executablePaths'],
         );
 
         $testedMethodsPercentage = Percentage::fromFractionAndTotal(
             $numTestedMethods,
-            1
+            1,
         );
 
         return $this->renderItemTemplate(
@@ -447,7 +473,7 @@ final class File extends Renderer
                     $indent,
                     $item['startLine'],
                     htmlspecialchars($item['signature'], $this->htmlSpecialCharsFlags),
-                    $item['functionName'] ?? $item['methodName']
+                    $item['functionName'] ?? $item['methodName'],
                 ),
                 'numMethods'                      => $numMethods,
                 'numTestedMethods'                => $numTestedMethods,
@@ -466,7 +492,7 @@ final class File extends Renderer
                 'testedMethodsPercent'            => $testedMethodsPercentage->asFloat(),
                 'testedMethodsPercentAsString'    => $testedMethodsPercentage->asString(),
                 'crap'                            => $item['crap'],
-            ]
+            ],
         );
     }
 
@@ -524,7 +550,7 @@ final class File extends Renderer
                 $popover = sprintf(
                     ' data-title="%s" data-content="%s" data-placement="top" data-html="true"',
                     $popoverTitle,
-                    htmlspecialchars($popoverContent, $this->htmlSpecialCharsFlags)
+                    htmlspecialchars($popoverContent, $this->htmlSpecialCharsFlags),
                 );
             }
 
@@ -611,7 +637,7 @@ final class File extends Renderer
                 $popover = sprintf(
                     ' data-title="%s" data-content="%s" data-placement="top" data-html="true"',
                     $popoverTitle,
-                    htmlspecialchars($popoverContent, $this->htmlSpecialCharsFlags)
+                    htmlspecialchars($popoverContent, $this->htmlSpecialCharsFlags),
                 );
             }
 
@@ -701,7 +727,7 @@ final class File extends Renderer
                 $popover = sprintf(
                     ' data-title="%s" data-content="%s" data-placement="top" data-html="true"',
                     $popoverTitle,
-                    htmlspecialchars($popoverContent, $this->htmlSpecialCharsFlags)
+                    htmlspecialchars($popoverContent, $this->htmlSpecialCharsFlags),
                 );
             }
 
@@ -799,7 +825,7 @@ final class File extends Renderer
                 $popover = sprintf(
                     ' data-title="%s" data-content="%s" data-placement="top" data-html="true"',
                     $popoverTitle,
-                    htmlspecialchars($popoverContent, $this->htmlSpecialCharsFlags)
+                    htmlspecialchars($popoverContent, $this->htmlSpecialCharsFlags),
                 );
             }
 
@@ -914,7 +940,7 @@ final class File extends Renderer
                     $popover = sprintf(
                         ' data-title="%s" data-content="%s" data-placement="top" data-html="true"',
                         $popoverTitle,
-                        htmlspecialchars($popoverContent, $this->htmlSpecialCharsFlags)
+                        htmlspecialchars($popoverContent, $this->htmlSpecialCharsFlags),
                     );
                 }
 
@@ -939,7 +965,7 @@ final class File extends Renderer
                 'lineContent' => $lineContent,
                 'class'       => $class,
                 'popover'     => $popover,
-            ]
+            ],
         );
 
         return $template->render();
@@ -965,14 +991,14 @@ final class File extends Renderer
                 if ($token === '"' && $tokens[$j - 1] !== '\\') {
                     $result[$i] .= sprintf(
                         '<span class="string">%s</span>',
-                        htmlspecialchars($token, $this->htmlSpecialCharsFlags)
+                        htmlspecialchars($token, $this->htmlSpecialCharsFlags),
                     );
 
                     $stringFlag = !$stringFlag;
                 } else {
                     $result[$i] .= sprintf(
                         '<span class="keyword">%s</span>',
-                        htmlspecialchars($token, $this->htmlSpecialCharsFlags)
+                        htmlspecialchars($token, $this->htmlSpecialCharsFlags),
                     );
                 }
 
@@ -984,7 +1010,7 @@ final class File extends Renderer
             $value = str_replace(
                 ["\t", ' '],
                 ['&nbsp;&nbsp;&nbsp;&nbsp;', '&nbsp;'],
-                htmlspecialchars($value, $this->htmlSpecialCharsFlags)
+                htmlspecialchars($value, $this->htmlSpecialCharsFlags),
             );
 
             if ($value === "\n") {
@@ -1013,7 +1039,7 @@ final class File extends Renderer
                         $result[$i] .= sprintf(
                             '<span class="%s">%s</span>',
                             $colour,
-                            $line
+                            $line,
                         );
                     }
 
@@ -1041,7 +1067,7 @@ final class File extends Renderer
             $className = sprintf(
                 '<abbr title="%s">%s</abbr>',
                 $className,
-                array_pop($tmp)
+                array_pop($tmp),
             );
         }
 
@@ -1083,7 +1109,7 @@ final class File extends Renderer
         return sprintf(
             '<li%s>%s</li>',
             $testCSS,
-            htmlspecialchars($test, $this->htmlSpecialCharsFlags)
+            htmlspecialchars($test, $this->htmlSpecialCharsFlags),
         );
     }
 

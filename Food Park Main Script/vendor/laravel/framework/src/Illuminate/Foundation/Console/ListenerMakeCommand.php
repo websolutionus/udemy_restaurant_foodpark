@@ -10,6 +10,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function Laravel\Prompts\suggest;
+
 #[AsCommand(name: 'make:listener')]
 class ListenerMakeCommand extends GeneratorCommand
 {
@@ -64,6 +66,19 @@ class ListenerMakeCommand extends GeneratorCommand
     }
 
     /**
+     * Resolve the fully-qualified path to the stub.
+     *
+     * @param  string  $stub
+     * @return string
+     */
+    protected function resolveStubPath($stub)
+    {
+        return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
+                        ? $customPath
+                        : __DIR__.$stub;
+    }
+
+    /**
      * Get the stub file for the generator.
      *
      * @return string
@@ -72,13 +87,13 @@ class ListenerMakeCommand extends GeneratorCommand
     {
         if ($this->option('queued')) {
             return $this->option('event')
-                        ? __DIR__.'/stubs/listener-queued.stub'
-                        : __DIR__.'/stubs/listener-queued-duck.stub';
+                        ? $this->resolveStubPath('/stubs/listener.typed.queued.stub')
+                        : $this->resolveStubPath('/stubs/listener.queued.stub');
         }
 
         return $this->option('event')
-                    ? __DIR__.'/stubs/listener.stub'
-                    : __DIR__.'/stubs/listener-duck.stub';
+                    ? $this->resolveStubPath('/stubs/listener.typed.stub')
+                    : $this->resolveStubPath('/stubs/listener.stub');
     }
 
     /**
@@ -130,13 +145,12 @@ class ListenerMakeCommand extends GeneratorCommand
             return;
         }
 
-        $event = $this->components->askWithCompletion(
-            'What event should be listened for?',
+        $event = suggest(
+            'What event should be listened for? (Optional)',
             $this->possibleEvents(),
-            'none'
         );
 
-        if ($event && $event !== 'none') {
+        if ($event) {
             $input->setOption('event', $event);
         }
     }

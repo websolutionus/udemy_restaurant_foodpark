@@ -28,10 +28,7 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
  */
 abstract class DataCollector implements DataCollectorInterface
 {
-    /**
-     * @var array|Data
-     */
-    protected $data = [];
+    protected array|Data $data = [];
 
     private ClonerInterface $cloner;
 
@@ -58,14 +55,26 @@ abstract class DataCollector implements DataCollectorInterface
     /**
      * @return callable[] The casters to add to the cloner
      */
-    protected function getCasters()
+    protected function getCasters(): array
     {
         $casters = [
             '*' => function ($v, array $a, Stub $s, $isNested) {
                 if (!$v instanceof Stub) {
+                    $b = $a;
                     foreach ($a as $k => $v) {
-                        if (\is_object($v) && !$v instanceof \DateTimeInterface && !$v instanceof Stub) {
-                            $a[$k] = new CutStub($v);
+                        if (!\is_object($v) || $v instanceof \DateTimeInterface || $v instanceof Stub) {
+                            continue;
+                        }
+
+                        try {
+                            $a[$k] = $s = new CutStub($v);
+
+                            if ($b[$k] === $s) {
+                                // we've hit a non-typed reference
+                                $a[$k] = $v;
+                            }
+                        } catch (\TypeError $e) {
+                            // we've hit a typed reference
                         }
                     }
                 }
@@ -82,7 +91,7 @@ abstract class DataCollector implements DataCollectorInterface
         return ['data'];
     }
 
-    public function __wakeup()
+    public function __wakeup(): void
     {
     }
 
@@ -98,5 +107,13 @@ abstract class DataCollector implements DataCollectorInterface
      */
     final protected function unserialize(string $data): void
     {
+    }
+
+    /**
+     * @return void
+     */
+    public function reset()
+    {
+        $this->data = [];
     }
 }

@@ -24,28 +24,24 @@ use Symfony\Component\Mime\Header\Headers;
 class TextPart extends AbstractPart
 {
     /** @internal */
-    protected $_headers;
+    protected Headers $_headers;
 
-    private static $encoders = [];
+    private static array $encoders = [];
 
+    /** @var resource|string|File */
     private $body;
-    private $charset;
-    private $subtype;
-    /**
-     * @var ?string
-     */
-    private $disposition;
-    private $name;
-    private $encoding;
-    private $seekable;
+    private ?string $charset;
+    private string $subtype;
+    private ?string $disposition = null;
+    private ?string $name = null;
+    private string $encoding;
+    private ?bool $seekable = null;
 
     /**
      * @param resource|string|File $body Use a File instance to defer loading the file until rendering
      */
-    public function __construct($body, ?string $charset = 'utf-8', string $subtype = 'plain', string $encoding = null)
+    public function __construct($body, ?string $charset = 'utf-8', string $subtype = 'plain', ?string $encoding = null)
     {
-        unset($this->_headers);
-
         parent::__construct();
 
         if (!\is_string($body) && !\is_resource($body) && !$body instanceof File) {
@@ -127,7 +123,11 @@ class TextPart extends AbstractPart
     public function getBody(): string
     {
         if ($this->body instanceof File) {
-            return file_get_contents($this->body->getPath());
+            if (false === $ret = @file_get_contents($this->body->getPath())) {
+                throw new InvalidArgumentException(error_get_last()['message']);
+            }
+
+            return $ret;
         }
 
         if (null === $this->seekable) {
@@ -226,7 +226,7 @@ class TextPart extends AbstractPart
     public function __sleep(): array
     {
         // convert resources to strings for serialization
-        if (null !== $this->seekable || $this->body instanceof File) {
+        if (null !== $this->seekable) {
             $this->body = $this->getBody();
             $this->seekable = null;
         }
@@ -236,7 +236,7 @@ class TextPart extends AbstractPart
         return ['_headers', 'body', 'charset', 'subtype', 'disposition', 'name', 'encoding'];
     }
 
-    public function __wakeup()
+    public function __wakeup(): void
     {
         $r = new \ReflectionProperty(AbstractPart::class, 'headers');
         $r->setValue($this, $this->_headers);

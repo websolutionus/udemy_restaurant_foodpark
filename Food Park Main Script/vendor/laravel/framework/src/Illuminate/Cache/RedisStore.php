@@ -57,7 +57,7 @@ class RedisStore extends TaggableStore implements LockProvider
     /**
      * Retrieve an item from the cache by key.
      *
-     * @param  string|array  $key
+     * @param  string  $key
      * @return mixed
      */
     public function get($key)
@@ -317,7 +317,7 @@ class RedisStore extends TaggableStore implements LockProvider
                     yield $tag;
                 }
             } while (((string) $cursor) !== $defaultCursorValue);
-        })->map(fn (string $tagKey) => Str::match('/^'.preg_quote($prefix).'tag:(.*):entries$/', $tagKey));
+        })->map(fn (string $tagKey) => Str::match('/^'.preg_quote($prefix, '/').'tag:(.*):entries$/', $tagKey));
     }
 
     /**
@@ -392,7 +392,7 @@ class RedisStore extends TaggableStore implements LockProvider
      */
     public function setPrefix($prefix)
     {
-        $this->prefix = ! empty($prefix) ? $prefix.':' : '';
+        $this->prefix = $prefix;
     }
 
     /**

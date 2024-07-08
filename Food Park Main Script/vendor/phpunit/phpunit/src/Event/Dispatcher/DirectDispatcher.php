@@ -67,22 +67,7 @@ final class DirectDispatcher implements SubscribableDispatcher
     }
 
     /**
-     * @psalm-param class-string $className
-     */
-    public function hasSubscriberFor(string $className): bool
-    {
-        if ($this->tracers !== []) {
-            return true;
-        }
-
-        if (isset($this->subscribers[$className])) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
+     * @throws Throwable
      * @throws UnknownEventTypeException
      */
     public function dispatch(Event $event): void
@@ -101,9 +86,11 @@ final class DirectDispatcher implements SubscribableDispatcher
         foreach ($this->tracers as $tracer) {
             try {
                 $tracer->trace($event);
+                // @codeCoverageIgnoreStart
             } catch (Throwable $t) {
-                $this->ignoreThrowablesFromThirdPartySubscribers($t);
+                $this->handleThrowable($t);
             }
+            // @codeCoverageIgnoreEnd
         }
 
         if (!array_key_exists($eventClassName, $this->subscribers)) {
@@ -114,7 +101,7 @@ final class DirectDispatcher implements SubscribableDispatcher
             try {
                 $subscriber->notify($event);
             } catch (Throwable $t) {
-                $this->ignoreThrowablesFromThirdPartySubscribers($t);
+                $this->handleThrowable($t);
             }
         }
     }
@@ -122,10 +109,28 @@ final class DirectDispatcher implements SubscribableDispatcher
     /**
      * @throws Throwable
      */
-    private function ignoreThrowablesFromThirdPartySubscribers(Throwable $t): void
+    public function handleThrowable(Throwable $t): void
     {
-        if (str_starts_with($t->getFile(), dirname(__DIR__, 2))) {
-            throw $t;
+        if ($this->isThrowableFromThirdPartySubscriber($t)) {
+            Facade::emitter()->testRunnerTriggeredWarning(
+                sprintf(
+                    'Exception in third-party event subscriber: %s%s%s',
+                    $t->getMessage(),
+                    PHP_EOL,
+                    $t->getTraceAsString(),
+                ),
+            );
+
+            return;
         }
+
+        // @codeCoverageIgnoreStart
+        throw $t;
+        // @codeCoverageIgnoreEnd
+    }
+
+    private function isThrowableFromThirdPartySubscriber(Throwable $t): bool
+    {
+        return !str_starts_with($t->getFile(), dirname(__DIR__, 2));
     }
 }

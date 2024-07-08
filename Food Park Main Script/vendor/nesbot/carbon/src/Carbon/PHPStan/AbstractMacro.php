@@ -70,11 +70,9 @@ abstract class AbstractMacro implements BuiltinMethodReflection
     /**
      * Macro constructor.
      *
-     * @param string $className
-     * @phpstan-param class-string $className
-     *
-     * @param string   $methodName
-     * @param callable $macro
+     * @param class-string $className
+     * @param string       $methodName
+     * @param callable     $macro
      */
     public function __construct(string $className, string $methodName, $macro)
     {
@@ -102,7 +100,7 @@ abstract class AbstractMacro implements BuiltinMethodReflection
                 $closure = $rawReflectionFunction->getClosure();
                 $boundClosure = Closure::bind($closure, new stdClass());
                 $this->static = (!$boundClosure || (new ReflectionFunction($boundClosure))->getClosureThis() === null);
-            } catch (Throwable $e) {
+            } catch (Throwable) {
                 $this->static = true;
             }
         }

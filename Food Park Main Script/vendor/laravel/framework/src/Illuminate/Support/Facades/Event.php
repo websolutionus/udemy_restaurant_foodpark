@@ -20,8 +20,9 @@ use Illuminate\Support\Testing\Fakes\EventFake;
  * @method static void forget(string $event)
  * @method static void forgetPushed()
  * @method static \Illuminate\Events\Dispatcher setQueueResolver(callable $resolver)
+ * @method static \Illuminate\Events\Dispatcher setTransactionManagerResolver(callable $resolver)
  * @method static array getRawListeners()
- * @method static void macro(string $name, object|callable $macro)
+ * @method static void macro(string $name, object|callable $macro, object|callable $macro = null)
  * @method static void mixin(object $mixin, bool $replace = true)
  * @method static bool hasMacro(string $name)
  * @method static void flushMacros()
@@ -33,6 +34,7 @@ use Illuminate\Support\Testing\Fakes\EventFake;
  * @method static void assertNothingDispatched()
  * @method static \Illuminate\Support\Collection dispatched(string $event, callable|null $callback = null)
  * @method static bool hasDispatched(string $event)
+ * @method static array dispatchedEvents()
  *
  * @see \Illuminate\Events\Dispatcher
  * @see \Illuminate\Support\Testing\Fakes\EventFake

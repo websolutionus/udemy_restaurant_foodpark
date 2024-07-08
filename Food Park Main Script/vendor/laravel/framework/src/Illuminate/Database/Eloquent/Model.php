@@ -22,8 +22,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ForwardsCalls;
 use JsonSerializable;
 use LogicException;
+use Stringable;
 
-abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToString, HasBroadcastChannel, Jsonable, JsonSerializable, QueueableEntity, UrlRoutable
+abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToString, HasBroadcastChannel, Jsonable, JsonSerializable, QueueableEntity, Stringable, UrlRoutable
 {
     use Concerns\HasAttributes,
         Concerns\HasEvents,
@@ -106,7 +107,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
     public $exists = false;
 
     /**
-     * Indicates if the model was inserted during the current request lifecycle.
+     * Indicates if the model was inserted during the object's lifecycle.
      *
      * @var bool
      */
@@ -951,10 +952,8 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      */
     protected function incrementOrDecrement($column, $amount, $extra, $method)
     {
-        $query = $this->newQueryWithoutRelationships();
-
         if (! $this->exists) {
-            return $query->{$method}($column, $amount, $extra);
+            return $this->newQueryWithoutRelationships()->{$method}($column, $amount, $extra);
         }
 
         $this->{$column} = $this->isClassDeviable($column)
@@ -967,7 +966,11 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
             return false;
         }
 
-        return tap($this->setKeysForSaveQuery($query)->{$method}($column, $amount, $extra), function () use ($column) {
+        if ($this->isClassDeviable($column)) {
+            $amount = (clone $this)->setAttribute($column, $amount)->getAttributeFromArray($column);
+        }
+
+        return tap($this->setKeysForSaveQuery($this->newQueryWithoutScopes())->{$method}($column, $amount, $extra), function () use ($column) {
             $this->syncChanges();
 
             $this->fireModelEvent('updated', false);
@@ -1209,7 +1212,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
         // Once we have run the update operation, we will fire the "updated" event for
         // this model instance. This will allow developers to hook into these after
         // models are updated, giving them a chance to do any special processing.
-        $dirty = $this->getDirty();
+        $dirty = $this->getDirtyForUpdate();
 
         if (count($dirty) > 0) {
             $this->setKeysForSaveQuery($query)->update($dirty);
@@ -1719,12 +1722,14 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      * @param  array|null  $except
      * @return static
      */
-    public function replicate(array $except = null)
+    public function replicate(?array $except = null)
     {
         $defaults = array_values(array_filter([
             $this->getKeyName(),
             $this->getCreatedAtColumn(),
             $this->getUpdatedAtColumn(),
+            ...$this->uniqueIds(),
+            'laravel_through_key',
         ]));
 
         $attributes = Arr::except(
@@ -1746,7 +1751,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      * @param  array|null  $except
      * @return static
      */
-    public function replicateQuietly(array $except = null)
+    public function replicateQuietly(?array $except = null)
     {
         return static::withoutEvents(fn () => $this->replicate($except));
     }
@@ -1823,7 +1828,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
     /**
      * Get the connection resolver instance.
      *
-     * @return \Illuminate\Database\ConnectionResolverInterface
+     * @return \Illuminate\Database\ConnectionResolverInterface|null
      */
     public static function getConnectionResolver()
     {
@@ -2126,7 +2131,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      * @param  \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Relations\Relation  $query
      * @param  mixed  $value
      * @param  string|null  $field
-     * @return \Illuminate\Database\Eloquent\Relations\Relation
+     * @return \Illuminate\Contracts\Database\Eloquent\Builder
      */
     public function resolveRouteBindingQuery($query, $value, $field = null)
     {

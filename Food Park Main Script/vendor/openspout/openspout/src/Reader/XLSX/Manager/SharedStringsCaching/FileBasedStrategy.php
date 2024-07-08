@@ -22,17 +22,17 @@ final class FileBasedStrategy implements CachingStrategyInterface
     public const ESCAPED_LINE_FEED_CHARACTER = '_x000A_';
 
     /** @var FileSystemHelper Helper to perform file system operations */
-    private FileSystemHelper $fileSystemHelper;
+    private readonly FileSystemHelper $fileSystemHelper;
 
     /** @var string Temporary folder where the temporary files will be created */
-    private string $tempFolder;
+    private readonly string $tempFolder;
 
     /**
      * @var int Maximum number of strings that can be stored in one temp file
      *
      * @see CachingStrategyFactory::MAX_NUM_STRINGS_PER_TEMP_FILE
      */
-    private int $maxNumStringsPerTempFile;
+    private readonly int $maxNumStringsPerTempFile;
 
     /** @var null|resource Pointer to the last temp file a shared string was written to */
     private $tempFilePointer;
@@ -42,7 +42,10 @@ final class FileBasedStrategy implements CachingStrategyInterface
      *
      * @see CachingStrategyFactory::MAX_NUM_STRINGS_PER_TEMP_FILE
      */
-    private string $inMemoryTempFilePath = '';
+    private string $readMemoryTempFilePath = '';
+
+    /** @var string Path of the temporary file whose contents is currently being written to */
+    private string $writeMemoryTempFilePath = '';
 
     /**
      * @see CachingStrategyFactory::MAX_NUM_STRINGS_PER_TEMP_FILE
@@ -61,8 +64,6 @@ final class FileBasedStrategy implements CachingStrategyInterface
         $this->tempFolder = $this->fileSystemHelper->createFolder($tempFolder, uniqid('sharedstrings'));
 
         $this->maxNumStringsPerTempFile = $maxNumStringsPerTempFile;
-
-        $this->tempFilePointer = null;
     }
 
     /**
@@ -75,13 +76,14 @@ final class FileBasedStrategy implements CachingStrategyInterface
     {
         $tempFilePath = $this->getSharedStringTempFilePath($sharedStringIndex);
 
-        if (!file_exists($tempFilePath)) {
+        if ($this->writeMemoryTempFilePath !== $tempFilePath) {
             if (null !== $this->tempFilePointer) {
                 fclose($this->tempFilePointer);
             }
             $resource = fopen($tempFilePath, 'w');
             \assert(false !== $resource);
             $this->tempFilePointer = $resource;
+            $this->writeMemoryTempFilePath = $tempFilePath;
         }
 
         // The shared string retrieval logic expects each cell data to be on one line only
@@ -99,6 +101,7 @@ final class FileBasedStrategy implements CachingStrategyInterface
     {
         // close pointer to the last temp file that was written
         if (null !== $this->tempFilePointer) {
+            $this->writeMemoryTempFilePath = '';
             fclose($this->tempFilePointer);
         }
     }
@@ -110,24 +113,20 @@ final class FileBasedStrategy implements CachingStrategyInterface
      *
      * @return string The shared string at the given index
      *
-     * @throws \OpenSpout\Reader\Exception\SharedStringNotFoundException If no shared string found for the given index
+     * @throws SharedStringNotFoundException If no shared string found for the given index
      */
     public function getStringAtIndex(int $sharedStringIndex): string
     {
         $tempFilePath = $this->getSharedStringTempFilePath($sharedStringIndex);
         $indexInFile = $sharedStringIndex % $this->maxNumStringsPerTempFile;
 
-        if (!file_exists($tempFilePath)) {
-            throw new SharedStringNotFoundException("Shared string temp file not found: {$tempFilePath} ; for index: {$sharedStringIndex}");
-        }
-
-        if ($this->inMemoryTempFilePath !== $tempFilePath) {
-            $tempFilePath = realpath($tempFilePath);
-            \assert(false !== $tempFilePath);
-            $contents = file_get_contents($tempFilePath);
-            \assert(false !== $contents);
+        if ($this->readMemoryTempFilePath !== $tempFilePath) {
+            $contents = @file_get_contents($tempFilePath);
+            if (false === $contents) {
+                throw new SharedStringNotFoundException("Shared string temp file could not be read: {$tempFilePath} ; for index: {$sharedStringIndex}");
+            }
             $this->inMemoryTempFileContents = explode(PHP_EOL, $contents);
-            $this->inMemoryTempFilePath = $tempFilePath;
+            $this->readMemoryTempFilePath = $tempFilePath;
         }
 
         $sharedString = null;

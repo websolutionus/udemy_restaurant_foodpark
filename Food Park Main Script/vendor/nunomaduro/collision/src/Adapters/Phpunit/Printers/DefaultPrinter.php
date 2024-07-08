@@ -7,6 +7,7 @@ namespace NunoMaduro\Collision\Adapters\Phpunit\Printers;
 use NunoMaduro\Collision\Adapters\Phpunit\ConfigureIO;
 use NunoMaduro\Collision\Adapters\Phpunit\State;
 use NunoMaduro\Collision\Adapters\Phpunit\Style;
+use NunoMaduro\Collision\Adapters\Phpunit\Support\ResultReflection;
 use NunoMaduro\Collision\Adapters\Phpunit\TestResult;
 use NunoMaduro\Collision\Exceptions\ShouldNotHappen;
 use NunoMaduro\Collision\Exceptions\TestOutcome;
@@ -24,6 +25,8 @@ use PHPUnit\Event\Test\NoticeTriggered;
 use PHPUnit\Event\Test\Passed;
 use PHPUnit\Event\Test\PhpDeprecationTriggered;
 use PHPUnit\Event\Test\PhpNoticeTriggered;
+use PHPUnit\Event\Test\PhpunitDeprecationTriggered;
+use PHPUnit\Event\Test\PhpunitErrorTriggered;
 use PHPUnit\Event\Test\PhpunitWarningTriggered;
 use PHPUnit\Event\Test\PhpWarningTriggered;
 use PHPUnit\Event\Test\PreparationStarted;
@@ -107,7 +110,7 @@ final class DefaultPrinter
     /**
      * If the printer instances should be compact.
      */
-    public static function compact(bool $value = null): bool
+    public static function compact(?bool $value = null): bool
     {
         if (! is_null($value)) {
             self::$compact = $value;
@@ -119,7 +122,7 @@ final class DefaultPrinter
     /**
      * If the printer instances should profile.
      */
-    public static function profile(bool $value = null): bool
+    public static function profile(?bool $value = null): bool
     {
         if (! is_null($value)) {
             self::$profile = $value;
@@ -316,6 +319,26 @@ final class DefaultPrinter
     }
 
     /**
+     * Listen to the test phpunit deprecation triggered event.
+     */
+    public function testPhpunitDeprecationTriggered(PhpunitDeprecationTriggered $event): void
+    {
+        $throwable = ThrowableBuilder::from(new TestOutcome($event->message()));
+
+        $this->state->add(TestResult::fromTestCase($event->test(), TestResult::DEPRECATED, $throwable));
+    }
+
+    /**
+     * Listen to the test phpunit error triggered event.
+     */
+    public function testPhpunitErrorTriggered(PhpunitErrorTriggered $event): void
+    {
+        $throwable = ThrowableBuilder::from(new TestOutcome($event->message()));
+
+        $this->state->add(TestResult::fromTestCase($event->test(), TestResult::FAIL, $throwable));
+    }
+
+    /**
      * Listen to the test warning triggered event.
      */
     public function testNoticeTriggered(NoticeTriggered $event): void
@@ -368,7 +391,7 @@ final class DefaultPrinter
     {
         $result = Facade::result();
 
-        if (Facade::result()->numberOfTests() === 0) {
+        if (ResultReflection::numberOfTests(Facade::result()) === 0) {
             $this->output->writeln([
                 '',
                 '  <fg=white;options=bold;bg=blue> INFO </> No tests found.',

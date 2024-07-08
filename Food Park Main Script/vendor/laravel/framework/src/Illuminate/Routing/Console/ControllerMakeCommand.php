@@ -10,6 +10,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\select;
+use function Laravel\Prompts\suggest;
+
 #[AsCommand(name: 'make:controller')]
 class ControllerMakeCommand extends GeneratorCommand
 {
@@ -106,6 +110,7 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     protected function buildClass($name)
     {
+        $rootNamespace = $this->rootNamespace();
         $controllerNamespace = $this->getNamespace($name);
 
         $replace = [];
@@ -122,11 +127,20 @@ class ControllerMakeCommand extends GeneratorCommand
             $replace['abort(404);'] = '//';
         }
 
-        $replace["use {$controllerNamespace}\Controller;\n"] = '';
+        $baseControllerExists = file_exists($this->getPath("{$rootNamespace}Http\Controllers\Controller"));
 
-        return str_replace(
+        if ($baseControllerExists) {
+            $replace["use {$controllerNamespace}\Controller;\n"] = '';
+        } else {
+            $replace[' extends Controller'] = '';
+            $replace["use {$rootNamespace}Http\Controllers\Controller;\n"] = '';
+        }
+
+        $class = str_replace(
             array_keys($replace), array_values($replace), parent::buildClass($name)
         );
+
+        return $class;
     }
 
     /**
@@ -139,7 +153,7 @@ class ControllerMakeCommand extends GeneratorCommand
         $parentModelClass = $this->parseModel($this->option('parent'));
 
         if (! class_exists($parentModelClass) &&
-            $this->components->confirm("A {$parentModelClass} model does not exist. Do you want to generate it?", true)) {
+            confirm("A {$parentModelClass} model does not exist. Do you want to generate it?", default: true)) {
             $this->call('make:model', ['name' => $parentModelClass]);
         }
 
@@ -166,7 +180,7 @@ class ControllerMakeCommand extends GeneratorCommand
     {
         $modelClass = $this->parseModel($this->option('model'));
 
-        if (! class_exists($modelClass) && $this->components->confirm("A {$modelClass} model does not exist. Do you want to generate it?", true)) {
+        if (! class_exists($modelClass) && confirm("A {$modelClass} model does not exist. Do you want to generate it?", default: true)) {
             $this->call('make:model', ['name' => $modelClass]);
         }
 
@@ -302,26 +316,25 @@ class ControllerMakeCommand extends GeneratorCommand
             return;
         }
 
-        $type = $this->components->choice('Which type of controller would you like', [
-            'empty',
-            'api',
-            'invokable',
-            'resource',
-            'singleton',
-        ], default: 0);
+        $type = select('Which type of controller would you like?', [
+            'empty' => 'Empty',
+            'resource' => 'Resource',
+            'singleton' => 'Singleton',
+            'api' => 'API',
+            'invokable' => 'Invokable',
+        ]);
 
         if ($type !== 'empty') {
             $input->setOption($type, true);
         }
 
         if (in_array($type, ['api', 'resource', 'singleton'])) {
-            $model = $this->components->askWithCompletion(
-                "What model should this $type controller be for?",
-                $this->possibleModels(),
-                'none'
+            $model = suggest(
+                "What model should this $type controller be for? (Optional)",
+                $this->possibleModels()
             );
 
-            if ($model && $model !== 'none') {
+            if ($model) {
                 $input->setOption('model', $model);
             }
         }

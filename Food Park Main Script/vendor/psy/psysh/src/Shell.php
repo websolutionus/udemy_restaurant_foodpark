@@ -27,6 +27,7 @@ use Psy\TabCompletion\Matcher;
 use Psy\VarDumper\PresenterAware;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command as BaseCommand;
+use Symfony\Component\Console\Exception\ExceptionInterface as SymfonyConsoleException;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
@@ -49,16 +50,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class Shell extends Application
 {
-    const VERSION = 'v0.11.18';
-
-    /** @deprecated */
-    const PROMPT = '>>> ';
-    /** @deprecated */
-    const BUFF_PROMPT = '... ';
-    /** @deprecated */
-    const REPLAY = '--> ';
-    /** @deprecated */
-    const RETVAL = '=> ';
+    const VERSION = 'v0.12.4';
 
     private $config;
     private $cleaner;
@@ -87,7 +79,7 @@ class Shell extends Application
      *
      * @param Configuration|null $config (default: null)
      */
-    public function __construct(Configuration $config = null)
+    public function __construct(?Configuration $config = null)
     {
         $this->config = $config ?: new Configuration();
         $this->cleaner = $this->config->getCodeCleaner();
@@ -150,6 +142,8 @@ class Shell extends Application
      */
     public static function debug(array $vars = [], $bindTo = null): array
     {
+        @\trigger_error('`Psy\\Shell::debug` is deprecated; call `Psy\\debug` instead.', \E_USER_DEPRECATED);
+
         return \Psy\debug($vars, $bindTo);
     }
 
@@ -255,14 +249,6 @@ class Shell extends Application
     }
 
     /**
-     * @deprecated Nothing should use this anymore
-     */
-    protected function getTabCompletionMatchers()
-    {
-        @\trigger_error('getTabCompletionMatchers is no longer used', \E_USER_DEPRECATED);
-    }
-
-    /**
      * Gets the default command loop listeners.
      *
      * @return array An array of Execution Loop Listener instances
@@ -303,6 +289,8 @@ class Shell extends Application
      */
     public function addTabCompletionMatchers(array $matchers)
     {
+        @\trigger_error('`addTabCompletionMatchers` is deprecated; call `addMatchers` instead.', \E_USER_DEPRECATED);
+
         $this->addMatchers($matchers);
     }
 
@@ -325,7 +313,7 @@ class Shell extends Application
      *
      * @return int 0 if everything went fine, or an error code
      */
-    public function run(InputInterface $input = null, OutputInterface $output = null): int
+    public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
     {
         // We'll just ignore the input passed in, and set up our own!
         $input = new ArrayInput([]);
@@ -448,7 +436,7 @@ class Shell extends Application
     /**
      * Configures the input and output instances based on the user arguments and options.
      */
-    protected function configureIO(InputInterface $input, OutputInterface $output)
+    protected function configureIO(InputInterface $input, OutputInterface $output): void
     {
         // @todo overrides via environment variables (or should these happen in config? ... probably config)
         $input->setInteractive($this->config->getInputInteractive());
@@ -666,7 +654,7 @@ class Shell extends Application
      *
      * @param bool $includeBoundObject Pass false to exclude 'this'. If you're
      *                                 passing the scope variables to `extract`
-     *                                 in PHP 7.1+, you _must_ exclude 'this'
+     *                                 you _must_ exclude 'this'
      *
      * @return array Associative array of scope variables
      */
@@ -686,7 +674,7 @@ class Shell extends Application
      *
      * @param bool $includeBoundObject Pass false to exclude 'this'. If you're
      *                                 passing the scope variables to `extract`
-     *                                 in PHP 7.1+, you _must_ exclude 'this'
+     *                                 you _must_ exclude 'this'
      *
      * @return array Associative array of magic scope variables
      */
@@ -1319,10 +1307,21 @@ class Shell extends Application
             }
         }
 
-        if ($e instanceof PsyException) {
+        if ($e instanceof PsyException || $e instanceof SymfonyConsoleException) {
             $exceptionShortName = (new \ReflectionClass($e))->getShortName();
             $typeParts = \preg_split('/(?=[A-Z])/', $exceptionShortName);
-            \array_pop($typeParts); // Removes "Exception"
+
+            switch ($exceptionShortName) {
+                case 'RuntimeException':
+                case 'LogicException':
+                    // These ones look weird without 'Exception'
+                    break;
+                default:
+                    if (\end($typeParts) === 'Exception') {
+                        \array_pop($typeParts);
+                    }
+                    break;
+            }
 
             return \trim(\strtoupper(\implode(' ', $typeParts)));
         }
@@ -1510,7 +1509,7 @@ class Shell extends Application
      */
     protected function getHeader(): string
     {
-        return \sprintf('<whisper>%s by Justin Hileman</whisper>', $this->getVersion());
+        return \sprintf('<whisper>%s by Justin Hileman</whisper>', self::getVersionHeader($this->config->useUnicode()));
     }
 
     /**
@@ -1520,6 +1519,8 @@ class Shell extends Application
      */
     public function getVersion(): string
     {
+        @\trigger_error('`getVersion` is deprecated; call `self::getVersionHeader` instead.', \E_USER_DEPRECATED);
+
         return self::getVersionHeader($this->config->useUnicode());
     }
 
@@ -1543,14 +1544,6 @@ class Shell extends Application
     public function getManualDb()
     {
         return $this->config->getManualDb();
-    }
-
-    /**
-     * @deprecated Tab completion is provided by the AutoCompleter service
-     */
-    protected function autocomplete($text)
-    {
-        @\trigger_error('Tab completion is provided by the AutoCompleter service', \E_USER_DEPRECATED);
     }
 
     /**

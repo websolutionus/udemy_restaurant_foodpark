@@ -26,7 +26,6 @@ use Psy\Output\ShellOutput;
 use Psy\VarDumper\Presenter;
 use Psy\VarDumper\PresenterAware;
 use Symfony\Component\Console\Formatter\OutputFormatter;
-use Symfony\Component\Console\Helper\TableHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -115,7 +114,7 @@ HELP
      *
      * @return int 0 if everything went fine, or an exit code
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->validateInput($input);
         $this->initEnumerators();
@@ -213,11 +212,7 @@ HELP
                 $table->addRow([$this->formatItemName($item), $item['value']]);
             }
 
-            if ($table instanceof TableHelper) {
-                $table->render($output);
-            } else {
-                $table->render();
-            }
+            $table->render();
         }
     }
 

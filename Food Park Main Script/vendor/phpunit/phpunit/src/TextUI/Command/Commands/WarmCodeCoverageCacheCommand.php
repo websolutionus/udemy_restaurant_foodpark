@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\TextUI\Command;
 
+use const PHP_EOL;
 use function printf;
 use PHPUnit\TextUI\Configuration\CodeCoverageFilterRegistry;
 use PHPUnit\TextUI\Configuration\Configuration;
@@ -19,6 +20,8 @@ use SebastianBergmann\Timer\Timer;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ *
+ * @codeCoverageIgnore
  */
 final class WarmCodeCoverageCacheCommand implements Command
 {
@@ -44,7 +47,7 @@ final class WarmCodeCoverageCacheCommand implements Command
             );
         }
 
-        $this->codeCoverageFilterRegistry->init($this->configuration);
+        $this->codeCoverageFilterRegistry->init($this->configuration, true);
 
         if (!$this->codeCoverageFilterRegistry->configured()) {
             return Result::from(
@@ -68,7 +71,7 @@ final class WarmCodeCoverageCacheCommand implements Command
         printf(
             '[%s]%s',
             $timer->stop()->asString(),
-            \PHP_EOL,
+            PHP_EOL,
         );
 
         return Result::from();

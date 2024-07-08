@@ -15,6 +15,7 @@ use Termwind\Enums\Color;
 use Termwind\Exceptions\ColorNotFound;
 use Termwind\Exceptions\InvalidStyle;
 use Termwind\Repositories\Styles as StyleRepository;
+
 use function Termwind\terminal;
 
 /**
@@ -53,7 +54,6 @@ final class Styles
     }
 
     /**
-     * @param  Element  $element
      * @return $this
      */
     public function setElement(Element $element): self
@@ -940,7 +940,7 @@ final class Styles
     /**
      * Get the length of the text provided without the styling tags.
      */
-    public function getLength(string $text = null): int
+    public function getLength(?string $text = null): int
     {
         return mb_strlen(preg_replace(
             self::STYLING_REGEX,

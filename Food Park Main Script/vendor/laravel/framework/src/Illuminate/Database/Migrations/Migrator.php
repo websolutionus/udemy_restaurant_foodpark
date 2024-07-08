@@ -2,9 +2,7 @@
 
 namespace Illuminate\Database\Migrations;
 
-use Doctrine\DBAL\Schema\SchemaException;
 use Illuminate\Console\View\Components\BulletList;
-use Illuminate\Console\View\Components\Error;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Console\View\Components\Task;
 use Illuminate\Console\View\Components\TwoColumnDetail;
@@ -92,7 +90,7 @@ class Migrator
     public function __construct(MigrationRepositoryInterface $repository,
                                 Resolver $resolver,
                                 Filesystem $files,
-                                Dispatcher $dispatcher = null)
+                                ?Dispatcher $dispatcher = null)
     {
         $this->files = $files;
         $this->events = $dispatcher;
@@ -187,9 +185,7 @@ class Migrator
 
         $this->fireMigrationEvent(new MigrationsEnded('up'));
 
-        if ($this->output) {
-            $this->output->writeln('');
-        }
+        $this->output?->writeln('');
     }
 
     /**
@@ -244,9 +240,7 @@ class Migrator
         }
 
         return tap($this->rollbackMigrations($migrations, $paths, $options), function () {
-            if ($this->output) {
-                $this->output->writeln('');
-            }
+            $this->output?->writeln('');
         });
     }
 
@@ -333,9 +327,7 @@ class Migrator
         }
 
         return tap($this->resetMigrations($migrations, Arr::wrap($paths), $pretend), function () {
-            if ($this->output) {
-                $this->output->writeln('');
-            }
+            $this->output?->writeln('');
         });
     }
 
@@ -428,28 +420,19 @@ class Migrator
      */
     protected function pretendToRun($migration, $method)
     {
-        try {
-            $name = get_class($migration);
+        $name = get_class($migration);
 
-            $reflectionClass = new ReflectionClass($migration);
+        $reflectionClass = new ReflectionClass($migration);
 
-            if ($reflectionClass->isAnonymous()) {
-                $name = $this->getMigrationName($reflectionClass->getFileName());
-            }
-
-            $this->write(TwoColumnDetail::class, $name);
-
-            $this->write(BulletList::class, collect($this->getQueries($migration, $method))->map(function ($query) {
-                return $query['query'];
-            }));
-        } catch (SchemaException) {
-            $name = get_class($migration);
-
-            $this->write(Error::class, sprintf(
-                '[%s] failed to dump queries. This may be due to changing database columns using Doctrine, which is not supported while pretending to run migrations.',
-                $name,
-            ));
+        if ($reflectionClass->isAnonymous()) {
+            $name = $this->getMigrationName($reflectionClass->getFileName());
         }
+
+        $this->write(TwoColumnDetail::class, $name);
+
+        $this->write(BulletList::class, collect($this->getQueries($migration, $method))->map(function ($query) {
+            return $query['query'];
+        }));
     }
 
     /**
@@ -771,8 +754,6 @@ class Migrator
      */
     public function fireMigrationEvent($event)
     {
-        if ($this->events) {
-            $this->events->dispatch($event);
-        }
+        $this->events?->dispatch($event);
     }
 }

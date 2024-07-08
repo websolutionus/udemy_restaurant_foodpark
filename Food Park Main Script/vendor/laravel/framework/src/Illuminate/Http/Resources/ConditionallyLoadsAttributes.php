@@ -140,11 +140,16 @@ trait ConditionallyLoadsAttributes
      *
      * @param  bool  $condition
      * @param  mixed  $value
+     * @param  mixed  $default
      * @return \Illuminate\Http\Resources\MergeValue|mixed
      */
-    protected function mergeWhen($condition, $value)
+    protected function mergeWhen($condition, $value, $default = null)
     {
-        return $condition ? new MergeValue(value($value)) : new MissingValue;
+        if ($condition) {
+            return new MergeValue(value($value));
+        }
+
+        return func_num_args() === 3 ? new MergeValue(value($default)) : new MissingValue();
     }
 
     /**
@@ -152,11 +157,14 @@ trait ConditionallyLoadsAttributes
      *
      * @param  bool  $condition
      * @param  mixed  $value
+     * @param  mixed  $default
      * @return \Illuminate\Http\Resources\MergeValue|mixed
      */
-    protected function mergeUnless($condition, $value)
+    protected function mergeUnless($condition, $value, $default = null)
     {
-        return ! $condition ? new MergeValue(value($value)) : new MissingValue;
+        $arguments = func_num_args() === 2 ? [$value] : [$value, $default];
+
+        return $this->mergeWhen(! $condition, ...$arguments);
     }
 
     /**
@@ -258,15 +266,17 @@ trait ConditionallyLoadsAttributes
             return value($default);
         }
 
+        $loadedValue = $this->resource->{$relationship};
+
         if (func_num_args() === 1) {
-            return $this->resource->{$relationship};
+            return $loadedValue;
         }
 
-        if ($this->resource->{$relationship} === null) {
+        if ($loadedValue === null) {
             return;
         }
 
-        return value($value);
+        return value($value, $loadedValue);
     }
 
     /**
@@ -285,7 +295,7 @@ trait ConditionallyLoadsAttributes
 
         $attribute = (string) Str::of($relationship)->snake()->finish('_count');
 
-        if (! isset($this->resource->getAttributes()[$attribute])) {
+        if (! array_key_exists($attribute, $this->resource->getAttributes())) {
             return value($default);
         }
 
@@ -312,9 +322,13 @@ trait ConditionallyLoadsAttributes
      */
     public function whenAggregated($relationship, $column, $aggregate, $value = null, $default = null)
     {
+        if (func_num_args() < 5) {
+            $default = new MissingValue;
+        }
+
         $attribute = (string) Str::of($relationship)->snake()->append('_')->append($aggregate)->append('_')->finish($column);
 
-        if (! isset($this->resource->getAttributes()[$attribute])) {
+        if (! array_key_exists($attribute, $this->resource->getAttributes())) {
             return value($default);
         }
 

@@ -198,7 +198,9 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
             };
 
             $resetScope = function () use ($app) {
-                if (method_exists($app['log']->driver(), 'withoutContext')) {
+                $app['log']->flushSharedContext();
+
+                if (method_exists($app['log'], 'withoutContext')) {
                     $app['log']->withoutContext();
                 }
 
@@ -211,7 +213,7 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
 
                 $app->forgetScopedInstances();
 
-                return Facade::clearResolvedInstances();
+                Facade::clearResolvedInstances();
             };
 
             return new Worker(

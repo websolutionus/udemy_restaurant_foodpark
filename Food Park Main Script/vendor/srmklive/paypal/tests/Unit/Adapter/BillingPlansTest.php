@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit\Adapter;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -13,25 +14,27 @@ class BillingPlansTest extends TestCase
     use MockRequestPayloads;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_create_a_billing_plan()
+    #[Test]
+    public function it_can_create_a_billing_plan(): void
     {
         $expectedResponse = $this->mockCreatePlansResponse();
 
         $expectedParams = $this->createPlanParams();
 
         $expectedMethod = 'createPlan';
+        $additionalMethod = 'setRequestHeader';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true, $additionalMethod);
 
         $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
+        $mockClient->{$additionalMethod}('PayPal-Request-Id', 'some-request-id');
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams, 'some-request-id'));
     }
 
-    /** @test */
-    public function it_can_list_billing_plans()
+    #[Test]
+    public function it_can_list_billing_plans(): void
     {
         $expectedResponse = $this->mockListPlansResponse();
 
@@ -45,8 +48,8 @@ class BillingPlansTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}(1, 2, true));
     }
 
-    /** @test */
-    public function it_can_update_a_billing_plan()
+    #[Test]
+    public function it_can_update_a_billing_plan(): void
     {
         $expectedResponse = '';
 
@@ -62,8 +65,8 @@ class BillingPlansTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('P-7GL4271244454362WXNWU5NQ', $expectedParams));
     }
 
-    /** @test */
-    public function it_can_show_details_for_a_billing_plan()
+    #[Test]
+    public function it_can_show_details_for_a_billing_plan(): void
     {
         $expectedResponse = $this->mockGetPlansResponse();
 
@@ -77,8 +80,8 @@ class BillingPlansTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('P-7GL4271244454362WXNWU5NQ'));
     }
 
-    /** @test */
-    public function it_can_activate_a_billing_plan()
+    #[Test]
+    public function it_can_activate_a_billing_plan(): void
     {
         $expectedResponse = '';
 
@@ -92,8 +95,8 @@ class BillingPlansTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('P-7GL4271244454362WXNWU5NQ'));
     }
 
-    /** @test */
-    public function it_can_deactivate_a_billing_plan()
+    #[Test]
+    public function it_can_deactivate_a_billing_plan(): void
     {
         $expectedResponse = '';
 
@@ -107,8 +110,8 @@ class BillingPlansTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('P-7GL4271244454362WXNWU5NQ'));
     }
 
-    /** @test */
-    public function it_can_update_pricing_for_a_billing_plan()
+    #[Test]
+    public function it_can_update_pricing_for_a_billing_plan(): void
     {
         $expectedResponse = '';
 

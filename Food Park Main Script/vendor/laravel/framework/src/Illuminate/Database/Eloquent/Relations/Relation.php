@@ -461,7 +461,7 @@ abstract class Relation implements BuilderContract
      * @param  bool  $merge
      * @return array
      */
-    public static function morphMap(array $map = null, $merge = true)
+    public static function morphMap(?array $map = null, $merge = true)
     {
         $map = static::buildMorphMapFromModels($map);
 
@@ -479,7 +479,7 @@ abstract class Relation implements BuilderContract
      * @param  string[]|null  $models
      * @return array|null
      */
-    protected static function buildMorphMapFromModels(array $models = null)
+    protected static function buildMorphMapFromModels(?array $models = null)
     {
         if (is_null($models) || ! array_is_list($models)) {
             return $models;
@@ -499,6 +499,17 @@ abstract class Relation implements BuilderContract
     public static function getMorphedModel($alias)
     {
         return static::$morphMap[$alias] ?? null;
+    }
+
+    /**
+     * Get the alias associated with a custom polymorphic class.
+     *
+     * @param  string  $className
+     * @return int|string
+     */
+    public static function getMorphAlias(string $className)
+    {
+        return array_search($className, static::$morphMap, strict: true) ?: $className;
     }
 
     /**

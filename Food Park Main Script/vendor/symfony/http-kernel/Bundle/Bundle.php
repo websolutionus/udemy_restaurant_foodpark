@@ -13,8 +13,8 @@ namespace Symfony\Component\HttpKernel\Bundle;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 /**
@@ -24,11 +24,11 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
  */
 abstract class Bundle implements BundleInterface
 {
-    use ContainerAwareTrait;
+    protected string $name;
+    protected ExtensionInterface|false|null $extension = null;
+    protected string $path;
+    protected ?ContainerInterface $container;
 
-    protected $name;
-    protected $extension;
-    protected $path;
     private string $namespace;
 
     /**
@@ -62,7 +62,7 @@ abstract class Bundle implements BundleInterface
      */
     public function getContainerExtension(): ?ExtensionInterface
     {
-        if (null === $this->extension) {
+        if (!isset($this->extension)) {
             $extension = $this->createContainerExtension();
 
             if (null !== $extension) {
@@ -98,7 +98,7 @@ abstract class Bundle implements BundleInterface
 
     public function getPath(): string
     {
-        if (null === $this->path) {
+        if (!isset($this->path)) {
             $reflected = new \ReflectionObject($this);
             $this->path = \dirname($reflected->getFileName());
         }
@@ -111,7 +111,7 @@ abstract class Bundle implements BundleInterface
      */
     final public function getName(): string
     {
-        if (null === $this->name) {
+        if (!isset($this->name)) {
             $this->parseClassName();
         }
 
@@ -148,5 +148,10 @@ abstract class Bundle implements BundleInterface
         $pos = strrpos(static::class, '\\');
         $this->namespace = false === $pos ? '' : substr(static::class, 0, $pos);
         $this->name ??= false === $pos ? static::class : substr(static::class, $pos + 1);
+    }
+
+    public function setContainer(?ContainerInterface $container): void
+    {
+        $this->container = $container;
     }
 }

@@ -2,13 +2,14 @@
 
 namespace Illuminate\Database;
 
-use Illuminate\Database\PDO\MySqlDriver;
+use Exception;
 use Illuminate\Database\Query\Grammars\MySqlGrammar as QueryGrammar;
 use Illuminate\Database\Query\Processors\MySqlProcessor;
 use Illuminate\Database\Schema\Grammars\MySqlGrammar as SchemaGrammar;
 use Illuminate\Database\Schema\MySqlBuilder;
 use Illuminate\Database\Schema\MySqlSchemaState;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use PDO;
 
 class MySqlConnection extends Connection
@@ -27,6 +28,17 @@ class MySqlConnection extends Connection
     }
 
     /**
+     * Determine if the given database exception was caused by a unique constraint violation.
+     *
+     * @param  \Exception  $exception
+     * @return bool
+     */
+    protected function isUniqueConstraintError(Exception $exception)
+    {
+        return boolval(preg_match('#Integrity constraint violation: 1062#i', $exception->getMessage()));
+    }
+
+    /**
      * Determine if the connected database is a MariaDB database.
      *
      * @return bool
@@ -34,6 +46,18 @@ class MySqlConnection extends Connection
     public function isMaria()
     {
         return str_contains($this->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), 'MariaDB');
+    }
+
+    /**
+     * Get the server version for the connection.
+     *
+     * @return string
+     */
+    public function getServerVersion(): string
+    {
+        return str_contains($version = parent::getServerVersion(), 'MariaDB')
+            ? Str::between($version, '5.5.5-', '-MariaDB')
+            : $version;
     }
 
     /**
@@ -81,7 +105,7 @@ class MySqlConnection extends Connection
      * @param  callable|null  $processFactory
      * @return \Illuminate\Database\Schema\MySqlSchemaState
      */
-    public function getSchemaState(Filesystem $files = null, callable $processFactory = null)
+    public function getSchemaState(?Filesystem $files = null, ?callable $processFactory = null)
     {
         return new MySqlSchemaState($this, $files, $processFactory);
     }
@@ -94,15 +118,5 @@ class MySqlConnection extends Connection
     protected function getDefaultPostProcessor()
     {
         return new MySqlProcessor;
-    }
-
-    /**
-     * Get the Doctrine DBAL driver.
-     *
-     * @return \Illuminate\Database\PDO\MySqlDriver
-     */
-    protected function getDoctrineDriver()
-    {
-        return new MySqlDriver;
     }
 }

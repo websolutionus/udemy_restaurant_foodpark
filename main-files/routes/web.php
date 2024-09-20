@@ -50,8 +50,6 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('chat/get-conversation/{senderId}',[ChatController::class, 'getConversation'])->name('chat.get-conversation');
 });
 
-require __DIR__.'/auth.php';
-
 /** Show Home page */
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 

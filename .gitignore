@@ -1,0 +1,4 @@
+# Local Docker environment
+/.env
+/.env.*
+!/.env.example

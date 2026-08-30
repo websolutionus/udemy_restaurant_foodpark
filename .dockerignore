@@ -1,0 +1,16 @@
+.git
+.github
+.env
+
+main-files/.env
+main-files/vendor
+main-files/node_modules
+main-files/public/build
+
+main-files/storage/logs/*
+main-files/storage/framework/cache/*
+main-files/storage/framework/sessions/*
+main-files/storage/framework/views/*
+
+main-files/bootstrap/cache/*.php
+
